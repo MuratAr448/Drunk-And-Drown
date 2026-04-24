@@ -6,15 +6,15 @@ public class Movement : MonoBehaviour
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float runSpeed = 12f;
     [SerializeField] private float jumpPower = 7f;
-    private float gravity = 10f;
-    [SerializeField] private float lookSpeed = 2f;
-    [SerializeField] private float lookXLimit = 45f;
+    [SerializeField] private float gravity = 10f;
+    [SerializeField] private float lookSpeed = 1.5f;
+    [SerializeField] private float lookXLimit = 60f;
 
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
     private CharacterController characterController;
 
-    private bool canMove = true;
+    public bool canMove = true;
 
     void Start()
     {
