@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     public bool pause = false;
     public GameObject PauseScreen;
     private Movement movement;
+
+    [SerializeField] private float hp;
     void Start()
     {
         movement = GetComponent<Movement>();
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Shoot();
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
@@ -58,5 +60,9 @@ public class Player : MonoBehaviour
                 gun.Schoot();
             }
         }
+    }
+    public void TakeDamage(float Damage)
+    {
+        hp-=Damage;
     }
 }
