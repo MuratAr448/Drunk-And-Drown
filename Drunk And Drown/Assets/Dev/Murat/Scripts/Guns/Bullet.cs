@@ -47,17 +47,13 @@ public class Bullet : MonoBehaviour
                         {
                             if (rb.GetComponent<Movement>() != null)
                             {
-                                //StartCoroutine(rb.GetComponent<Movement>().Impact());
-                            }else
-                            {
-                                rb.AddExplosionForce(force*100, transform.position, radius);
+                                //rb.GetComponent<Movement>().Impact(transform.position,force* 10);
                             }
-
-
-
-                            Debug.Log("explode "+ rb.gameObject);
+                            else
+                            {
+                                rb.AddExplosionForce(force*10, transform.position, radius,force*10,ForceMode.Impulse);
+                            }
                         }
-                        
                     }
                     /*
                     Enemy enemy = other.GetComponent<Enemy>();

@@ -32,7 +32,7 @@ public class ParrotGun : Gun
             amunition.force = force;
             rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             cooldown = 0f;
-            StartCoroutine(player.Impact(-bullet.transform.forward * bulletSpeed * Time.deltaTime));
+            player.Impact(bullet.transform.forward , damage * 10);
             //player.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed*Time.deltaTime);
             bullet = null;
         }

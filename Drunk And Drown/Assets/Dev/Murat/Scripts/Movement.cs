@@ -11,8 +11,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private float lookSpeed = 1.5f;
     [SerializeField] private float lookXLimit = 60f;
 
+    private bool launch = false;
     private Vector3 moveDirection = Vector3.zero;
     private Rigidbody rb;
+    private Vector3 explosionpos = Vector3.zero;
+    private float power = 0;
     private float rotationX = 0;
     public CharacterController characterController;
 
@@ -72,10 +75,22 @@ public class Movement : MonoBehaviour
         }
         if (canMove)
         {
+            characterController.enabled = true;
             characterController.Move(moveDirection * Time.deltaTime);
             rb.angularVelocity = Vector3.zero;
             rb.linearVelocity = Vector3.zero;
         }
+        else if (launch)
+        {
+            //characterController.enabled = false;
+            //rb.AddForce(force);
+            Vector3 direction = transform.position - explosionpos;
+            float distance = direction.magnitude;
+            float force = 1f - (power / distance);
+            characterController.Move(direction.normalized * force);
+            launch = false;
+        }
+
         
 
         if (canMove)
@@ -86,13 +101,17 @@ public class Movement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-    public IEnumerator Impact(Vector3 force)
+    public void Impact(Vector3 explosionPos,float Power)
     {
-        characterController.enabled = false;
+        power = Power;
+        explosionpos = explosionPos;
         canMove = false;
-        rb.AddForce(force);
-        yield return new WaitForSeconds(0.1f);
+        launch = true;
+        StartCoroutine(ReturnMovement());
+    }
+    private IEnumerator ReturnMovement()
+    {
+        yield return new WaitForSeconds(0.2f);
         canMove = true;
-        characterController.enabled = true;
     }
 }
