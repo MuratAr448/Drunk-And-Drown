@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -11,14 +12,15 @@ public class Movement : MonoBehaviour
     [SerializeField] private float lookXLimit = 60f;
 
     private Vector3 moveDirection = Vector3.zero;
+    private Rigidbody rb;
     private float rotationX = 0;
-    private CharacterController characterController;
+    public CharacterController characterController;
 
     public bool canMove = true;
-
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -68,8 +70,13 @@ public class Movement : MonoBehaviour
         {
             moveDirection.y -= gravity * Time.deltaTime;
         }
-
-        characterController.Move(moveDirection * Time.deltaTime);
+        if (canMove)
+        {
+            characterController.Move(moveDirection * Time.deltaTime);
+            rb.angularVelocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
+        }
+        
 
         if (canMove)
         {
@@ -78,5 +85,14 @@ public class Movement : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+    public IEnumerator Impact(Vector3 force)
+    {
+        characterController.enabled = false;
+        canMove = false;
+        rb.AddForce(force);
+        yield return new WaitForSeconds(0.1f);
+        canMove = true;
+        characterController.enabled = true;
     }
 }
