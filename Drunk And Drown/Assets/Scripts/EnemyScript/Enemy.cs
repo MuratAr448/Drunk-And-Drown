@@ -33,7 +33,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     private float _currentIdleDuration;
     protected Transform _playerTransform;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
