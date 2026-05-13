@@ -4,19 +4,18 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private float walkSpeed = 6f;
-    [SerializeField] private float runSpeed = 12f;
-    [SerializeField] private float jumpPower = 7f;
-    [SerializeField] private float gravity = 10f;
-    [SerializeField] private float lookSpeed = 1.5f;
-    [SerializeField] private float lookXLimit = 60f;
+    private float walkSpeed = 6f;
+    private float jumpPower = 7f;
+    private float gravity = 10f;
+    private float lookSpeed = 1.5f;
+    private float lookXLimit = 60f;
+    private float rotationX = 0;
+    private bool doubleJump = true;
+    public bool canMove = true;
 
+    public CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private Rigidbody rb;
-    private float rotationX = 0;
-    public CharacterController characterController;
-    [SerializeField] private bool doubleJump = true;
-    public bool canMove = true;
     void Start()
     {
         characterController = GetComponent<CharacterController>();
