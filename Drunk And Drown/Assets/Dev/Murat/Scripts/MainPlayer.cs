@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MainPlayer : MonoBehaviour
+public class MainPlayer : MonoBehaviour, IDamageable
 {
     public GameObject gun;
     public GameObject melee;
@@ -8,7 +8,11 @@ public class MainPlayer : MonoBehaviour
     public GameObject PauseScreen;
     private Movement movement;
 
-    [SerializeField] private float hp;
+    [SerializeField] private float health;
+    private float maxHealth;
+
+    public float CurrentHealth => health;
+    public float BaseHealth => maxHealth;
     void Start()
     {
         movement = GetComponent<Movement>();
@@ -61,8 +65,24 @@ public class MainPlayer : MonoBehaviour
             }
         }
     }
-    public void TakeDamage(float Damage)
+    
+    public void TakeDamage(float damage)
     {
-        hp-=Damage;
+        health -= damage;
+
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void ResetHealth()
+    {
+        health = maxHealth;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

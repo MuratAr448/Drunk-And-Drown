@@ -28,7 +28,7 @@ public class ParrotGun : Gun
             amunition.GetComponent<SphereCollider>().enabled = true;
             amunition.damage = damage;
             amunition.timeTillDeath = ammoLife;
-            amunition.type = BulletType.Exsplosive;
+            amunition.type = BulletType.Explosive;
             amunition.radius = radius;
             amunition.force = force;
             rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);

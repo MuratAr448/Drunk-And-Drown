@@ -1,13 +1,13 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+
 public enum BulletType
 {
     Normal,
-    Exsplosive
+    Explosive // Fixed spelling
 }
+
 public class Bullet : MonoBehaviour
 {
     public BulletType type;
@@ -15,7 +15,9 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
-    private List<Enemy> enemyList = new List<Enemy>();
+
+    private List<IDamageable> damagedObjects = new List<IDamageable>();
+
     void Start()
     {
         StartCoroutine(LimitTime());
@@ -26,63 +28,71 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(timeTillDeath);
         Destroy(gameObject);
     }
+
     public void OnTriggerEnter(Collider other)
     {
+        // Don't hit the player who shot the bullet (optional check)
+        if (other.CompareTag("Player") && type == BulletType.Normal) return;
+
         switch (type)
         {
             case BulletType.Normal:
-                if (other.GetComponent<Enemy>() )
-                {
-                    Enemy enemy = other.GetComponent<Enemy>();
-                    if (!enemyList.Contains(enemy))
-                    {
-                        enemy.TakeDamage(damage);
-                        enemyList.Add(enemy);
-                        Destroy(gameObject);
-                    }
-                }
+                HandleDirectHit(other, damage);
+                Destroy(gameObject);
                 break;
-            case BulletType.Exsplosive:
-                // explotion
-                if (other.GetComponent<Enemy>())
-                {
-                    Enemy enemy = other.GetComponent<Enemy>();
-                    if (!enemyList.Contains(enemy))
-                    {
-                        enemy.TakeDamage(damage);
-                        enemyList.Add(enemy);
-                        enemy.GetComponent<Rigidbody>().AddForce((transform.forward+Vector3.up*0.5f) * force * 2.5f, ForceMode.Impulse);
-                    }
-                }
-                if (!other.CompareTag("Player"))
-                {
-                    Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-                    foreach (Collider collider in colliders)
-                    {
-                        Rigidbody rb = collider.GetComponent<Rigidbody>();
 
-                        if (rb != null)
-                        {
-                            if (rb.GetComponent<Movement>() != null)
-                            {
-                                rb.GetComponent<Movement>().Exposion();
-                            }
-                            rb.AddExplosionForce(force, transform.position, radius,force*0.1f,ForceMode.Impulse);
-                            if (rb.GetComponent<Enemy>() != null)
-                            {
-                                Enemy enemy = rb.GetComponent<Enemy>();
-                                if (!enemyList.Contains(enemy))
-                                {
-                                    enemy.TakeDamage(damage*0.5f);
-                                    enemyList.Add(enemy);
-                                }
-                            }
-                        }
-                    }
-                    Destroy(gameObject);
-                }
+            case BulletType.Explosive:
+                Explode(other);
                 break;
-            default: break;
         }
+    }
+
+    private void HandleDirectHit(Collider other, float dmg)
+    {
+        IDamageable damageable = other.GetComponent<IDamageable>();
+
+        if (damageable != null && !damagedObjects.Contains(damageable))
+        {
+            damageable.TakeDamage(dmg);
+            damagedObjects.Add(damageable);
+
+            // Apply impact force if a Rigidbody exists
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(transform.forward * force, ForceMode.Impulse);
+            }
+        }
+    }
+
+    private void Explode(Collider impactCollider)
+    {
+        // Check everything in the explosion radius
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+
+        foreach (Collider col in colliders)
+        {
+            IDamageable damageable = col.GetComponent<IDamageable>();
+            if (damageable != null && !damagedObjects.Contains(damageable))
+            {
+                float finalDamage = (col == impactCollider) ? damage : damage * 0.5f;
+                damageable.TakeDamage(finalDamage);
+                damagedObjects.Add(damageable);
+            }
+
+            Rigidbody rb = col.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                Movement moveScript = rb.GetComponent<Movement>();
+                if (moveScript != null)
+                {
+                    moveScript.Exposion();
+                }
+
+                rb.AddExplosionForce(force, transform.position, radius, force * 0.1f, ForceMode.Impulse);
+            }
+        }
+
+        Destroy(gameObject);
     }
 }
