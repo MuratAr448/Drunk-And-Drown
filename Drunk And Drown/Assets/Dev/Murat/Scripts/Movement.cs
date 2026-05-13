@@ -11,14 +11,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private float lookSpeed = 1.5f;
     [SerializeField] private float lookXLimit = 60f;
 
-    private bool launch = false;
     private Vector3 moveDirection = Vector3.zero;
     private Rigidbody rb;
-    private Vector3 explosionpos = Vector3.zero;
-    private float power = 0;
     private float rotationX = 0;
     public CharacterController characterController;
-
+    [SerializeField] private bool doubleJump = true;
     public bool canMove = true;
     void Start()
     {
@@ -33,21 +30,13 @@ public class Movement : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        //bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX;
         float curSpeedY;
         if (canMove)
         {
-            if (isRunning)
-            {
-                curSpeedX = runSpeed;
-                curSpeedY = runSpeed;
-            }
-            else
-            {
-                curSpeedX = walkSpeed;
-                curSpeedY = walkSpeed;
-            }
+            curSpeedX = walkSpeed;
+            curSpeedY = walkSpeed;
             curSpeedX = curSpeedX * Input.GetAxis("Vertical");
             curSpeedY = curSpeedY * Input.GetAxis("Horizontal");
         }
@@ -60,6 +49,7 @@ public class Movement : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
+
         if (Input.GetKeyDown(KeyCode.Space) && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
@@ -68,29 +58,39 @@ public class Movement : MonoBehaviour
         {
             moveDirection.y = movementDirectionY;
         }
+        if (Input.GetKeyDown(KeyCode.Space) && canMove && !characterController.isGrounded && doubleJump)
+        {
+            characterController.enabled = true;
+            rb.Equals(false);
+            moveDirection.y = jumpPower;
+            doubleJump = false;
+        }
 
         if (!characterController.isGrounded)
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                moveDirection.y -= gravity * Time.deltaTime * 1.2f;
+            }
+            else
+            {
+                moveDirection.y -= gravity * Time.deltaTime*1.5f;
+            }
         }
-        if (canMove)
+        else
         {
-            characterController.enabled = true;
-            characterController.Move(moveDirection * Time.deltaTime);
-            rb.angularVelocity = Vector3.zero;
-            rb.linearVelocity = Vector3.zero;
-        }
-        else if (launch)
-        {
-            //characterController.enabled = false;
-            //rb.AddForce(force);
-            Vector3 direction = transform.position - explosionpos;
-            float distance = direction.magnitude;
-            float force = 1f - (power / distance);
-            characterController.Move(direction.normalized * force);
-            launch = false;
+            doubleJump = true;
         }
 
+        if (characterController.enabled)
+        {
+            characterController.Move(moveDirection * Time.deltaTime);
+            rb.linearVelocity = Vector3.zero;
+        }
+        else
+        {
+            rb.MovePosition(transform.position+ moveDirection *Time.deltaTime);
+        }
         
 
         if (canMove)
@@ -101,17 +101,14 @@ public class Movement : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
     }
-    public void Impact(Vector3 explosionPos,float Power)
+    private void OnCollisionEnter(Collision collision)
     {
-        power = Power;
-        explosionpos = explosionPos;
-        canMove = false;
-        launch = true;
-        StartCoroutine(ReturnMovement());
+        characterController.enabled = true;
+        rb.Equals(false);
     }
-    private IEnumerator ReturnMovement()
+    public void Exposion()
     {
-        yield return new WaitForSeconds(0.2f);
-        canMove = true;
+        characterController.enabled = false;
+        rb.Equals(true);
     }
 }

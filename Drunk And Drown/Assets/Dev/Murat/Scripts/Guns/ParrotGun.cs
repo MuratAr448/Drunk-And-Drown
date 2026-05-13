@@ -25,6 +25,7 @@ public class ParrotGun : Gun
             bullet.transform.parent = null;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             Bullet amunition = bullet.GetComponent<Bullet>();
+            amunition.GetComponent<SphereCollider>().enabled = true;
             amunition.damage = damage;
             amunition.timeTillDeath = ammoLife;
             amunition.type = BulletType.Exsplosive;
@@ -32,8 +33,8 @@ public class ParrotGun : Gun
             amunition.force = force;
             rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             cooldown = 0f;
-            player.Impact(bullet.transform.forward , damage * 10);
-            //player.GetComponent<Rigidbody>().AddForce(bullet.transform.forward * bulletSpeed*Time.deltaTime);
+            player.Exposion();
+            player.GetComponent<Rigidbody>().AddForce(-bullet.transform.forward*force*2.5f, ForceMode.Impulse);
             bullet = null;
         }
     }

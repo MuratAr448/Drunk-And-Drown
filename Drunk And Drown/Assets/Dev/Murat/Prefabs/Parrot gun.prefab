@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7494503245247156201}
+  - component: {fileID: 4772414449529582734}
   m_Layer: 0
   m_Name: GunPivit
   m_TagString: Untagged
@@ -25,12 +26,25 @@ Transform:
   m_GameObject: {fileID: 5662579886598701061}
   serializedVersion: 2
   m_LocalRotation: {x: -0.0136448555, y: 0.021839067, z: 0.00029808976, w: 0.9996683}
-  m_LocalPosition: {x: 0, y: 0, z: 0.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 387246451518608572}
   m_LocalEulerAnglesHint: {x: -1.564, y: 2.503, z: 0}
+--- !u!114 &4772414449529582734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662579886598701061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c403ca70e5bcfcd4abf66e41e10fbc58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Looking
+  middleScreen: {fileID: 0}
 --- !u!1 &6959158129379179111
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,7 +161,7 @@ Transform:
   m_GameObject: {fileID: 7834371497525022674}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -168,10 +182,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParrotGun
   Kind: 1
-  cooldown: 1
-  shootRate: 5
+  cooldown: 2
+  shootRate: 2
   Parrot: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
   bullet: {fileID: 0}
   transvormPivit: {fileID: 5662579886598701061}
   bulletSpeed: 10
   damage: 10
+  radius: 4
+  force: 5
+  player: {fileID: 0}

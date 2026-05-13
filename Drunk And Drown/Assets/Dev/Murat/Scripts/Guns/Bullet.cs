@@ -1,4 +1,7 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public enum BulletType
 {
@@ -12,6 +15,7 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
+    private List<Enemy> enemyList = new List<Enemy>();
     void Start()
     {
         StartCoroutine(LimitTime());
@@ -27,15 +31,29 @@ public class Bullet : MonoBehaviour
         switch (type)
         {
             case BulletType.Normal:
-                if (other.CompareTag("Enemy") && other.GetComponent<Enemy>())
+                if (other.GetComponent<Enemy>() )
                 {
                     Enemy enemy = other.GetComponent<Enemy>();
-                    enemy.TakeDamage(damage);
-                    Destroy(gameObject);
+                    if (!enemyList.Contains(enemy))
+                    {
+                        enemy.TakeDamage(damage);
+                        enemyList.Add(enemy);
+                        Destroy(gameObject);
+                    }
                 }
                 break;
             case BulletType.Exsplosive:
                 // explotion
+                if (other.GetComponent<Enemy>())
+                {
+                    Enemy enemy = other.GetComponent<Enemy>();
+                    if (!enemyList.Contains(enemy))
+                    {
+                        enemy.TakeDamage(damage);
+                        enemyList.Add(enemy);
+                        enemy.GetComponent<Rigidbody>().AddForce((transform.forward+Vector3.up*0.5f) * force * 2.5f, ForceMode.Impulse);
+                    }
+                }
                 if (!other.CompareTag("Player"))
                 {
                     Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
@@ -47,18 +65,20 @@ public class Bullet : MonoBehaviour
                         {
                             if (rb.GetComponent<Movement>() != null)
                             {
-                                //rb.GetComponent<Movement>().Impact(transform.position,force* 10);
+                                rb.GetComponent<Movement>().Exposion();
                             }
-                            else
+                            rb.AddExplosionForce(force, transform.position, radius,force*0.1f,ForceMode.Impulse);
+                            if (rb.GetComponent<Enemy>() != null)
                             {
-                                rb.AddExplosionForce(force*10, transform.position, radius,force*10,ForceMode.Impulse);
+                                Enemy enemy = rb.GetComponent<Enemy>();
+                                if (!enemyList.Contains(enemy))
+                                {
+                                    enemy.TakeDamage(damage*0.5f);
+                                    enemyList.Add(enemy);
+                                }
                             }
                         }
                     }
-                    /*
-                    Enemy enemy = other.GetComponent<Enemy>();
-                    enemy.TakeDamage(damage);*/
-                    Destroy(gameObject);
                 }
 
                 break;

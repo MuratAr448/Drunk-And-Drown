@@ -106,12 +106,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
   Kind: 0
   cooldown: 1
+  shootRate: 1
   bullets: {fileID: 5337098593394553989, guid: dbf5a52685ce9334585fc09ad92dc049, type: 3}
   transvormPivit: {fileID: 8068826352823569636}
   bulletSpeed: 8
   bulletAmount: 18
   damage: 3
-  shootRate: 1
   spread: 10
 --- !u!1 &8068826352823569636
 GameObject:
