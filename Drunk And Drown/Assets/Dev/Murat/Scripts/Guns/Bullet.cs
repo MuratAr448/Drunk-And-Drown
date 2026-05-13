@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
-    private List<TempEnemy> enemyList = new List<TempEnemy>();
+    private List<Enemy> enemyList = new List<Enemy>();
     void Start()
     {
         StartCoroutine(LimitTime());
@@ -31,9 +31,9 @@ public class Bullet : MonoBehaviour
         switch (type)
         {
             case BulletType.Normal:
-                if (other.GetComponent<TempEnemy>() )
+                if (other.GetComponent<Enemy>() )
                 {
-                    TempEnemy enemy = other.GetComponent<TempEnemy>();
+                    Enemy enemy = other.GetComponent<Enemy>();
                     if (!enemyList.Contains(enemy))
                     {
                         enemy.TakeDamage(damage);
@@ -44,9 +44,9 @@ public class Bullet : MonoBehaviour
                 break;
             case BulletType.Exsplosive:
                 // explotion
-                if (other.GetComponent<TempEnemy>())
+                if (other.GetComponent<Enemy>())
                 {
-                    TempEnemy enemy = other.GetComponent<TempEnemy>();
+                    Enemy enemy = other.GetComponent<Enemy>();
                     if (!enemyList.Contains(enemy))
                     {
                         enemy.TakeDamage(damage);
@@ -68,9 +68,9 @@ public class Bullet : MonoBehaviour
                                 rb.GetComponent<Movement>().Exposion();
                             }
                             rb.AddExplosionForce(force, transform.position, radius,force*0.1f,ForceMode.Impulse);
-                            if (rb.GetComponent<TempEnemy>() != null)
+                            if (rb.GetComponent<Enemy>() != null)
                             {
-                                TempEnemy enemy = rb.GetComponent<TempEnemy>();
+                                Enemy enemy = rb.GetComponent<Enemy>();
                                 if (!enemyList.Contains(enemy))
                                 {
                                     enemy.TakeDamage(damage*0.5f);

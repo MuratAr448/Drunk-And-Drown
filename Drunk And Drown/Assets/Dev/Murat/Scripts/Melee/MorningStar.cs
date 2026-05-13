@@ -10,7 +10,7 @@ public class MorningStar : Melee
     [SerializeField] private float hitDuration = 0;
     [SerializeField] private SphereCollider colliderTrig;
     [SerializeField] private GameObject PufferFish;
-    private List<TempEnemy> hitEnemys = new List<TempEnemy>();  
+    private List<Enemy> hitEnemys = new List<Enemy>();  
     void Start()
     {
         Kind = KindofMelee.MorningStar;
@@ -46,9 +46,9 @@ public class MorningStar : Melee
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject);
-        if (other.CompareTag("Enemy") && other.GetComponent<TempEnemy>())
+        if (other.CompareTag("Enemy") && other.GetComponent<Enemy>())
         {
-            TempEnemy enemy = other.gameObject.GetComponent<TempEnemy>();
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
             if (!hitEnemys.Contains(enemy))
             {
                 enemy.TakeDamage(damage);
