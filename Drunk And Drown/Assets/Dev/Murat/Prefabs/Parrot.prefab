@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 253190547825647205}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.375, y: 0.375, z: 0.375}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -108,6 +108,8 @@ MonoBehaviour:
   type: 1
   damage: 10
   timeTillDeath: 3
+  radius: 0
+  force: 0
 --- !u!54 &-3130241070398865076
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}

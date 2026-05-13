@@ -7,9 +7,13 @@ public class ParrotGun : Gun
     [SerializeField] private GameObject transvormPivit;
     [SerializeField] private float bulletSpeed = 1.0f;
     [SerializeField] private float damage = 3;
+    [SerializeField] private float radius = 4;
+    [SerializeField] private float force = 5;
+    [SerializeField] private Movement player;
     private float ammoLife = 3f;
     void Start()
     {
+        player = FindFirstObjectByType<Movement>();
         Kind = KindofGun.ParrotGun;
     }
     public override void Schoot()
@@ -21,11 +25,16 @@ public class ParrotGun : Gun
             bullet.transform.parent = null;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             Bullet amunition = bullet.GetComponent<Bullet>();
+            amunition.GetComponent<SphereCollider>().enabled = true;
             amunition.damage = damage;
             amunition.timeTillDeath = ammoLife;
             amunition.type = BulletType.Exsplosive;
+            amunition.radius = radius;
+            amunition.force = force;
             rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             cooldown = 0f;
+            player.Exposion();
+            player.GetComponent<Rigidbody>().AddForce(-bullet.transform.forward*force*2.5f, ForceMode.Impulse);
             bullet = null;
         }
     }
