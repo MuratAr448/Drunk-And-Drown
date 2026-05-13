@@ -690,11 +690,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3458711266433595262, guid: 9b347737074bb144a89a1714535234c5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2324163844319407010, guid: 9b347737074bb144a89a1714535234c5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6487581893865389466}
   m_SourcePrefab: {fileID: 100100000, guid: 9b347737074bb144a89a1714535234c5, type: 3}
+--- !u!1 &6487581893865389465 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2324163844319407010, guid: 9b347737074bb144a89a1714535234c5, type: 3}
+  m_PrefabInstance: {fileID: 6487581893865389464}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6487581893865389466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6487581893865389465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6d08657d6e8804d84d311712985e9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  gun1: {fileID: 0}
+  gun2: {fileID: 0}
+  pause: 0
+  PauseScreen: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
