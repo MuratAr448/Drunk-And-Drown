@@ -3,7 +3,7 @@ using UnityEngine;
 public class ParrotGun : Gun
 {
     [SerializeField] private GameObject Parrot;
-    [SerializeField] private GameObject bullet;
+    private GameObject bullet;
     [SerializeField] private GameObject transvormPivit;
     [SerializeField] private float bulletSpeed = 1.0f;
     [SerializeField] private float damage = 3;
