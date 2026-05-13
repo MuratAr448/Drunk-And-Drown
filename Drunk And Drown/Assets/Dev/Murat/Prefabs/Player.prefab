@@ -651,7 +651,7 @@ MonoBehaviour:
   melee: {fileID: 3015896411872999657}
   pause: 0
   PauseScreen: {fileID: 0}
-  health: 0
+  health: 100
 --- !u!1001 &3883578034779560828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -796,6 +796,14 @@ PrefabInstance:
       propertyPath: middleScreen
       value: 
       objectReference: {fileID: 6991028301256892608}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 6991028301256892608}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 5021108686444437553}
     - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: cooldown
       value: 2
