@@ -54,7 +54,7 @@ public class Bullet : MonoBehaviour
                         enemy.GetComponent<Rigidbody>().AddForce((transform.forward+Vector3.up*0.5f) * force * 2.5f, ForceMode.Impulse);
                     }
                 }
-                if (!other.CompareTag("MainPlayer"))
+                if (!other.CompareTag("Player"))
                 {
                     Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
                     foreach (Collider collider in colliders)
@@ -79,9 +79,10 @@ public class Bullet : MonoBehaviour
                             }
                         }
                     }
+                    Destroy(gameObject);
                 }
-
                 break;
+            default: break;
         }
     }
 }

@@ -46,7 +46,7 @@ public class MorningStar : Melee
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.gameObject);
-        if (other.CompareTag("TempEnemy") && other.GetComponent<TempEnemy>())
+        if (other.CompareTag("Enemy") && other.GetComponent<TempEnemy>())
         {
             TempEnemy enemy = other.gameObject.GetComponent<TempEnemy>();
             if (!hitEnemys.Contains(enemy))
