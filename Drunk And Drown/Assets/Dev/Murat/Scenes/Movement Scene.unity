@@ -649,24 +649,6 @@ Transform:
   - {fileID: 1187530888}
   m_Father: {fileID: 1449244096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &749037462 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5662579886598701061, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-  m_PrefabInstance: {fileID: 1571585838}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &749037464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 749037462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c403ca70e5bcfcd4abf66e41e10fbc58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Looking
-  middleScreen: {fileID: 44541848}
 --- !u!1 &828658508
 GameObject:
   m_ObjectHideFlags: 0
@@ -1521,14 +1503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   playerCamera: {fileID: 1449244099}
-  walkSpeed: 6
-  runSpeed: 12
-  jumpPower: 7
-  gravity: 10
-  lookSpeed: 1.5
-  lookXLimit: 60
-  characterController: {fileID: 1132480852}
   canMove: 1
+  characterController: {fileID: 1132480852}
 --- !u!54 &1132480851
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2636,6 +2612,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4772414449529582734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: middleScreen
+      value: 
+      objectReference: {fileID: 44541848}
     - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: cooldown
       value: 2
@@ -2655,10 +2635,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5662579886598701061, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 749037464}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
 --- !u!1 &1708226651
 GameObject:
@@ -3460,18 +3437,6 @@ PrefabInstance:
     - target: {fileID: 5831616244128275496, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8117162221136129704, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
-      propertyPath: swingRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8117162221136129704, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
-      propertyPath: colliderCol
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8117162221136129704, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
-      propertyPath: hitDuration
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8117162221136129704, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
       propertyPath: colliderTrig

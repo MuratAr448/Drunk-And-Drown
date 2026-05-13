@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class TempEnemy : MonoBehaviour
 {
     [SerializeField] private float hp;
 

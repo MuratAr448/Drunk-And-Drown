@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class MainPlayer : MonoBehaviour
 {
     public GameObject gun;
     public GameObject melee;

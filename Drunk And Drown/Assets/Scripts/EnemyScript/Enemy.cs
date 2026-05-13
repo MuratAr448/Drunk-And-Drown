@@ -36,7 +36,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        GameObject player = GameObject.FindGameObjectWithTag("MainPlayer");
         if (player != null) _playerTransform = player.transform;
     }
 

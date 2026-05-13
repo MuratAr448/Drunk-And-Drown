@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
-    private List<Enemy> enemyList = new List<Enemy>();
+    private List<TempEnemy> enemyList = new List<TempEnemy>();
     void Start()
     {
         StartCoroutine(LimitTime());
@@ -31,9 +31,9 @@ public class Bullet : MonoBehaviour
         switch (type)
         {
             case BulletType.Normal:
-                if (other.GetComponent<Enemy>() )
+                if (other.GetComponent<TempEnemy>() )
                 {
-                    Enemy enemy = other.GetComponent<Enemy>();
+                    TempEnemy enemy = other.GetComponent<TempEnemy>();
                     if (!enemyList.Contains(enemy))
                     {
                         enemy.TakeDamage(damage);
@@ -44,9 +44,9 @@ public class Bullet : MonoBehaviour
                 break;
             case BulletType.Exsplosive:
                 // explotion
-                if (other.GetComponent<Enemy>())
+                if (other.GetComponent<TempEnemy>())
                 {
-                    Enemy enemy = other.GetComponent<Enemy>();
+                    TempEnemy enemy = other.GetComponent<TempEnemy>();
                     if (!enemyList.Contains(enemy))
                     {
                         enemy.TakeDamage(damage);
@@ -54,7 +54,7 @@ public class Bullet : MonoBehaviour
                         enemy.GetComponent<Rigidbody>().AddForce((transform.forward+Vector3.up*0.5f) * force * 2.5f, ForceMode.Impulse);
                     }
                 }
-                if (!other.CompareTag("Player"))
+                if (!other.CompareTag("MainPlayer"))
                 {
                     Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
                     foreach (Collider collider in colliders)
@@ -68,9 +68,9 @@ public class Bullet : MonoBehaviour
                                 rb.GetComponent<Movement>().Exposion();
                             }
                             rb.AddExplosionForce(force, transform.position, radius,force*0.1f,ForceMode.Impulse);
-                            if (rb.GetComponent<Enemy>() != null)
+                            if (rb.GetComponent<TempEnemy>() != null)
                             {
-                                Enemy enemy = rb.GetComponent<Enemy>();
+                                TempEnemy enemy = rb.GetComponent<TempEnemy>();
                                 if (!enemyList.Contains(enemy))
                                 {
                                     enemy.TakeDamage(damage*0.5f);
