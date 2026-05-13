@@ -167,7 +167,7 @@ MonoBehaviour:
   detectionRange: 15
   attackRange: 10
   _firepoint: {fileID: 233519328155725812}
-  _bullet: {fileID: 0}
+  _bullet: {fileID: 809101648170328577, guid: accb05f6aea922d46bcbb0da036ad530, type: 3}
   _bulletLifetime: 3
   _bulletSpeed: 20
   _attackSpeed: 1
