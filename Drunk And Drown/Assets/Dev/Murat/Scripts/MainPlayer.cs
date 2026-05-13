@@ -1,12 +1,14 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class MainPlayer : MonoBehaviour
 {
-    public GameObject gun1;
-    public GameObject gun2;
+    public GameObject gun;
+    public GameObject melee;
     public bool pause = false;
     public GameObject PauseScreen;
     private Movement movement;
+
+    [SerializeField] private float hp;
     void Start()
     {
         movement = GetComponent<Movement>();
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         Shoot();
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
@@ -49,14 +51,18 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                Gun gun = gun1.GetComponent<Gun>();
-                gun.Schoot();
+                Gun Gun = gun.GetComponent<Gun>();
+                Gun.Schoot();
             }
             if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                Gun gun = gun2.GetComponent<Gun>();
-                gun.Schoot();
+                Melee Melee = melee.GetComponent<Melee>();
+                Melee.Swing();
             }
         }
+    }
+    public void TakeDamage(float Damage)
+    {
+        hp-=Damage;
     }
 }
