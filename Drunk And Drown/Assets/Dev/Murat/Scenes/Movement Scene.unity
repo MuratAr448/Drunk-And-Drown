@@ -2372,6 +2372,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 44541848}
     - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1132480850}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: cooldown
       value: 2
       objectReference: {fileID: 0}
