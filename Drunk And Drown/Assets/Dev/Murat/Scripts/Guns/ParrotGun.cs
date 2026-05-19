@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ParrotGun : Gun
 {
@@ -21,6 +22,7 @@ public class ParrotGun : Gun
         base.Schoot();
         if (shootRate <= cooldown && bullet != null)
         {
+
             bullet.GetComponent<Rigidbody>().isKinematic = false;
             bullet.transform.parent = null;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
@@ -31,10 +33,16 @@ public class ParrotGun : Gun
             amunition.type = BulletType.Explosive;
             amunition.radius = radius;
             amunition.force = force;
-            rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
+            RaycastHit hit;
+            GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
+            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
+            {
+                rb.transform.LookAt(hit.point);
+            }
+            rb.AddForce(Origin.transform.forward * 100 * bulletSpeed);
             cooldown = 0f;
             player.Exposion();
-            player.GetComponent<Rigidbody>().AddForce(-bullet.transform.forward*force*2.5f, ForceMode.Impulse);
+            player.GetComponent<Rigidbody>().AddForce(-Origin.transform.forward * force*2.5f, ForceMode.Impulse);
             bullet = null;
         }
     }

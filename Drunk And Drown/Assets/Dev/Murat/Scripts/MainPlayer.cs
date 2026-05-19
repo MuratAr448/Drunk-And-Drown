@@ -7,6 +7,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public bool pause = false;
     public GameObject PauseScreen;
     private Movement movement;
+    public GameObject rayOrigin;
 
     [SerializeField] private float health;
     private float maxHealth;

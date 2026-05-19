@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
+        rb.Equals(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

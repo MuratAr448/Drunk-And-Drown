@@ -89,7 +89,7 @@ public class Bullet : MonoBehaviour
                     moveScript.Exposion();
                 }
 
-                rb.AddExplosionForce(force, transform.position, radius, force * 0.1f, ForceMode.Impulse);
+                rb.AddExplosionForce(force, transform.position, radius, force, ForceMode.Impulse);
             }
         }
 
