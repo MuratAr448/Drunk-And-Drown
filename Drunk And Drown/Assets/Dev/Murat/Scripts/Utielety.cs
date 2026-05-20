@@ -19,6 +19,6 @@ public class Utielety : MonoBehaviour
     }
     public void UnPause()
     {
-        FindObjectOfType<MainPlayer>().Pause();
+        FindFirstObjectByType<MainPlayer>().Pause();
     }
 }
