@@ -8,8 +8,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public float Health;
     public float MaxHealth;
 
-    [Header("Score")]
+    [Header("Score & Coins")]
     [SerializeField] protected int _scoreOnDeath = 10;
+    [SerializeField] protected int _coinsOnDeath = 5;
 
     [Header("State Management")]
     [SerializeField] protected EnemyState _currentState;
@@ -110,6 +111,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         ComboSystem.Instance.OnEnemyKilled();
         ScoreSystem.Instance.AddScore(_scoreOnDeath);
+        CoinSystem.Instance.AddCoins(_coinsOnDeath);
         Destroy(gameObject);
     }
 
