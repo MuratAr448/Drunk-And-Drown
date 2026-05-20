@@ -22,17 +22,34 @@ public class MainPlayer : MonoBehaviour, IDamageable
     void Update()
     {
         Shoot();
+        SwitchWeapon();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Pause();
         }
             
     }
-    public void SwitchWeapon(InputAction.CallbackContext cntxt)
+    private void SwitchWeapon()
     {
-        int Change = cntxt.ReadValue<int>();
-        weapon.SwitchWeaponUI(Change);
-
+        if (Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            weapon.SwitchWeaponUI(0);
+        }else if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            weapon.SwitchWeaponUI(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            weapon.SwitchWeaponUI(2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            weapon.SwitchWeaponUI(3);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            weapon.SwitchWeaponUI(4);
+        }
     }
     public void Pause()
     {
