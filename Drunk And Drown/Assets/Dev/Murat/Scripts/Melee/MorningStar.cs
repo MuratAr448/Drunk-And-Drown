@@ -23,6 +23,14 @@ public class MorningStar : Melee
             cooldown = 0f;
         }
     }
+    public override void SecondDairy()
+    {
+        base.SecondDairy();
+        if (swingRate < cooldown)
+        {
+            cooldown = 0f;
+        }
+    }
     // Update is called once per frame
     void Update()
     {

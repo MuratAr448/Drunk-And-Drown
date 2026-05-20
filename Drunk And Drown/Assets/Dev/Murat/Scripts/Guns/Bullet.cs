@@ -73,6 +73,10 @@ public class Bullet : MonoBehaviour
         foreach (Collider col in colliders)
         {
             IDamageable damageable = col.GetComponent<IDamageable>();
+            if (col.GetComponent<Movement>())
+            {
+                damagedObjects.Add(damageable);
+            }
             if (damageable != null && !damagedObjects.Contains(damageable))
             {
                 float finalDamage = (col == impactCollider) ? damage : damage * 0.5f;

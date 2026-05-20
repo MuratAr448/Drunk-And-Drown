@@ -22,7 +22,6 @@ public class ParrotGun : Gun
         base.Schoot();
         if (shootRate <= cooldown && bullet != null)
         {
-
             bullet.GetComponent<Rigidbody>().isKinematic = false;
             bullet.transform.parent = null;
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
@@ -46,6 +45,14 @@ public class ParrotGun : Gun
             bullet = null;
         }
     }
+    public override void SecondDairy()
+    {
+        base.SecondDairy();
+        if (shootRate <= cooldown && bullet != null)
+        {
+            cooldown = 0f;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -57,6 +64,7 @@ public class ParrotGun : Gun
         {
             bullet = Instantiate(Parrot, transvormPivit.transform);
             bullet.GetComponent<Rigidbody>().isKinematic = true;
+            bullet.GetComponent<SphereCollider>().enabled = false;
         }
     }
 

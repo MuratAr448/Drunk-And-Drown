@@ -1,17 +1,16 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MainPlayer : MonoBehaviour, IDamageable
 {
-    public GameObject gun;
-    public GameObject melee;
+    public GameObject Weapon;
     public bool pause = false;
     public GameObject PauseScreen;
     private Movement movement;
     public GameObject rayOrigin;
-
+    [SerializeField] private UIWeapons weapon;
     [SerializeField] private float health;
     private float maxHealth;
-
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
     void Start()
@@ -28,6 +27,12 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Pause();
         }
             
+    }
+    public void SwitchWeapon(InputAction.CallbackContext cntxt)
+    {
+        int Change = cntxt.ReadValue<int>();
+        weapon.SwitchWeaponUI(Change);
+
     }
     public void Pause()
     {
@@ -54,19 +59,32 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         if (movement.canMove)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Weapon.GetComponent<Gun>() != null)
             {
-                Gun Gun = gun.GetComponent<Gun>();
-                Gun.Schoot();
+                Gun Gun = Weapon.GetComponent<Gun>();
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Gun.Schoot();
+                }
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    Gun.SecondDairy();
+                }
             }
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            else
             {
-                Melee Melee = melee.GetComponent<Melee>();
-                Melee.Swing();
+                Melee Melee = Weapon.GetComponent<Melee>();
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Melee.Swing();
+                }
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                {
+                    Melee.SecondDairy();
+                }
             }
         }
     }
-    
     public void TakeDamage(float damage)
     {
         health -= damage;

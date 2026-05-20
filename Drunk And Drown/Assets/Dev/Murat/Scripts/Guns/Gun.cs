@@ -13,5 +13,8 @@ public class Gun : MonoBehaviour
     {
 
     }
-    
+    public virtual void SecondDairy()
+    {
+
+    }
 }
