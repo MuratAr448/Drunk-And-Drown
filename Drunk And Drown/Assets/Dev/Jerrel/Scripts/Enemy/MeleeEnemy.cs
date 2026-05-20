@@ -32,8 +32,6 @@ public class MeleeEnemy : Enemy
             }
         }
 
-        // Play Animation
-
         StartCoroutine(AttackCooldown());
     }
 
@@ -44,7 +42,6 @@ public class MeleeEnemy : Enemy
         _hasAttacked = false;
     }
 
-    // Visualize the attack sphere in the Unity editor
     private void OnDrawGizmosSelected()
     {
         Vector3 attackPoint = transform.position + transform.TransformDirection(_attackOffset);
