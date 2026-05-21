@@ -10,7 +10,7 @@ public class Movement : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     private float walkSpeed = 6f;
-    [SerializeField] private float curSpeed;
+    private float curSpeed;
     private float jumpPower = 7f;
     private float gravity = 10f;
     private float lookSpeed = 1.5f;
@@ -29,6 +29,7 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.Equals(false);
         collider = GetComponent<CapsuleCollider>();
+        collider.enabled = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -118,6 +119,7 @@ public class Movement : MonoBehaviour
         {
             characterController.enabled = true;
             rb.Equals(false);
+            collider.enabled = false;
             moveDirection.y = jumpPower;
             doubleJump = false;
         }
@@ -161,10 +163,12 @@ public class Movement : MonoBehaviour
     {
         characterController.enabled = true;
         rb.Equals(false);
+        collider.enabled = false;
     }
     public void Exposion()
     {
         characterController.enabled = false;
         rb.Equals(true);
+        collider.enabled = true;
     }
 }
