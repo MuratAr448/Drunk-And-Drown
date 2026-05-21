@@ -32,6 +32,7 @@ public class ParrotGun : Gun
             amunition.type = BulletType.Explosive;
             amunition.radius = radius;
             amunition.force = force;
+            amunition.Lanched();
             RaycastHit hit;
             GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
             if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))

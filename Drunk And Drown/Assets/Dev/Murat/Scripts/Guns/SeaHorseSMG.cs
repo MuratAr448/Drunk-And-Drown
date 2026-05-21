@@ -29,6 +29,7 @@ public class SeaHorseSMG : Gun
             amunition.damage = damage;
             amunition.timeTillDeath = ammoLife;
             amunition.type = BulletType.Normal;
+            amunition.Lanched();
             RaycastHit hit;
             GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
             if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
@@ -52,6 +53,7 @@ public class SeaHorseSMG : Gun
                 amunition.damage = damage;
                 amunition.timeTillDeath = ammoLife;
                 amunition.type = BulletType.Normal;
+                amunition.Lanched();
                 bullet.transform.rotation = Quaternion.RotateTowards(bullet.transform.rotation, Random.rotation, spread);
                 rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             }

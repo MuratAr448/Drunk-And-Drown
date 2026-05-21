@@ -589,7 +589,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -811,6 +811,22 @@ PrefabInstance:
     - target: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565857855427859924, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565857855427859924, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565857855427859924, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9159534999628439557, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+      propertyPath: shootRate1
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

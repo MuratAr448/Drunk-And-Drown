@@ -15,14 +15,12 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
-
     private List<IDamageable> damagedObjects = new List<IDamageable>();
 
-    void Start()
+    public void Lanched()
     {
         StartCoroutine(LimitTime());
     }
-
     private IEnumerator LimitTime()
     {
         yield return new WaitForSeconds(timeTillDeath);
