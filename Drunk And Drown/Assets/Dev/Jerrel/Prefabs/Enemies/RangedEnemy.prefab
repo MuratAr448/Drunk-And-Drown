@@ -156,16 +156,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d975d25f11f45c0479eda34255b0c9b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedEnemy
-  Health: 0
-  MaxHealth: 100
+  Health: 20
+  MaxHealth: 20
+  _scoreOnDeath: 20
+  _coinsOnDeath: 10
   _currentState: 1
-  patrolRange: 10
-  moveSpeed: 3
-  waypointTolerance: 0.5
-  minIdleTime: 1
-  maxIdleTime: 2
-  detectionRange: 15
-  attackRange: 10
+  _patrolRange: 10
+  _moveSpeed: 3
+  _waypointTolerance: 0.5
+  _minIdleTime: 1
+  _maxIdleTime: 2
+  _detectionRange: 25
+  _attackRange: 2
   _firepoint: {fileID: 233519328155725812}
   _bullet: {fileID: 809101648170328577, guid: accb05f6aea922d46bcbb0da036ad530, type: 3}
   _bulletLifetime: 3

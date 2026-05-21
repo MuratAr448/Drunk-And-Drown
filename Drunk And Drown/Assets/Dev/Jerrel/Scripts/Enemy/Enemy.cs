@@ -8,19 +8,23 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public float Health;
     public float MaxHealth;
 
+    [Header("Score & Coins")]
+    [SerializeField] protected int _scoreOnDeath = 10;
+    [SerializeField] protected int _coinsOnDeath = 5;
+
     [Header("State Management")]
     [SerializeField] protected EnemyState _currentState;
 
     [Header("Patrol Settings")]
-    [SerializeField] protected float patrolRange = 10f;
-    [SerializeField] protected float moveSpeed = 3f;
-    [SerializeField] protected float waypointTolerance = 0.5f;
-    [SerializeField] protected float minIdleTime = 1f;
-    [SerializeField] protected float maxIdleTime = 2f;
+    [SerializeField] protected float _patrolRange = 10f;
+    [SerializeField] protected float _moveSpeed = 3f;
+    [SerializeField] protected float _waypointTolerance = 0.5f;
+    [SerializeField] protected float _minIdleTime = 1f;
+    [SerializeField] protected float _maxIdleTime = 2f;
 
     [Header("Detection Settings")]
-    [SerializeField] protected float detectionRange = 8f;
-    [SerializeField] protected float attackRange = 2f;
+    [SerializeField] protected float _detectionRange = 8f;
+    [SerializeField] protected float _attackRange = 2f;
 
     public float CurrentHealth => Health;
     public float BaseHealth => MaxHealth;
@@ -73,11 +77,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
         float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
 
-        if (distanceToPlayer <= attackRange)
+        if (distanceToPlayer <= _attackRange)
         {
             _currentState = EnemyState.Attack;
         }
-        else if (distanceToPlayer <= detectionRange)
+        else if (distanceToPlayer <= _detectionRange)
         {
             _currentState = EnemyState.Chase;
         }
@@ -105,6 +109,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     public void Die()
     {
+        ComboSystem.Instance.OnEnemyKilled();
+        ScoreSystem.Instance.AddScore(_scoreOnDeath);
+        CoinSystem.Instance.AddCoins(_coinsOnDeath);
         Destroy(gameObject);
     }
 
@@ -126,7 +133,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         if (!_hasWaypoint)
         {
-            Vector2 randomCircle = Random.insideUnitCircle * patrolRange;
+            Vector2 randomCircle = Random.insideUnitCircle * _patrolRange;
             _targetWaypoint = new Vector3(
                 _spawnPoint.x + randomCircle.x,
                 _spawnPoint.y,
@@ -142,11 +149,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             new Vector3(_targetWaypoint.x, 0, _targetWaypoint.z)
         );
 
-        if (distance < waypointTolerance)
+        if (distance < _waypointTolerance)
         {
             _hasWaypoint = false;
             _idleTimer = 0f;
-            _currentIdleDuration = Random.Range(minIdleTime, maxIdleTime);
+            _currentIdleDuration = Random.Range(_minIdleTime, _maxIdleTime);
             _currentState = EnemyState.Idle;
         }
     }
@@ -174,7 +181,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     private void MoveTowards(Vector3 target)
     {
         Vector3 moveDir = (target - transform.position).normalized;
-        Vector3 velocity = moveDir * moveSpeed;
+        Vector3 velocity = moveDir * _moveSpeed;
         rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
 
         if (moveDir != Vector3.zero)
@@ -188,12 +195,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         Gizmos.color = Color.cyan;
         Vector3 center = Application.isPlaying ? _spawnPoint : transform.position;
-        Gizmos.DrawWireSphere(center, patrolRange);
+        Gizmos.DrawWireSphere(center, _patrolRange);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, _detectionRange);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, _attackRange);
     }
 }
