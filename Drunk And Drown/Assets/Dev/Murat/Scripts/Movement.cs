@@ -4,32 +4,44 @@ using UnityEngine.InputSystem;
 public enum MovementState
 {
     Running,
-    Crouched
+    Crouched,
+    Sliding
 }
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class Movement : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Camera playerCamera;
     [SerializeField] private InputActionAsset inputActions;
-
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
 
+    [Header("Player Stats")]
     [SerializeField] private float walkSpeed = 6f;
     [SerializeField] private float crouchSpeedTarget = 3f;
     [SerializeField] private float jumpPower = 7f;
     [SerializeField] private float lookSpeed = 0.1f;
     [SerializeField] private float lookXLimit = 60f;
-
     [SerializeField] private float maxForce = 15f;
+
+    [Header("Ground Settings")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Slide Settings")]
     [SerializeField] private float maxSlopeAngle = 45f;
     private RaycastHit slopeHit;
     private bool isOnSlope;
+    [SerializeField] private PhysicsMaterial normalMaterial;
+    [SerializeField] private PhysicsMaterial slideMaterial;
+
+    [Header("Camera Height Settings")]
+    [SerializeField] private float cameraStandHeight = 0.8f;
+    [SerializeField] private float cameraCrouchHeight = 0.2f;
+    [SerializeField] private float cameraLerpSpeed = 10f;
+    private float targetCameraY;
 
     private float curSpeed;
     private float rotationX = 0;
@@ -80,6 +92,7 @@ public class Movement : MonoBehaviour
         Cursor.visible = false;
 
         curSpeed = walkSpeed;
+        targetCameraY = cameraStandHeight;
     }
 
     void Update()
@@ -90,6 +103,8 @@ public class Movement : MonoBehaviour
         {
             HandleLook();
         }
+
+        HandleCameraHeight();
     }
 
     void FixedUpdate()
@@ -125,13 +140,29 @@ public class Movement : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
     }
 
+    private void HandleCameraHeight()
+    {
+        Vector3 localPos = playerCamera.transform.localPosition;
+        localPos.y = Mathf.Lerp(localPos.y, targetCameraY, Time.deltaTime * cameraLerpSpeed);
+        playerCamera.transform.localPosition = localPos;
+    }
+
     private void HandleMovementState()
     {
-        movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
+        if (crouchHeld && isGrounded)
+        {
+            movementState = MovementState.Sliding;
+        }
+        else
+        {
+            movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
+        }
 
         switch (movementState)
         {
             case MovementState.Running:
+                targetCameraY = cameraStandHeight;
+                capsuleCollider.material = normalMaterial;
                 if (capsuleCollider.height != 2f)
                 {
                     capsuleCollider.height = 2f;
@@ -141,6 +172,8 @@ public class Movement : MonoBehaviour
                 break;
 
             case MovementState.Crouched:
+                targetCameraY = cameraCrouchHeight;
+                capsuleCollider.material = normalMaterial;
                 if (capsuleCollider.height != 1f)
                 {
                     capsuleCollider.height = 1f;
@@ -156,11 +189,27 @@ public class Movement : MonoBehaviour
                     curSpeed = crouchSpeedTarget;
                 }
                 break;
+
+            case MovementState.Sliding:
+                targetCameraY = cameraCrouchHeight;
+                capsuleCollider.material = slideMaterial;
+                if (capsuleCollider.height != 1f)
+                {
+                    capsuleCollider.height = 1f;
+                    capsuleCollider.center = new Vector3(0, -0.5f, 0);
+                }
+                break;
         }
     }
 
     private void HandlePhysicsMovement()
     {
+        if (movementState == MovementState.Sliding)
+        {
+            rb.useGravity = true;
+            return;
+        }
+
         Vector3 moveDirection = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized;
         Vector3 targetVelocity = moveDirection * curSpeed;
 
