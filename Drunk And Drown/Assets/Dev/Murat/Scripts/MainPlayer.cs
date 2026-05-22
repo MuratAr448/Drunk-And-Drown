@@ -102,11 +102,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 Gun Gun = Weapon.GetComponent<Gun>();
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    Gun.Schoot();
+                    Gun.Shoot();
                 }
                 if (Input.GetKey(KeyCode.Mouse1))
                 {
-                    Gun.SecondDairy();
+                    Gun.Secondary();
                 }
             }
             else

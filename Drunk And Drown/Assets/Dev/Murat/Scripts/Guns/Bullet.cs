@@ -65,7 +65,6 @@ public class Bullet : MonoBehaviour
 
     private void Explode(Collider impactCollider)
     {
-        // Check everything in the explosion radius
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach (Collider col in colliders)
@@ -85,16 +84,23 @@ public class Bullet : MonoBehaviour
             Rigidbody rb = col.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                Vector3 explosionDirection = (rb.transform.position - transform.position).normalized;
+
+                if (explosionDirection == Vector3.zero)
+                {
+                    explosionDirection = Vector3.up;
+                }
+
                 Movement moveScript = rb.GetComponent<Movement>();
                 if (moveScript != null)
                 {
-                    moveScript.Exposion();
+                    moveScript.ApplyKnockback(explosionDirection * force);
                 }
-
-                rb.AddExplosionForce(force, transform.position, radius, force, ForceMode.Impulse);
+                else
+                {
+                    rb.AddExplosionForce(force, transform.position, radius, 1f, ForceMode.Impulse);
+                }
             }
         }
-
-        Destroy(gameObject);
     }
 }
