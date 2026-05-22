@@ -182,10 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParrotGun
   Kind: 1
-  cooldown: 2
-  shootRate: 2
+  cooldown1: 1
+  cooldown2: 1
+  shootRate1: 2
+  shootRate2: 1
   Parrot: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
-  bullet: {fileID: 0}
   transvormPivit: {fileID: 5662579886598701061}
   bulletSpeed: 10
   damage: 10

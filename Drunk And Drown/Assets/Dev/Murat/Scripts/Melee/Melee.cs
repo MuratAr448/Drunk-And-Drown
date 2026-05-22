@@ -13,4 +13,8 @@ public class Melee : MonoBehaviour
     {
 
     }
+    public virtual void SecondDairy()
+    {
+
+    }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7003752665462873414}
   - component: {fileID: 9159534999628439557}
   m_Layer: 0
-  m_Name: Blunderbuss
+  m_Name: SeaHorse SMG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,14 +105,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
   Kind: 0
-  cooldown: 1
-  shootRate: 1
+  cooldown1: 1
+  cooldown2: 1
+  shootRate1: 0.1
+  shootRate2: 3
   bullets: {fileID: 5337098593394553989, guid: dbf5a52685ce9334585fc09ad92dc049, type: 3}
   transvormPivit: {fileID: 8068826352823569636}
-  bulletSpeed: 8
+  bulletSpeed: 10
   bulletAmount: 18
   damage: 3
   spread: 10
+  player: {fileID: 0}
 --- !u!1 &8068826352823569636
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,10 +140,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8068826352823569636}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.014632753, y: 0.050570104, z: 0.0007410075, w: 0.9986131}
-  m_LocalPosition: {x: -0.75, y: 0, z: 0.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.6}
   m_LocalScale: {x: 4.6155376, y: 3.333333, z: 0.67415404}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3930533446237602315}
-  m_LocalEulerAnglesHint: {x: -1.679, y: 5.798, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

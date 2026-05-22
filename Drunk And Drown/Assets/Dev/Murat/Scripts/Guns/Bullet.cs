@@ -15,14 +15,12 @@ public class Bullet : MonoBehaviour
     public float timeTillDeath = 1;
     public float radius = 1;
     public float force = 1;
-
     private List<IDamageable> damagedObjects = new List<IDamageable>();
 
-    void Start()
+    public void Lanched()
     {
         StartCoroutine(LimitTime());
     }
-
     private IEnumerator LimitTime()
     {
         yield return new WaitForSeconds(timeTillDeath);
@@ -73,6 +71,10 @@ public class Bullet : MonoBehaviour
         foreach (Collider col in colliders)
         {
             IDamageable damageable = col.GetComponent<IDamageable>();
+            if (col.GetComponent<Movement>())
+            {
+                damagedObjects.Add(damageable);
+            }
             if (damageable != null && !damagedObjects.Contains(damageable))
             {
                 float finalDamage = (col == impactCollider) ? damage : damage * 0.5f;
@@ -89,7 +91,7 @@ public class Bullet : MonoBehaviour
                     moveScript.Exposion();
                 }
 
-                rb.AddExplosionForce(force, transform.position, radius, force * 0.1f, ForceMode.Impulse);
+                rb.AddExplosionForce(force, transform.position, radius, force, ForceMode.Impulse);
             }
         }
 

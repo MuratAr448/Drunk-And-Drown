@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ParrotGun : Gun
 {
@@ -19,7 +20,7 @@ public class ParrotGun : Gun
     public override void Schoot()
     {
         base.Schoot();
-        if (shootRate <= cooldown && bullet != null)
+        if (shootRate1 <= cooldown1 && bullet != null && Input.GetKeyDown(KeyCode.Mouse0))
         {
             bullet.GetComponent<Rigidbody>().isKinematic = false;
             bullet.transform.parent = null;
@@ -31,24 +32,40 @@ public class ParrotGun : Gun
             amunition.type = BulletType.Explosive;
             amunition.radius = radius;
             amunition.force = force;
-            rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
-            cooldown = 0f;
+            amunition.Lanched();
+            RaycastHit hit;
+            GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
+            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
+            {
+                rb.transform.LookAt(hit.point);
+            }
+            rb.AddForce(Origin.transform.forward * 100 * bulletSpeed);
+            cooldown1 = 0f;
             player.Exposion();
-            player.GetComponent<Rigidbody>().AddForce(-bullet.transform.forward*force*2.5f, ForceMode.Impulse);
+            player.GetComponent<Rigidbody>().AddForce(-Origin.transform.forward * force*2.5f, ForceMode.Impulse);
             bullet = null;
+        }
+    }
+    public override void SecondDairy()
+    {
+        base.SecondDairy();
+        if (shootRate2 <= cooldown1 && bullet != null&& Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            cooldown1 = 0f;
         }
     }
     // Update is called once per frame
     void Update()
     {
-        if (shootRate >= cooldown)
+        if (shootRate1 >= cooldown1)
         {
-            cooldown += Time.deltaTime;
+            cooldown1 += Time.deltaTime;
         }
-        if (bullet==null&& shootRate <= cooldown+Time.deltaTime*3)
+        if (bullet==null&& shootRate1 <= cooldown1+Time.deltaTime*3)
         {
             bullet = Instantiate(Parrot, transvormPivit.transform);
             bullet.GetComponent<Rigidbody>().isKinematic = true;
+            bullet.GetComponent<SphereCollider>().enabled = false;
         }
     }
 

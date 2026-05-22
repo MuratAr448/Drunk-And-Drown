@@ -1,10 +1,16 @@
 using System.Collections;
 using UnityEngine;
-
+using static UnityEngine.UI.Image;
+public enum MovementState
+{
+    Running,
+    Crouched
+}
 public class Movement : MonoBehaviour
 {
     [SerializeField] private Camera playerCamera;
     private float walkSpeed = 6f;
+    private float curSpeed;
     private float jumpPower = 7f;
     private float gravity = 10f;
     private float lookSpeed = 1.5f;
@@ -12,14 +18,18 @@ public class Movement : MonoBehaviour
     private float rotationX = 0;
     private bool doubleJump = true;
     public bool canMove = true;
-
+    public MovementState movementState;
     public CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private Rigidbody rb;
+    private CapsuleCollider collider;
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
+        rb.Equals(false);
+        collider = GetComponent<CapsuleCollider>();
+        collider.enabled = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -32,12 +42,60 @@ public class Movement : MonoBehaviour
         //bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX;
         float curSpeedY;
+        RaycastHit hit;
+        
+        movementState = Input.GetKey(KeyCode.LeftShift) ? MovementState.Crouched : MovementState.Running;
         if (canMove)
         {
-            curSpeedX = walkSpeed;
-            curSpeedY = walkSpeed;
-            curSpeedX = curSpeedX * Input.GetAxis("Vertical");
-            curSpeedY = curSpeedY * Input.GetAxis("Horizontal");
+            switch (movementState)
+            {
+                case MovementState.Running:
+                    if (characterController.enabled)
+                    {
+                        if (characterController.height != 2f)
+                        {
+                            transform.position += Vector3.up * 0.5f;
+                        }
+                        characterController.height = 2f;
+                        collider.height = 2f;
+                    }
+                    curSpeed = walkSpeed;
+                    break;
+                case MovementState.Crouched:
+                    if (characterController.enabled)
+                    {
+                        if (characterController.height != 1f)
+                        {
+                            transform.position += Vector3.down * 0.5f;
+                            curSpeed = 9f;
+                        }
+                        characterController.height = 1f;
+                        collider.height = 1f;
+                    }
+                    if (curSpeed > walkSpeed * 0.5f)
+                    {
+                        curSpeed -= Time.deltaTime*5f;
+                    }
+                    else
+                    {
+                        curSpeed = walkSpeed * 0.5f;
+                    }
+                    break;
+                default:
+                    if (characterController.enabled)
+                    {if (characterController.height != 2f)
+                        {
+                            transform.position += Vector3.up * 0.5f;
+                        }
+                        characterController.height = 2f;
+                        collider.height = 2f;
+                    }
+                    curSpeed = walkSpeed;
+                    break;
+            }
+
+            curSpeedX = curSpeed * Input.GetAxis("Vertical");
+            curSpeedY = curSpeed * Input.GetAxis("Horizontal");
         }
         else
         {
@@ -61,6 +119,7 @@ public class Movement : MonoBehaviour
         {
             characterController.enabled = true;
             rb.Equals(false);
+            collider.enabled = false;
             moveDirection.y = jumpPower;
             doubleJump = false;
         }
@@ -104,10 +163,12 @@ public class Movement : MonoBehaviour
     {
         characterController.enabled = true;
         rb.Equals(false);
+        collider.enabled = false;
     }
     public void Exposion()
     {
         characterController.enabled = false;
         rb.Equals(true);
+        collider.enabled = true;
     }
 }

@@ -18,7 +18,15 @@ public class MorningStar : Melee
     public override void Swing()
     {
         base.Swing();
-        if(swingRate < cooldown)
+        if(swingRate < cooldown&& Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            cooldown = 0f;
+        }
+    }
+    public override void SecondDairy()
+    {
+        base.SecondDairy();
+        if (swingRate < cooldown && Input.GetKeyDown(KeyCode.Mouse1))
         {
             cooldown = 0f;
         }
