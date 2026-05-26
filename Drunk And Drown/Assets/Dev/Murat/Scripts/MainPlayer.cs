@@ -1,13 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class MainPlayer : MonoBehaviour, IDamageable
 {
     public GameObject Weapon;
     public List<GameObject> Weapons;
     public bool pause = false;
-    public GameObject PauseScreen;
+    public GameObject pauseScreen;
+    public List<GameObject> deathScreen;
+    public bool dead = false;
     private Movement movement;
     public GameObject rayOrigin;
     [SerializeField] private UIWeapons weaponUI;
@@ -24,11 +30,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
     // Update is called once per frame
     void Update()
     {
-        Shoot();
-        SwitchWeapon();
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (movement.canMove)
         {
-            Pause();
+            Shoot();
+            SwitchWeapon();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pause();
+            }
         }
     }
     private void SwitchWeapon()
@@ -77,7 +86,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         pause = !pause;
         if (pause)
         {
-            PauseScreen.SetActive(true);
+            pauseScreen.SetActive(true);
             movement.canMove = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -89,37 +98,34 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1;
-            PauseScreen.SetActive(false);
+            pauseScreen.SetActive(false);
             movement.canMove = true;
         }
     }
     private void Shoot()
     {
-        if (movement.canMove)
+        if (Weapon.GetComponent<Gun>() != null)
         {
-            if (Weapon.GetComponent<Gun>() != null)
+            Gun Gun = Weapon.GetComponent<Gun>();
+            if (Input.GetKey(KeyCode.Mouse0))
             {
-                Gun Gun = Weapon.GetComponent<Gun>();
-                if (Input.GetKey(KeyCode.Mouse0))
-                {
-                    Gun.Schoot();
-                }
-                if (Input.GetKey(KeyCode.Mouse1))
-                {
-                    Gun.SecondDairy();
-                }
+                Gun.Schoot();
             }
-            else
+            if (Input.GetKey(KeyCode.Mouse1))
             {
-                Melee Melee = Weapon.GetComponent<Melee>();
-                if (Input.GetKey(KeyCode.Mouse0))
-                {
-                    Melee.Swing();
-                }
-                if (Input.GetKey(KeyCode.Mouse1))
-                {
-                    Melee.SecondDairy();
-                }
+                Gun.SecondDairy();
+            }
+        }
+        else
+        {
+            Melee Melee = Weapon.GetComponent<Melee>();
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Melee.Swing();
+            }
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+                Melee.SecondDairy();
             }
         }
     }
@@ -127,7 +133,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         health -= damage;
 
-        if (health <= 0)
+        if (health <= 0&&!dead)
         {
             Die();
         }
@@ -140,6 +146,34 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public void Die()
     {
-        Destroy(gameObject);
+        movement.canMove = false;
+        movement.characterController.enabled = false;
+        dead = true;
+        StartCoroutine(DeathScreen());
+    }
+
+    private IEnumerator DeathScreen()
+    {
+        deathScreen[0].SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        int x = 150;
+        for (int i = 0; i < x; i++)
+        {
+            for(int j = 0; j < deathScreen.Count; j++)
+            {
+                if (deathScreen[j].GetComponent<Image>())
+                {
+                    Image Deathcurrent = deathScreen[j].GetComponent<Image>();
+                    Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
+                }else if (deathScreen[j].GetComponent<TextMeshProUGUI>())
+                {
+                    TextMeshProUGUI Deathcurrent = deathScreen[j].GetComponent<TextMeshProUGUI>();
+                    Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
+                }
+            }
+            
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
     }
 }
