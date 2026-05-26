@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
 
     [Header("Slide Settings")]
     [SerializeField] private float maxSlopeAngle = 45f;
+    [SerializeField] private float slideForce = 25f; // Extra force pushing down slopes
     private RaycastHit slopeHit;
     private bool isOnSlope;
     [SerializeField] private PhysicsMaterial normalMaterial;
@@ -207,6 +208,17 @@ public class Movement : MonoBehaviour
         if (movementState == MovementState.Sliding)
         {
             rb.useGravity = true;
+
+            if (isOnSlope)
+            {
+                Vector3 slopeNormal = slopeHit.normal;
+                Vector3 downSlopeDirection = Vector3.ProjectOnPlane(Vector3.down, slopeNormal).normalized;
+                Vector3 forwardSlopeDirection = Vector3.ProjectOnPlane(transform.forward, slopeNormal).normalized;
+
+                Vector3 combinedSlideForce = (downSlopeDirection * slideForce) + (forwardSlopeDirection * slideForce * 0.5f);
+
+                rb.AddForce(combinedSlideForce, ForceMode.Force);
+            }
             return;
         }
 
