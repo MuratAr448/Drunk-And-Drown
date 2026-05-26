@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
 
             case BulletType.Explosive:
                 Explode(other);
+                Destroy(gameObject);
                 break;
         }
     }

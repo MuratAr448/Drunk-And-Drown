@@ -109,11 +109,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Gun Gun = Weapon.GetComponent<Gun>();
             if (Input.GetKey(KeyCode.Mouse0))
             {
-                Gun.Schoot();
+                Gun.Shoot();
             }
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                Gun.SecondDairy();
+                Gun.Secondary();
             }
         }
         else
@@ -147,7 +147,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void Die()
     {
         movement.canMove = false;
-        movement.characterController.enabled = false;
         dead = true;
         StartCoroutine(DeathScreen());
     }
