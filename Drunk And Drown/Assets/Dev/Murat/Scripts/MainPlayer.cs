@@ -27,6 +27,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     void Start()
     {
         movement = GetComponent<Movement>();
+        maxHealth = health;
     }
 
     // Update is called once per frame

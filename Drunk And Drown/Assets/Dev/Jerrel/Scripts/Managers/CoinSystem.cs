@@ -1,9 +1,12 @@
+using TMPro;
 using UnityEngine;
 
 public class CoinSystem : MonoBehaviour
 {
     [SerializeField] private int _coins;
     [SerializeField] private float _coinMultiplier = 1.0f;
+
+    [SerializeField] private TextMeshProUGUI _coinTextLabel;
 
     public static CoinSystem Instance;
 
@@ -17,6 +20,11 @@ public class CoinSystem : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    private void Update()
+    {
+        UpdateUI();
     }
     public void AddCoins(int amount)
     {
@@ -35,5 +43,10 @@ public class CoinSystem : MonoBehaviour
     public int GetCoinAmount()
     {
         return _coins;
+    }
+
+    private void UpdateUI()
+    {
+        _coinTextLabel.text = _coins.ToString();
     }
 }
