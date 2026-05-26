@@ -18,9 +18,9 @@ public class SeaHorseSMG : Gun
         player = FindFirstObjectByType<Movement>();
         Kind = KindofGun.BunderBuss;
     }
-    public override void Schoot()
+    public override void Shoot()
     {
-        base.Schoot();
+        base.Shoot();
         if (shootRate1 <= cooldown1 && Input.GetKey(KeyCode.Mouse0))
         {
             GameObject bullet = Instantiate(bullets, transvormPivit.transform.position, transvormPivit.transform.rotation);
@@ -40,9 +40,9 @@ public class SeaHorseSMG : Gun
             cooldown1 = 0f;
         }
     }
-    public override void SecondDairy()
+    public override void Secondary()
     {
-        base.SecondDairy();
+        base.Secondary();
         if (shootRate2 <= cooldown2&& Input.GetKeyDown(KeyCode.Mouse1))
         {
             for (int i = 0; i < bulletAmount; i++)

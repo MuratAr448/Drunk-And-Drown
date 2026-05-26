@@ -1,174 +1,296 @@
-using System.Collections;
 using UnityEngine;
-using static UnityEngine.UI.Image;
+using UnityEngine.InputSystem;
+
 public enum MovementState
 {
     Running,
-    Crouched
+    Crouched,
+    Sliding
 }
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class Movement : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Camera playerCamera;
-    private float walkSpeed = 6f;
+    [SerializeField] private InputActionAsset inputActions;
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+
+    [Header("Player Stats")]
+    [SerializeField] private float walkSpeed = 6f;
+    [SerializeField] private float crouchSpeedTarget = 3f;
+    [SerializeField] private float jumpPower = 7f;
+    [SerializeField] private float lookSpeed = 0.1f;
+    [SerializeField] private float lookXLimit = 60f;
+    [SerializeField] private float maxForce = 15f;
+
+    [Header("Ground Settings")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Slide Settings")]
+    [SerializeField] private float maxSlopeAngle = 45f;
+    private RaycastHit slopeHit;
+    private bool isOnSlope;
+    [SerializeField] private PhysicsMaterial normalMaterial;
+    [SerializeField] private PhysicsMaterial slideMaterial;
+
+    [Header("Camera Height Settings")]
+    [SerializeField] private float cameraStandHeight = 0.8f;
+    [SerializeField] private float cameraCrouchHeight = 0.2f;
+    [SerializeField] private float cameraLerpSpeed = 10f;
+    private float targetCameraY;
+
     private float curSpeed;
-    private float jumpPower = 7f;
-    private float gravity = 10f;
-    private float lookSpeed = 1.5f;
-    private float lookXLimit = 60f;
     private float rotationX = 0;
-    private bool doubleJump = true;
+    private bool doubleJumpAvailable = true;
+    private bool isGrounded;
+
+    private Vector2 moveInput;
+    private Vector2 lookInput;
+    private bool jumpPressed;
+    private bool crouchHeld;
+
+    private InputAction moveAction;
+    private InputAction lookAction;
+    private InputAction jumpAction;
+    private InputAction crouchAction;
+
     public bool canMove = true;
     public MovementState movementState;
-    public CharacterController characterController;
-    private Vector3 moveDirection = Vector3.zero;
-    private Rigidbody rb;
-    private CapsuleCollider collider;
+
+    void Awake()
+    {
+        var playerMap = inputActions.FindActionMap("Player");
+        moveAction = playerMap.FindAction("Move");
+        lookAction = playerMap.FindAction("Look");
+        jumpAction = playerMap.FindAction("Jump");
+        crouchAction = playerMap.FindAction("Crouch");
+    }
+
+    void OnEnable()
+    {
+        inputActions.Enable();
+    }
+
+    void OnDisable()
+    {
+        inputActions.Disable();
+    }
+
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
-        rb.Equals(false);
-        collider = GetComponent<CapsuleCollider>();
-        collider.enabled = false;
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+        rb.freezeRotation = true;
+        rb.useGravity = true;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        curSpeed = walkSpeed;
+        targetCameraY = cameraStandHeight;
     }
 
     void Update()
     {
-        Vector3 forward = transform.TransformDirection(Vector3.forward);
-        Vector3 right = transform.TransformDirection(Vector3.right);
-
-        //bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        float curSpeedX;
-        float curSpeedY;
-        RaycastHit hit;
-        
-        movementState = Input.GetKey(KeyCode.LeftShift) ? MovementState.Crouched : MovementState.Running;
-        if (canMove)
-        {
-            switch (movementState)
-            {
-                case MovementState.Running:
-                    if (characterController.enabled)
-                    {
-                        if (characterController.height != 2f)
-                        {
-                            transform.position += Vector3.up * 0.5f;
-                        }
-                        characterController.height = 2f;
-                        collider.height = 2f;
-                    }
-                    curSpeed = walkSpeed;
-                    break;
-                case MovementState.Crouched:
-                    if (characterController.enabled)
-                    {
-                        if (characterController.height != 1f)
-                        {
-                            transform.position += Vector3.down * 0.5f;
-                            curSpeed = 9f;
-                        }
-                        characterController.height = 1f;
-                        collider.height = 1f;
-                    }
-                    if (curSpeed > walkSpeed * 0.5f)
-                    {
-                        curSpeed -= Time.deltaTime*5f;
-                    }
-                    else
-                    {
-                        curSpeed = walkSpeed * 0.5f;
-                    }
-                    break;
-                default:
-                    if (characterController.enabled)
-                    {if (characterController.height != 2f)
-                        {
-                            transform.position += Vector3.up * 0.5f;
-                        }
-                        characterController.height = 2f;
-                        collider.height = 2f;
-                    }
-                    curSpeed = walkSpeed;
-                    break;
-            }
-
-            curSpeedX = curSpeed * Input.GetAxis("Vertical");
-            curSpeedY = curSpeed * Input.GetAxis("Horizontal");
-        }
-        else
-        {
-            curSpeedX = 0;
-            curSpeedY = 0;
-        }
-
-        float movementDirectionY = moveDirection.y;
-        moveDirection = (forward * curSpeedX) + (right * curSpeedY);
-
-
-        if (Input.GetKeyDown(KeyCode.Space) && canMove && characterController.isGrounded)
-        {
-            moveDirection.y = jumpPower;
-        }
-        else
-        {
-            moveDirection.y = movementDirectionY;
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && canMove && !characterController.isGrounded && doubleJump)
-        {
-            characterController.enabled = true;
-            rb.Equals(false);
-            collider.enabled = false;
-            moveDirection.y = jumpPower;
-            doubleJump = false;
-        }
-
-        if (!characterController.isGrounded)
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                moveDirection.y -= gravity * Time.deltaTime * 1.2f;
-            }
-            else
-            {
-                moveDirection.y -= gravity * Time.deltaTime*1.5f;
-            }
-        }
-        else
-        {
-            doubleJump = true;
-        }
-
-        if (characterController.enabled)
-        {
-            characterController.Move(moveDirection * Time.deltaTime);
-            rb.linearVelocity = Vector3.zero;
-        }
-        else
-        {
-            rb.MovePosition(transform.position+ moveDirection *Time.deltaTime);
-        }
-        
+        HandleInputs();
 
         if (canMove)
         {
-            rotationX += -Input.GetAxis("Mouse Y") * lookSpeed;
-            rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
-            playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-            transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
+            HandleLook();
+        }
+
+        HandleCameraHeight();
+    }
+
+    void FixedUpdate()
+    {
+        CheckGround();
+
+        if (canMove)
+        {
+            HandleMovementState();
+            HandlePhysicsMovement();
+            HandleJumping();
         }
     }
-    private void OnCollisionEnter(Collision collision)
+
+    private void HandleInputs()
     {
-        characterController.enabled = true;
-        rb.Equals(false);
-        collider.enabled = false;
+        moveInput = moveAction.ReadValue<Vector2>();
+        lookInput = lookAction.ReadValue<Vector2>();
+        crouchHeld = crouchAction.IsPressed();
+
+        if (jumpAction.WasPressedThisFrame())
+        {
+            jumpPressed = true;
+        }
     }
-    public void Exposion()
+
+    private void HandleLook()
     {
-        characterController.enabled = false;
-        rb.Equals(true);
-        collider.enabled = true;
+        transform.rotation *= Quaternion.Euler(0, lookInput.x * lookSpeed, 0);
+
+        rotationX -= lookInput.y * lookSpeed;
+        rotationX = Mathf.Clamp(rotationX, -lookXLimit, lookXLimit);
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+    }
+
+    private void HandleCameraHeight()
+    {
+        Vector3 localPos = playerCamera.transform.localPosition;
+        localPos.y = Mathf.Lerp(localPos.y, targetCameraY, Time.deltaTime * cameraLerpSpeed);
+        playerCamera.transform.localPosition = localPos;
+    }
+
+    private void HandleMovementState()
+    {
+        if (crouchHeld && isGrounded)
+        {
+            movementState = MovementState.Sliding;
+        }
+        else
+        {
+            movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
+        }
+
+        switch (movementState)
+        {
+            case MovementState.Running:
+                targetCameraY = cameraStandHeight;
+                capsuleCollider.material = normalMaterial;
+                if (capsuleCollider.height != 2f)
+                {
+                    capsuleCollider.height = 2f;
+                    capsuleCollider.center = Vector3.zero;
+                }
+                curSpeed = walkSpeed;
+                break;
+
+            case MovementState.Crouched:
+                targetCameraY = cameraCrouchHeight;
+                capsuleCollider.material = normalMaterial;
+                if (capsuleCollider.height != 1f)
+                {
+                    capsuleCollider.height = 1f;
+                    capsuleCollider.center = new Vector3(0, -0.5f, 0);
+                }
+
+                if (curSpeed > crouchSpeedTarget)
+                {
+                    curSpeed -= Time.fixedDeltaTime * 5f;
+                }
+                else
+                {
+                    curSpeed = crouchSpeedTarget;
+                }
+                break;
+
+            case MovementState.Sliding:
+                targetCameraY = cameraCrouchHeight;
+                capsuleCollider.material = slideMaterial;
+                if (capsuleCollider.height != 1f)
+                {
+                    capsuleCollider.height = 1f;
+                    capsuleCollider.center = new Vector3(0, -0.5f, 0);
+                }
+                break;
+        }
+    }
+
+    private void HandlePhysicsMovement()
+    {
+        if (movementState == MovementState.Sliding)
+        {
+            rb.useGravity = true;
+            return;
+        }
+
+        Vector3 moveDirection = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized;
+        Vector3 targetVelocity = moveDirection * curSpeed;
+
+        Vector3 currentVelocity = rb.linearVelocity;
+
+        if (isOnSlope && isGrounded)
+        {
+            Vector3 slopeDirection = Vector3.ProjectOnPlane(targetVelocity, slopeHit.normal);
+            Vector3 slopeVelocityChange = slopeDirection - currentVelocity;
+
+            slopeVelocityChange.x = Mathf.Clamp(slopeVelocityChange.x, -maxForce, maxForce);
+            slopeVelocityChange.y = Mathf.Clamp(slopeVelocityChange.y, -maxForce, maxForce);
+            slopeVelocityChange.z = Mathf.Clamp(slopeVelocityChange.z, -maxForce, maxForce);
+
+            rb.useGravity = false;
+
+            rb.AddForce(slopeVelocityChange, ForceMode.Force);
+            return;
+        }
+
+        rb.useGravity = true;
+        Vector3 velocityChange = targetVelocity - currentVelocity;
+        velocityChange.y = 0;
+
+        velocityChange.x = Mathf.Clamp(velocityChange.x, -maxForce, maxForce);
+        velocityChange.z = Mathf.Clamp(velocityChange.z, -maxForce, maxForce);
+
+        rb.AddForce(velocityChange, ForceMode.Force);
+    }
+
+    private void HandleJumping()
+    {
+        if (isGrounded)
+        {
+            doubleJumpAvailable = true;
+        }
+
+        if (jumpPressed)
+        {
+            rb.useGravity = true;
+
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+                rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+            }
+            else if (doubleJumpAvailable)
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+                rb.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+                doubleJumpAvailable = false;
+            }
+
+            jumpPressed = false;
+        }
+    }
+
+    private void CheckGround()
+    {
+        if (groundCheck != null)
+        {
+            isGrounded = Physics.CheckSphere(groundCheck.position, 0.3f, groundLayer);
+        }
+        else
+        {
+            isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+        }
+
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, (capsuleCollider.height / 2f) + 0.3f, groundLayer))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            isOnSlope = angle > 0.1f && angle <= maxSlopeAngle;
+        }
+        else
+        {
+            isOnSlope = false;
+        }
+    }
+
+    public void ApplyKnockback(Vector3 forceDirection)
+    {
+        rb.AddForce(forceDirection, ForceMode.Impulse);
     }
 }

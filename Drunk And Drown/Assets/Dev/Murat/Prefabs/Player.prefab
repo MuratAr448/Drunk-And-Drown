@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6497170406641713369}
   - component: {fileID: 6889995316973296718}
   m_Layer: 0
-  m_Name: Pov
+  m_Name: FirstPersonCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,8 +112,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -207,6 +206,37 @@ Transform:
   m_Children:
   - {fileID: 243084965820964468}
   m_Father: {fileID: 9045428603997792020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4446111539885478820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7430531728942225198}
+  m_Layer: 0
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7430531728942225198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4446111539885478820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7552641462010466819}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5182630294803578108
 GameObject:
@@ -518,7 +548,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7552641462010466819}
-  - component: {fileID: 4936498154897061385}
   - component: {fileID: 2865410533863923715}
   - component: {fileID: 2729935211772573143}
   - component: {fileID: 5021108686444437553}
@@ -545,33 +574,9 @@ Transform:
   m_Children:
   - {fileID: 3445885012113205976}
   - {fileID: 9045428603997792020}
+  - {fileID: 7430531728942225198}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &4936498154897061385
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9185948038355208753}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &2865410533863923715
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -589,7 +594,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
@@ -621,7 +626,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5021108686444437553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,9 +640,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   playerCamera: {fileID: 5126710216777613449}
+  inputActions: {fileID: 0}
+  walkSpeed: 6
+  crouchSpeedTarget: 3
+  jumpPower: 7
+  lookSpeed: 0.1
+  lookXLimit: 60
+  maxForce: 15
+  groundCheck: {fileID: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
   canMove: 1
   movementState: 0
-  characterController: {fileID: 4936498154897061385}
 --- !u!114 &7068656509366083197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,6 +728,10 @@ PrefabInstance:
       propertyPath: middleScreen
       value: 
       objectReference: {fileID: 6991028301256892608}
+    - target: {fileID: 5662579886598701061, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: m_Name
+      value: GunPivot
+      objectReference: {fileID: 0}
     - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: bullet
       value: 
@@ -729,6 +748,18 @@ PrefabInstance:
       propertyPath: shootRate
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: bulletSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: parrotPrefab
+      value: 
+      objectReference: {fileID: 697924853482191546}
+    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+      propertyPath: transformPivot
+      value: 
+      objectReference: {fileID: 943243901864278657}
     - target: {fileID: 7494503245247156201, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.6
@@ -749,6 +780,11 @@ PrefabInstance:
 --- !u!1 &697924853482191546 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+  m_PrefabInstance: {fileID: 7284222386425329000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &943243901864278657 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7494503245247156201, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
   m_PrefabInstance: {fileID: 7284222386425329000}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &6938084613086011860 stripped
@@ -823,6 +859,10 @@ PrefabInstance:
     - target: {fileID: 7565857855427859924, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8068826352823569636, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+      propertyPath: m_Name
+      value: GunPivot
       objectReference: {fileID: 0}
     - target: {fileID: 9159534999628439557, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
       propertyPath: shootRate1

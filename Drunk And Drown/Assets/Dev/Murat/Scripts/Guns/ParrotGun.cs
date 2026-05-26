@@ -3,70 +3,97 @@ using UnityEngine.InputSystem;
 
 public class ParrotGun : Gun
 {
-    [SerializeField] private GameObject Parrot;
-    private GameObject bullet;
-    [SerializeField] private GameObject transvormPivit;
+    [SerializeField] private GameObject parrotPrefab;
+    [SerializeField] private Transform transformPivot;
     [SerializeField] private float bulletSpeed = 1.0f;
-    [SerializeField] private float damage = 3;
-    [SerializeField] private float radius = 4;
-    [SerializeField] private float force = 5;
-    [SerializeField] private Movement player;
+    [SerializeField] private float damage = 3f;
+    [SerializeField] private float radius = 4f;
+    [SerializeField] private float force = 5f;
+
+    private Movement player;
+    private GameObject activeBullet;
     private float ammoLife = 3f;
+    private MainPlayer mainPlayer;
+
     void Start()
     {
         player = FindFirstObjectByType<Movement>();
+        if (player != null)
+        {
+            mainPlayer = player.GetComponent<MainPlayer>();
+        }
         Kind = KindofGun.ParrotGun;
     }
-    public override void Schoot()
+
+    public override void Shoot()
     {
-        base.Schoot();
-        if (shootRate1 <= cooldown1 && bullet != null && Input.GetKeyDown(KeyCode.Mouse0))
+        base.Shoot();
+
+        if (shootRate1 <= cooldown1 && activeBullet != null)
         {
-            bullet.GetComponent<Rigidbody>().isKinematic = false;
-            bullet.transform.parent = null;
-            Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            Bullet amunition = bullet.GetComponent<Bullet>();
-            amunition.GetComponent<SphereCollider>().enabled = true;
-            amunition.damage = damage;
-            amunition.timeTillDeath = ammoLife;
-            amunition.type = BulletType.Explosive;
-            amunition.radius = radius;
-            amunition.force = force;
-            amunition.Lanched();
-            RaycastHit hit;
-            GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
-            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
+            cooldown1 = 0f;
+
+            Rigidbody bulletRb = activeBullet.GetComponent<Rigidbody>();
+            Bullet ammunition = activeBullet.GetComponent<Bullet>();
+            SphereCollider bulletCollider = activeBullet.GetComponent<SphereCollider>();
+
+            activeBullet.transform.parent = null;
+            bulletRb.isKinematic = false;
+            if (bulletCollider != null) bulletCollider.enabled = true;
+
+            ammunition.damage = damage;
+            ammunition.timeTillDeath = ammoLife;
+            ammunition.type = BulletType.Explosive;
+            ammunition.radius = radius;
+            ammunition.force = force;
+            ammunition.Lanched();
+
+            GameObject origin = mainPlayer.rayOrigin;
+            Vector3 fireDirection = origin.transform.forward;
+
+            if (Physics.Raycast(origin.transform.position, fireDirection, out RaycastHit hit))
             {
-                rb.transform.LookAt(hit.point);
+                fireDirection = (hit.point - activeBullet.transform.position).normalized;
+                bulletRb.transform.LookAt(hit.point);
             }
-            rb.AddForce(Origin.transform.forward * 100 * bulletSpeed);
-            cooldown1 = 0f;
-            player.Exposion();
-            player.GetComponent<Rigidbody>().AddForce(-Origin.transform.forward * force*2.5f, ForceMode.Impulse);
-            bullet = null;
+
+            bulletRb.AddForce(fireDirection * 100f * bulletSpeed, ForceMode.Force);
+
+            Vector3 knockbackDirection = -fireDirection;
+            player.ApplyKnockback(knockbackDirection * force * 2.5f);
+
+            activeBullet = null;
         }
     }
-    public override void SecondDairy()
+
+    public override void Secondary()
     {
-        base.SecondDairy();
-        if (shootRate2 <= cooldown1 && bullet != null&& Input.GetKeyDown(KeyCode.Mouse1))
+        base.Secondary();
+        if (shootRate2 <= cooldown1 && activeBullet != null)
         {
             cooldown1 = 0f;
         }
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (shootRate1 >= cooldown1)
         {
             cooldown1 += Time.deltaTime;
         }
-        if (bullet==null&& shootRate1 <= cooldown1+Time.deltaTime*3)
+
+        if (activeBullet == null && shootRate1 <= cooldown1 + Time.deltaTime * 3f)
         {
-            bullet = Instantiate(Parrot, transvormPivit.transform);
-            bullet.GetComponent<Rigidbody>().isKinematic = true;
-            bullet.GetComponent<SphereCollider>().enabled = false;
+            activeBullet = Instantiate(parrotPrefab, transformPivot);
+
+            if (activeBullet.TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.isKinematic = true;
+            }
+            if (activeBullet.TryGetComponent<SphereCollider>(out SphereCollider sc))
+            {
+                sc.enabled = false;
+            }
         }
     }
-
 }
