@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,6 +21,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [SerializeField] private int weaponCurrentSwitch = 0;
     [SerializeField] private float health;
     private float maxHealth;
+    public Action OnHealthChanged {  get; set; }
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
     void Start()
@@ -132,7 +134,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         health -= damage;
-
+        OnHealthChanged?.Invoke();
         if (health <= 0&&!dead)
         {
             Die();
@@ -142,6 +144,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         health = maxHealth;
+        OnHealthChanged?.Invoke();
     }
 
     public void Die()

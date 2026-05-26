@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum EnemyState { Idle, Patrol, Chase, Attack }
 
@@ -25,6 +27,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [Header("Detection Settings")]
     [SerializeField] protected float _detectionRange = 8f;
     [SerializeField] protected float _attackRange = 2f;
+
+    private bool _spawnedByArena = false;
+    public Action OnHealthChanged { get; set; }
 
     public float CurrentHealth => Health;
     public float BaseHealth => MaxHealth;
@@ -95,6 +100,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         Health -= damage;
+        OnHealthChanged?.Invoke();
         if (Health <= 0)
         {
             Health = 0;
@@ -105,6 +111,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         Health = MaxHealth;
+        OnHealthChanged?.Invoke();
     }
 
     public void Die()
@@ -112,6 +119,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         ComboSystem.Instance.OnEnemyKilled();
         ScoreSystem.Instance.AddScore(_scoreOnDeath);
         CoinSystem.Instance.AddCoins(_coinsOnDeath);
+        if (_spawnedByArena)
+        {
+            EnemyUtils.Instance.RemoveEnemy();
+        }
         Destroy(gameObject);
     }
 
@@ -202,5 +213,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _attackRange);
+    }
+
+    public void SpawnedByArena()
+    {
+        _spawnedByArena = true;
     }
 }
