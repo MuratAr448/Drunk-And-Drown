@@ -12,6 +12,11 @@ public class Utielety : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(scene.name);
     }
+    public void RestartScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void Quit()
     {
         Application.Quit();

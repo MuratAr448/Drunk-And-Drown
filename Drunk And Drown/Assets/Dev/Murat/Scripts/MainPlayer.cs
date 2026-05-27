@@ -5,6 +5,7 @@ using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainPlayer : MonoBehaviour, IDamageable
@@ -24,6 +25,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public Action OnHealthChanged {  get; set; }
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
+    [SerializeField] private List<GameObject> BottleFaces;
     void Start()
     {
         movement = GetComponent<Movement>();
@@ -136,10 +138,24 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         health -= damage;
         OnHealthChanged?.Invoke();
+        //BottleFaceChange();
         if (health <= 0&&!dead)
         {
             Die();
         }
+    }
+    private void BottleFaceChange()
+    {
+        float hpProcent = 100/maxHealth* health;
+        int bottleface = 0;
+
+
+
+        for (int i = 0; i < BottleFaces.Count; i++)
+        {
+            BottleFaces[i].SetActive(false);
+        }
+        BottleFaces[bottleface].SetActive(true);
     }
 
     public void ResetHealth()
@@ -152,7 +168,9 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         movement.canMove = false;
         dead = true;
-        StartCoroutine(DeathScreen());
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //StartCoroutine(DeathScreen());
     }
 
     private IEnumerator DeathScreen()
