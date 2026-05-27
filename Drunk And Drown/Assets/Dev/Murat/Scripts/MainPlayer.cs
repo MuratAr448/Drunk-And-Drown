@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +20,8 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [SerializeField] private UIWeapons weaponUI;
     [SerializeField] private int weaponCurrentSwitch = 0;
     [SerializeField] private float health;
+    private DamageEffects hitEffect;
+    [SerializeField] private Color hitColor;
     private float maxHealth;
     public Action OnHealthChanged {  get; set; }
     public float CurrentHealth => health;
@@ -29,6 +30,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     void Start()
     {
         movement = GetComponent<Movement>();
+        hitEffect = GetComponent<DamageEffects>();
         maxHealth = health;
     }
 
@@ -138,7 +140,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         health -= damage;
         OnHealthChanged?.Invoke();
-        //BottleFaceChange();
+        hitEffect.TakeDamageFlash(hitColor);
         if (health <= 0&&!dead)
         {
             Die();
