@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,11 +34,20 @@ public class Movement : MonoBehaviour
 
     [Header("Slide Settings")]
     [SerializeField] private float maxSlopeAngle = 45f;
-    [SerializeField] private float slideForce = 25f; // Extra force pushing down slopes
+    [SerializeField] private float slideForce = 25f;
+    [SerializeField] private float flatGroundSlideForce = 5f;
+    [SerializeField] private float slideCooldownDuration = 1f;
+    [SerializeField] private bool canSlide = true;
+    [SerializeField] private Color slideColor;
     private RaycastHit slopeHit;
     private bool isOnSlope;
+    private float nextSlideTime;
+    private bool isCooldownActive;
     [SerializeField] private PhysicsMaterial normalMaterial;
     [SerializeField] private PhysicsMaterial slideMaterial;
+
+    [Header("Fast Fall Settings")]
+    [SerializeField] private float fastFallForce = 10f;
 
     [Header("Camera Height Settings")]
     [SerializeField] private float cameraStandHeight = 0.8f;
@@ -58,6 +69,8 @@ public class Movement : MonoBehaviour
     private InputAction lookAction;
     private InputAction jumpAction;
     private InputAction crouchAction;
+
+    private DamageEffects damageEffects;
 
     public bool canMove = true;
     public MovementState movementState;
@@ -85,6 +98,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
+        damageEffects = GetComponent<DamageEffects>();
 
         rb.freezeRotation = true;
         rb.useGravity = true;
@@ -117,6 +131,7 @@ public class Movement : MonoBehaviour
             HandleMovementState();
             HandlePhysicsMovement();
             HandleJumping();
+            HandleAirMechanics();
         }
     }
 
@@ -150,12 +165,16 @@ public class Movement : MonoBehaviour
 
     private void HandleMovementState()
     {
-        if (crouchHeld && isGrounded)
+        if (crouchHeld && isGrounded && Time.time >= nextSlideTime && !isCooldownActive)
         {
             movementState = MovementState.Sliding;
         }
         else
         {
+            if (movementState == MovementState.Sliding)
+            {
+                StartCoroutine(SlideCooldown());
+            }
             movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
         }
 
@@ -209,18 +228,35 @@ public class Movement : MonoBehaviour
         {
             rb.useGravity = true;
 
-            if (isOnSlope)
+            if (!canSlide)
             {
-                Vector3 slopeNormal = slopeHit.normal;
-                Vector3 downSlopeDirection = Vector3.ProjectOnPlane(Vector3.down, slopeNormal).normalized;
-                Vector3 forwardSlopeDirection = Vector3.ProjectOnPlane(transform.forward, slopeNormal).normalized;
+                if (damageEffects != null)
+                {
+                    damageEffects.TakeDamageFlash(slideColor);
+                }
 
-                Vector3 combinedSlideForce = (downSlopeDirection * slideForce) + (forwardSlopeDirection * slideForce * 0.5f);
+                if (isOnSlope)
+                {
+                    Vector3 slopeNormal = slopeHit.normal;
+                    Vector3 downSlopeDirection = Vector3.ProjectOnPlane(Vector3.down, slopeNormal).normalized;
+                    Vector3 forwardSlopeDirection = Vector3.ProjectOnPlane(transform.forward, slopeNormal).normalized;
 
-                rb.AddForce(combinedSlideForce, ForceMode.Force);
+                    Vector3 combinedSlideForce = (downSlopeDirection * slideForce) + (forwardSlopeDirection * slideForce * 0.5f);
+
+                    rb.AddForce(combinedSlideForce, ForceMode.Impulse);
+                }
+                else if (isGrounded)
+                {
+                    Vector3 flatSlideDirection = transform.forward;
+                    rb.AddForce(flatSlideDirection * flatGroundSlideForce, ForceMode.Impulse);
+                }
+
+                canSlide = true;
             }
             return;
         }
+
+        canSlide = false;
 
         Vector3 moveDirection = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized;
         Vector3 targetVelocity = moveDirection * curSpeed;
@@ -279,6 +315,14 @@ public class Movement : MonoBehaviour
         }
     }
 
+    private void HandleAirMechanics()
+    {
+        if (!isGrounded && crouchHeld)
+        {
+            rb.AddForce(Vector3.down * fastFallForce, ForceMode.Acceleration);
+        }
+    }
+
     private void CheckGround()
     {
         if (groundCheck != null)
@@ -299,6 +343,14 @@ public class Movement : MonoBehaviour
         {
             isOnSlope = false;
         }
+    }
+
+    private IEnumerator SlideCooldown()
+    {
+        isCooldownActive = true;
+        nextSlideTime = Time.time + slideCooldownDuration;
+        yield return new WaitForSeconds(slideCooldownDuration);
+        isCooldownActive = false;
     }
 
     public void ApplyKnockback(Vector3 forceDirection)
