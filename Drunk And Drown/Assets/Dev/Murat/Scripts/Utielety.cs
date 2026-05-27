@@ -6,7 +6,7 @@ public class Utielety : MonoBehaviour
     public void ToGame()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Movement Scene");
+        SceneManager.LoadScene("Murat test");
     }
     public void ToStartScreen()
     {

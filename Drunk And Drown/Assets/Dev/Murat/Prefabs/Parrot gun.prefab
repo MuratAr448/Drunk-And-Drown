@@ -186,10 +186,9 @@ MonoBehaviour:
   cooldown2: 1
   shootRate1: 2
   shootRate2: 1
-  Parrot: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
-  transvormPivit: {fileID: 5662579886598701061}
+  parrotPrefab: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
+  transformPivot: {fileID: 0}
   bulletSpeed: 10
   damage: 10
   radius: 4
   force: 5
-  player: {fileID: 0}

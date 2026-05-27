@@ -445,6 +445,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
+--- !u!1001 &124740657
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7107368343783727427, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_Name
+      value: UI Cam
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.32985
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.26352
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.1557
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7911572984264989197, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+--- !u!114 &124740658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2063073016370997425, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+  m_PrefabInstance: {fileID: 124740657}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e25b7062dcce24b9cfba099de22594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIWeapons
+--- !u!20 &124740659 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5506935599899570167, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+  m_PrefabInstance: {fileID: 124740657}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &155562236
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,10 +2118,6 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: b8d73a35784dee940bbb31f1d7bbccc8, type: 2}
-    - target: {fileID: 4165591305803955558, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: parrotPrefab
-      value: 
-      objectReference: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: jumpPower
       value: 5
@@ -2093,6 +2162,18 @@ PrefabInstance:
       propertyPath: groundLayer.m_Bits
       value: 64
       objectReference: {fileID: 0}
+    - target: {fileID: 6889995316973296718, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_Cameras.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6889995316973296718, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: 'm_Cameras.Array.data[0]'
+      value: 
+      objectReference: {fileID: 124740659}
+    - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: weaponUI
+      value: 
+      objectReference: {fileID: 124740658}
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: pauseScreen
       value: 
@@ -5295,6 +5376,7 @@ SceneRoots:
   - {fileID: 419463933}
   - {fileID: 1507318054}
   - {fileID: 381595137}
+  - {fileID: 124740657}
   - {fileID: 848331132}
   - {fileID: 23813180}
   - {fileID: 1959987030}
