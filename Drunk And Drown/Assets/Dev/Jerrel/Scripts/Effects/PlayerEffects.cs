@@ -14,49 +14,48 @@ public class PlayerEffects : MonoBehaviour
 
     [Header("Camera Effects")]
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private float targetFOVOffset = 15f;
-    [SerializeField] private float fovFadeDuration = 0.25f;
+    [SerializeField] private float maxFOVOffset = 15f;
+    [SerializeField] private float minSpeedThreshold = 5f;
+    [SerializeField] private float maxSpeedThreshold = 20f;
+    [SerializeField] private float fovChangeSpeed = 8f;
 
     private Movement movementScript;
     private Vignette vignette;
 
     private Coroutine flashCoroutine;
-    private Coroutine fovCoroutine;
     private float baseFOV;
+    private float targetFOV;
 
     void Start()
     {
-        baseFOV = playerCamera.fieldOfView;
         globalVolume.profile.TryGet(out vignette);
         vignette.intensity.value = 0f;
         movementScript = GetComponent<Movement>();
+
+        if (playerCamera != null)
+        {
+            baseFOV = playerCamera.fieldOfView;
+            targetFOV = baseFOV;
+        }
+        else
+        {
+            Debug.LogError("Player Camera is not assigned on PlayerEffects!", this);
+        }
     }
 
-    public void TriggerFOVFade()
+    void Update()
     {
-        if (fovCoroutine != null)
-        {
-            StopCoroutine(fovCoroutine);
-        }
-
-        fovCoroutine = StartCoroutine(FadeFOV());
+        HandleDynamicFOV();
     }
 
-    private IEnumerator FadeFOV()
+    private void HandleDynamicFOV()
     {
-        float startFOV = baseFOV;
-        float targetFOV = baseFOV + targetFOVOffset;
-        float elapsedTime = 0f;
+        if (playerCamera == null || movementScript == null) return;
 
-        playerCamera.fieldOfView = targetFOV;
-
-        while (elapsedTime < fovFadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            playerCamera.fieldOfView = Mathf.Lerp(targetFOV, startFOV, elapsedTime / fovFadeDuration);
-            yield return null;
-        }
-        playerCamera.fieldOfView = startFOV;
+        float currentSpeed = movementScript.GetVelocity();
+        float speedFactor = Mathf.InverseLerp(minSpeedThreshold, maxSpeedThreshold, currentSpeed);
+        targetFOV = baseFOV + (speedFactor * maxFOVOffset);
+        playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, Time.deltaTime * fovChangeSpeed);
     }
 
     public void TakeDamageFlash(Color vignetteColor)

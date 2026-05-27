@@ -840,6 +840,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1922191388564482618, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: bulletSpeed
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 3720067721534785524, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_SizeDelta.x
       value: 10
@@ -847,6 +851,10 @@ PrefabInstance:
     - target: {fileID: 3720067721534785524, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_SizeDelta.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4165591305803955558, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: shootRate1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4866249598123404078, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -858,27 +866,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: walkSpeed
-      value: 15
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: slideForce
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: slideColor.b
+      propertyPath: slideColor.a
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: slideColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: slideColor.g
-      value: 0.9476597
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: slideColor.r
-      value: 0.36037737
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: fastFallForce
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: maxSlopeAngle
@@ -890,11 +902,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: crouchSpeedTarget
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: flatGroundSlideForce
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6889995316973296718, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_Cameras.Array.size
@@ -1002,8 +1014,10 @@ MonoBehaviour:
   intensityOnHit: 0.4
   fadeDuration: 0.5
   playerCamera: {fileID: 1271964014}
-  targetFOVOffset: 4
-  fovFadeDuration: 0.3
+  maxFOVOffset: 15
+  minSpeedThreshold: 5
+  maxSpeedThreshold: 15
+  fovChangeSpeed: 8
 --- !u!1 &1057982181
 GameObject:
   m_ObjectHideFlags: 0

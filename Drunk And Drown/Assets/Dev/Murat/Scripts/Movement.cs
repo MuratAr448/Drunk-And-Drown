@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,7 +33,6 @@ public class Movement : MonoBehaviour
 
     [Header("Slide Settings")]
     [SerializeField] private float maxSlopeAngle = 45f;
-    [SerializeField] private float slideForce = 25f;
     [SerializeField] private float flatGroundSlideForce = 5f;
     [SerializeField] private float slideCooldownDuration = 1f;
     [SerializeField] private bool canSlide = true;
@@ -64,6 +62,7 @@ public class Movement : MonoBehaviour
     private Vector2 lookInput;
     private bool jumpPressed;
     private bool crouchHeld;
+    private bool slideBuffered;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -141,6 +140,11 @@ public class Movement : MonoBehaviour
         lookInput = lookAction.ReadValue<Vector2>();
         crouchHeld = crouchAction.IsPressed();
 
+        if (crouchAction.WasPressedThisFrame())
+        {
+            slideBuffered = true;
+        }
+
         if (jumpAction.WasPressedThisFrame())
         {
             jumpPressed = true;
@@ -165,9 +169,10 @@ public class Movement : MonoBehaviour
 
     private void HandleMovementState()
     {
-        if (crouchHeld && isGrounded && Time.time >= nextSlideTime && !isCooldownActive)
+        if (slideBuffered && isGrounded && Time.time >= nextSlideTime && !isCooldownActive)
         {
             movementState = MovementState.Sliding;
+            slideBuffered = false;
         }
         else
         {
@@ -233,24 +238,10 @@ public class Movement : MonoBehaviour
                 if (playerEffects != null)
                 {
                     playerEffects.TakeDamageFlash(slideColor);
-                    playerEffects.TriggerFOVFade();
                 }
 
-                if (isOnSlope)
-                {
-                    Vector3 slopeNormal = slopeHit.normal;
-                    Vector3 downSlopeDirection = Vector3.ProjectOnPlane(Vector3.down, slopeNormal).normalized;
-                    Vector3 forwardSlopeDirection = Vector3.ProjectOnPlane(transform.forward, slopeNormal).normalized;
-
-                    Vector3 combinedSlideForce = (downSlopeDirection * slideForce) + (forwardSlopeDirection * slideForce * 0.5f);
-
-                    rb.AddForce(combinedSlideForce, ForceMode.Impulse);
-                }
-                else if (isGrounded)
-                {
-                    Vector3 flatSlideDirection = transform.forward;
-                    rb.AddForce(flatSlideDirection * flatGroundSlideForce, ForceMode.Impulse);
-                }
+                Vector3 flatSlideDirection = transform.forward;
+                rb.AddForce(flatSlideDirection * flatGroundSlideForce, ForceMode.VelocityChange);
 
                 canSlide = true;
             }
