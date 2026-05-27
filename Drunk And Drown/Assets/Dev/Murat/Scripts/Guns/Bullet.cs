@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         // Don't hit the player who shot the bullet (optional check)
-        if (other.CompareTag("Player") && type == BulletType.Normal) return;
+        if (other.CompareTag("Player")) return;
 
         switch (type)
         {
@@ -41,6 +41,7 @@ public class Bullet : MonoBehaviour
 
             case BulletType.Explosive:
                 Explode(other);
+                Destroy(gameObject);
                 break;
         }
     }

@@ -69,9 +69,9 @@ public class ParrotGun : Gun
     public override void Secondary()
     {
         base.Secondary();
-        if (shootRate2 <= cooldown1 && activeBullet != null)
+        if (shootRate2 <= cooldown2 && activeBullet != null)
         {
-            cooldown1 = 0f;
+            cooldown2 = 0f;
         }
     }
 
@@ -80,6 +80,10 @@ public class ParrotGun : Gun
         if (shootRate1 >= cooldown1)
         {
             cooldown1 += Time.deltaTime;
+        }
+        if (shootRate2 >= cooldown2)
+        {
+            cooldown2 += Time.deltaTime;
         }
 
         if (activeBullet == null && shootRate1 <= cooldown1 + Time.deltaTime * 3f)
