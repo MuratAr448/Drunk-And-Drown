@@ -1001,6 +1001,9 @@ MonoBehaviour:
   globalVolume: {fileID: 506889813}
   intensityOnHit: 0.4
   fadeDuration: 0.5
+  playerCamera: {fileID: 1271964014}
+  targetFOVOffset: 4
+  fovFadeDuration: 0.3
 --- !u!1 &1057982181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1134,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 223045406012071634, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 223045406012071634, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 223045406012071634, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 7107368343783727427, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
       propertyPath: m_Name
       value: UI Cam
@@ -1225,6 +1240,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   _shopUI: {fileID: 1236556417}
+--- !u!20 &1271964014 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5126710216777613449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 848331132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1288657720 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6902078675677924760, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}

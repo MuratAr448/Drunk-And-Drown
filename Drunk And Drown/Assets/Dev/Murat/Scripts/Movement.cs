@@ -70,7 +70,7 @@ public class Movement : MonoBehaviour
     private InputAction jumpAction;
     private InputAction crouchAction;
 
-    private DamageEffects damageEffects;
+    private PlayerEffects playerEffects;
 
     public bool canMove = true;
     public MovementState movementState;
@@ -98,7 +98,7 @@ public class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
-        damageEffects = GetComponent<DamageEffects>();
+        playerEffects = GetComponent<PlayerEffects>();
 
         rb.freezeRotation = true;
         rb.useGravity = true;
@@ -230,9 +230,10 @@ public class Movement : MonoBehaviour
 
             if (!canSlide)
             {
-                if (damageEffects != null)
+                if (playerEffects != null)
                 {
-                    damageEffects.TakeDamageFlash(slideColor);
+                    playerEffects.TakeDamageFlash(slideColor);
+                    playerEffects.TriggerFOVFade();
                 }
 
                 if (isOnSlope)
@@ -351,6 +352,11 @@ public class Movement : MonoBehaviour
         nextSlideTime = Time.time + slideCooldownDuration;
         yield return new WaitForSeconds(slideCooldownDuration);
         isCooldownActive = false;
+    }
+
+    public float GetVelocity()
+    {
+        return rb.linearVelocity.magnitude;
     }
 
     public void ApplyKnockback(Vector3 forceDirection)
