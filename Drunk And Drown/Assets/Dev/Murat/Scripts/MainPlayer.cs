@@ -57,7 +57,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             weaponCurrentSwitch = 2;
-            weaponUI.SwitchWeaponUI(2);
             //Weapon = Weapons[2];
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -74,13 +73,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
         if (current!=weaponCurrentSwitch)
         {
-            weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
+            
             for (int i = 0; i < Weapons.Count; i++)
             {
                 Weapons[i].SetActive(false);
             }
             Weapons[weaponCurrentSwitch].SetActive(true);
             Weapon = Weapons[weaponCurrentSwitch];
+            weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
         }
 
     }

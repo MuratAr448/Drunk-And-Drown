@@ -1,17 +1,16 @@
+using Unity.VectorGraphics;
+using UnityEditor;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utielety : MonoBehaviour
 {
-    public void ToGame()
+    public SceneAsset scene;
+    public void ToScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("Murat test");
-    }
-    public void ToStartScreen()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("StartScreen");
+        SceneManager.LoadScene(scene.name);
     }
     public void Quit()
     {
