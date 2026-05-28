@@ -1,22 +1,34 @@
-using Unity.VectorGraphics;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utielety : MonoBehaviour
 {
-    public SceneAsset scene;
+#if UNITY_EDITOR
+    public SceneAsset scene;//je kan kiezen welke scene je kan loaden
+#endif
+
+    [HideInInspector, SerializeField]
+    private string sceneName;
     public void ToScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(sceneName);
     }
     public void RestartScene()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+#if UNITY_EDITOR
+    public void OnAfterDeserialize() => FillScene();
+    public void OnBeforeSerialize() => FillScene();
+    public void OnValidate() => FillScene();
+    private void FillScene()
+    {
+        sceneName = scene.name;
+    }
+#endif
     public void Quit()
     {
         Application.Quit();

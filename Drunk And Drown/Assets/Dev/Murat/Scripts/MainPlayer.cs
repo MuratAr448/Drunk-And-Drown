@@ -17,7 +17,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public bool dead = false;
     private Movement movement;
     public GameObject rayOrigin;
-    [SerializeField] private UIWeapons weaponUI;
+    private UIWeapons weaponUI;
     [SerializeField] private int weaponCurrentSwitch = 0;
     [SerializeField] private float health;
     private DamageEffects hitEffect;
@@ -32,6 +32,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         movement = GetComponent<Movement>();
         hitEffect = GetComponent<DamageEffects>();
         maxHealth = health;
+        weaponUI = FindFirstObjectByType<UIWeapons>();
     }
 
     // Update is called once per frame
@@ -77,16 +78,17 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
         if (current!=weaponCurrentSwitch)
         {
-            
             for (int i = 0; i < Weapons.Count; i++)
             {
                 Weapons[i].SetActive(false);
             }
             Weapons[weaponCurrentSwitch].SetActive(true);
             Weapon = Weapons[weaponCurrentSwitch];
-            weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
+            if (weaponUI != null)
+            {
+                weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
+            }
         }
-
     }
     public void Pause()
     {
