@@ -1,16 +1,13 @@
-using Unity.VectorGraphics;
-using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utielety : MonoBehaviour
 {
-    public SceneAsset scene;
+    [SerializeField] private string sceneName;
     public void ToScene()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene(scene.name);
+        SceneManager.LoadScene(sceneName);
     }
     public void RestartScene()
     {
