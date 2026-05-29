@@ -20,7 +20,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [SerializeField] private UIWeapons weaponUI;
     [SerializeField] private int weaponCurrentSwitch = 0;
     [SerializeField] private float health;
-    private DamageEffects hitEffect;
+    private PlayerEffects hitEffect;
     [SerializeField] private Color hitColor;
     private float maxHealth;
     public Action OnHealthChanged {  get; set; }
@@ -30,7 +30,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     void Start()
     {
         movement = GetComponent<Movement>();
-        hitEffect = GetComponent<DamageEffects>();
+        hitEffect = GetComponent<PlayerEffects>();
         maxHealth = health;
     }
 
