@@ -860,6 +860,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4969629400671806601, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: globalVolume
+      value: 
+      objectReference: {fileID: 506889813}
     - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: jumpPower
       value: 8
@@ -905,10 +909,6 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6889995316973296718, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: m_Cameras.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6889995316973296718, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_RenderPostProcessing
       value: 1
       objectReference: {fileID: 0}
@@ -916,10 +916,6 @@ PrefabInstance:
       propertyPath: 'm_Cameras.Array.data[0]'
       value: 
       objectReference: {fileID: 2029429835}
-    - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: weaponUI
-      value: 
-      objectReference: {fileID: 1154306139}
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: hitColor.b
       value: 0.216981
@@ -979,36 +975,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9185948038355208753, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1040255886}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
 --- !u!4 &1040072140 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1403970712181886910, guid: d4df7370167a73f40a491fc889284fe7, type: 3}
   m_PrefabInstance: {fileID: 2203061169479193438}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1040255880 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9185948038355208753, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-  m_PrefabInstance: {fileID: 848331132}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1040255886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1040255880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddc7c95d975a63c4ab750187cd3685da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DamageEffects
-  globalVolume: {fileID: 506889813}
-  intensityOnHit: 0.4
-  fadeDuration: 0.5
 --- !u!1 &1057982181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,17 +1161,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
---- !u!114 &1154306139 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2063073016370997425, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
-  m_PrefabInstance: {fileID: 1152601732}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68e25b7062dcce24b9cfba099de22594, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UIWeapons
 --- !u!114 &1172230936 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6178686919318248232, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}

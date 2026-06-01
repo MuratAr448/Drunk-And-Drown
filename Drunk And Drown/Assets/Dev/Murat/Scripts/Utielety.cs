@@ -26,7 +26,10 @@ public class Utielety : MonoBehaviour
     public void OnValidate() => FillScene();
     private void FillScene()
     {
-        sceneName = scene.name;
+        if (scene != null)
+        {
+            sceneName = scene.name;
+        }
     }
 #endif
     public void Quit()

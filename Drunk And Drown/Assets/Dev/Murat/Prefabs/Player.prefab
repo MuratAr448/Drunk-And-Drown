@@ -146,7 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311b548d3ba593a4788bb1f79a4d0c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Utielety
-  scene: {fileID: 0}
+  scene: {fileID: 102900000, guid: 44469604f2a17aa48a9c4803a02b0f1a, type: 3}
+  sceneName: MainGame
 --- !u!1 &221246798130894077
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +344,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -474,7 +475,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 20}
+  m_SizeDelta: {x: 10, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &744968721286834453
 CanvasRenderer:
@@ -1712,6 +1713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Utielety
   scene: {fileID: 102900000, guid: 36dfaabbefebfa544b988d2d669e5ab5, type: 3}
+  sceneName: StartScreen
 --- !u!114 &7393833187551888647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,6 +1998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Utielety
   scene: {fileID: 102900000, guid: 36dfaabbefebfa544b988d2d669e5ab5, type: 3}
+  sceneName: StartScreen
 --- !u!114 &3084442510509124673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2543,7 +2546,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00024414062, y: 0.000061035156}
+  m_AnchoredPosition: {x: -0.00024414062, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5699031956717431602
@@ -2687,6 +2690,7 @@ GameObject:
   - component: {fileID: 2729935211772573143}
   - component: {fileID: 5021108686444437553}
   - component: {fileID: 7068656509366083197}
+  - component: {fileID: 4969629400671806601}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2777,9 +2781,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   playerCamera: {fileID: 5126710216777613449}
   inputActions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  walkSpeed: 10
-  crouchSpeedTarget: 5
-  jumpPower: 5
+  walkSpeed: 15
+  crouchSpeedTarget: 10
+  jumpPower: 8
   lookSpeed: 0.1
   lookXLimit: 60
   maxForce: 15
@@ -2787,13 +2791,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  maxSlopeAngle: 90
-  slideForce: 300
+  maxSlopeAngle: 75
+  slideForce: 10
+  flatGroundSlideForce: 10
+  slideCooldownDuration: 1
+  canSlide: 1
+  slideColor: {r: 0.36037737, g: 0.9476597, b: 1, a: 0}
   normalMaterial: {fileID: 13400000, guid: b8d73a35784dee940bbb31f1d7bbccc8, type: 2}
   slideMaterial: {fileID: 13400000, guid: 4193198a3067ec64a92b8d11c4b3e881, type: 2}
+  fastFallForce: 25
   cameraStandHeight: 0.8
   cameraCrouchHeight: 0.1
-  cameraLerpSpeed: 10
+  cameraLerpSpeed: 5
   canMove: 1
   movementState: 0
 --- !u!114 &7068656509366083197
@@ -2818,10 +2827,25 @@ MonoBehaviour:
   deathScreen: []
   dead: 0
   rayOrigin: {fileID: 6991028301256892608}
-  weaponUI: {fileID: 0}
   weaponCurrentSwitch: 0
   health: 100
+  hitColor: {r: 1, g: 0.216981, b: 0.216981, a: 0}
   BottleFaces: []
+--- !u!114 &4969629400671806601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9185948038355208753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddc7c95d975a63c4ab750187cd3685da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageEffects
+  globalVolume: {fileID: 0}
+  intensityOnHit: 0.4
+  fadeDuration: 0.5
 --- !u!1001 &7284222386425329000
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -41,12 +41,43 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (movement.canMove)
         {
             Shoot();
+
             SwitchWeapon();
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
             }
         }
+    }
+    private bool AlowedToSwitch()
+    {
+        if (Weapon.TryGetComponent(out Gun gun))
+        {
+            switch (gun.Kind)
+            {
+                case KindofGun.ParrotGun:
+                    if (gun.cooldown1 >= gun.shootRate1&& gun.cooldown2 >= gun.shootRate2)
+                    {
+                        return true;
+                    }
+                    break;
+                case KindofGun.BunderBuss:
+                    break;
+                case KindofGun.SquidRayGun:
+                    break;
+                default:
+                    return false;
+                break;
+            }
+        }
+        else
+        {
+            if (Weapon.TryGetComponent(out Melee Melee))
+            {
+
+            }
+        }
+        return false;
     }
     private void SwitchWeapon()
     {
@@ -66,8 +97,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {   
-            //weaponCurrentSwitch = 3;
-            weaponUI.SwitchWeaponUI(3);
+            weaponCurrentSwitch = 3;
             //Weapon = Weapons[3];
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))

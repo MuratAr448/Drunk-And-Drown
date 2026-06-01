@@ -2,7 +2,8 @@ using UnityEngine;
 public enum KindofGun
 {
     BunderBuss,
-    ParrotGun
+    ParrotGun,
+    SquidRayGun
 }
 public class Gun : MonoBehaviour
 {
