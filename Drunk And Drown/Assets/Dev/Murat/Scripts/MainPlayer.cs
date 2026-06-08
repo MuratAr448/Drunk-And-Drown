@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class MainPlayer : MonoBehaviour, IDamageable
 {
     public GameObject Weapon;
-    public List<GameObject> Weapons;
+    public static List<GameObject> Weapons = new List<GameObject>();
     public bool pause = false;
     public GameObject pauseScreen;
     public List<GameObject> deathScreen;
@@ -23,19 +23,24 @@ public class MainPlayer : MonoBehaviour, IDamageable
     private PlayerEffects hitEffect;
     [SerializeField] private Color hitColor;
     private float maxHealth;
-    public Action OnHealthChanged {  get; set; }
+    public Action OnHealthChanged { get; set; }
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
     [SerializeField] private List<GameObject> BottleFaces;
+
+    private Transform hotbar;
+    public static Transform HotbarInstance { get; private set; }
+
     void Start()
     {
         movement = GetComponent<Movement>();
         hitEffect = GetComponent<PlayerEffects>();
         maxHealth = health;
         weaponUI = FindFirstObjectByType<UIWeapons>();
+        hotbar = transform.Find("Hand 1");
+        HotbarInstance = hotbar;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (movement.canMove)
@@ -103,6 +108,8 @@ public class MainPlayer : MonoBehaviour, IDamageable
     }
     private void SwitchWeapon()
     {
+        if (Weapons == null || Weapons.Count == 0) return;
+
         int current = weaponCurrentSwitch;
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -115,7 +122,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             weaponCurrentSwitch = 2;
-            //Weapon = Weapons[2];
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {   
@@ -124,24 +130,29 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            //weaponCurrentSwitch = 4;
             weaponUI.SwitchWeaponUI(4);
-            //Weapon = Weapons[4];
         }
-        if (current!=weaponCurrentSwitch)
+
+        if (current != weaponCurrentSwitch && weaponCurrentSwitch < Weapons.Count)
         {
             for (int i = 0; i < Weapons.Count; i++)
             {
-                Weapons[i].SetActive(false);
+                if (Weapons[i] != null) Weapons[i].SetActive(false);
             }
-            Weapons[weaponCurrentSwitch].SetActive(true);
-            Weapon = Weapons[weaponCurrentSwitch];
+
+            if (Weapons[weaponCurrentSwitch] != null)
+            {
+                Weapons[weaponCurrentSwitch].SetActive(true);
+                Weapon = Weapons[weaponCurrentSwitch];
+            }
+
             if (weaponUI != null)
             {
                 weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
             }
         }
     }
+
     public void Pause()
     {
         pause = !pause;
@@ -152,7 +163,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             Time.timeScale = 0;
-            
         }
         else
         {
@@ -163,8 +173,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
             movement.canMove = true;
         }
     }
+
     private void Shoot()
     {
+        if (Weapon == null) return;
+
         if (Weapon.GetComponent<Gun>() != null)
         {
             Gun Gun = Weapon.GetComponent<Gun>();
@@ -177,7 +190,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 Gun.Secondary();
             }
         }
-        else
+        else if (Weapon.GetComponent<Melee>() != null)
         {
             Melee Melee = Weapon.GetComponent<Melee>();
             if (Input.GetKey(KeyCode.Mouse0))
@@ -190,22 +203,22 @@ public class MainPlayer : MonoBehaviour, IDamageable
             }
         }
     }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
-        if (health <= 0&&!dead)
+        if (health <= 0 && !dead)
         {
             Die();
         }
     }
+
     private void BottleFaceChange()
     {
-        float hpProcent = 100/maxHealth* health;
+        float hpProcent = 100 / maxHealth * health;
         int bottleface = 0;
-
-
 
         for (int i = 0; i < BottleFaces.Count; i++)
         {
@@ -226,7 +239,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         dead = true;
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        //StartCoroutine(DeathScreen());
     }
 
     private IEnumerator DeathScreen()
@@ -237,20 +249,35 @@ public class MainPlayer : MonoBehaviour, IDamageable
         int x = 150;
         for (int i = 0; i < x; i++)
         {
-            for(int j = 0; j < deathScreen.Count; j++)
+            for (int j = 0; j < deathScreen.Count; j++)
             {
                 if (deathScreen[j].GetComponent<Image>())
                 {
                     Image Deathcurrent = deathScreen[j].GetComponent<Image>();
                     Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
-                }else if (deathScreen[j].GetComponent<TextMeshProUGUI>())
+                }
+                else if (deathScreen[j].GetComponent<TextMeshProUGUI>())
                 {
                     TextMeshProUGUI Deathcurrent = deathScreen[j].GetComponent<TextMeshProUGUI>();
                     Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
                 }
             }
-            
             yield return new WaitForSeconds(Time.deltaTime);
+        }
+    }
+
+    public static void AddWeaponToList(GameObject weapon)
+    {
+        if (Weapons == null)
+        {
+            Weapons = new List<GameObject>();
+        }
+
+        Weapons.Add(weapon);
+
+        if (HotbarInstance != null)
+        {
+            weapon.transform.SetParent(HotbarInstance);
         }
     }
 }
