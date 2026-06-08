@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class SquidRayGun : Gun
 {
@@ -12,7 +14,7 @@ public class SquidRayGun : Gun
     [SerializeField] private LayerMask layerMask;
     private Collider previosOponent;
     private bool ableToHit = false;
-    [SerializeField] private float test = 0;
+    private Enemy enemy;
 
     void Start()
     {
@@ -25,11 +27,7 @@ public class SquidRayGun : Gun
         base.Shoot();
         if (Input.GetKey(KeyCode.Mouse0))
         {
-            cooldown1 += Time.deltaTime;
-            if (size < 1f)
-            {
-                size += Time.deltaTime;
-            }
+            cooldown1 += Time.deltaTime*2;
         }
     }
     private void CoolingDown()
@@ -37,12 +35,8 @@ public class SquidRayGun : Gun
         if(!Input.GetKey(KeyCode.Mouse0))
         {
             cooldown1 -= Time.deltaTime;
-            if (size > 0.1f)
-            {
-                size -= Time.deltaTime;
-            }
 
-            if (cooldown1 < 1f)
+            if (cooldown1 < 0f)
             {
                 cooldown1 = 0;
                 ableToHit = false;
@@ -52,9 +46,22 @@ public class SquidRayGun : Gun
                 }
             }
         }
+        else
+        {
+            if (inkRay == null)
+            {
+                inkRay = Instantiate(inkPrefab, gameObject.transform);
+            }
+            ableToHit = true;
+            if (cooldown1>= shootRate1)
+            {
+                cooldown1 = shootRate1;
+            }
+        }
+        size = cooldown1 * 0.5f;
         RaycastHit hit;
         GameObject Origin = player.rayOrigin;
-        if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit, test, layerMask) && inkRay != null)
+        if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit, 20, layerMask) && inkRay != null)
         {
             if (hit.collider != inkRay.GetComponent<Collider>())
             {
@@ -90,19 +97,9 @@ public class SquidRayGun : Gun
         }
         else if(inkRay != null)
         {
-            inkRay.transform.localPosition = Vector3.forward * (test * 0.3f);
+            inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
             inkRay.transform.rotation = transform.rotation;
-            inkRay.transform.localScale = new Vector3(size, size, test);
-        }
-        Debug.DrawLine(Origin.transform.position, Origin.transform.position + Origin.transform.forward * test);
-        if (shootRate1 < cooldown1)
-        {
-            if (inkRay == null)
-            {
-                inkRay = Instantiate(inkPrefab, gameObject.transform);
-            }
-            ableToHit = true;
-            cooldown1 = shootRate1;
+            inkRay.transform.localScale = new Vector3(size, size, 20);
         }
     }
     public override void Secondary()
@@ -112,12 +109,28 @@ public class SquidRayGun : Gun
         {
             RaycastHit hit;
             GameObject Origin = player.rayOrigin;
-            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
+            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit, 20, layerMask))
             {
-
+                if (hit.collider.TryGetComponent(out IDamageable damageable))
+                {
+                    enemy = hit.transform.GetComponent<Enemy>();
+                    StartCoroutine(ToEnemy(enemy));
+                }
             }
+        }
+    }
+    private IEnumerator ToEnemy(Enemy enemyPos)
+    {
+        float distance = Vector3.Distance(player.transform.position, enemyPos.transform.position);
+        while (distance > 1f)
+        {
+            //stun enemy
+            distance = Vector3.Distance(player.transform.position, enemyPos.transform.position);
+            player.transform.position = Vector3.MoveTowards(player.transform.position, enemyPos.transform.position, 0.2f* distance);
+            yield return new WaitForSeconds(Time.deltaTime);
             cooldown2 = 0f;
         }
+        enemy = null;
     }
     void Update()
     {

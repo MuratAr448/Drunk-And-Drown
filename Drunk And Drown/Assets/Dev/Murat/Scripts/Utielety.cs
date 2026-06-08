@@ -1,9 +1,11 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utielety : MonoBehaviour
 {
-    [SerializeField] private string sceneName;
+    private string sceneName;
+    [SerializeField] private SceneAsset scene;
     public void ToScene()
     {
         Time.timeScale = 1;

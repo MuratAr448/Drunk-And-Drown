@@ -41,8 +41,10 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (movement.canMove)
         {
             Shoot();
-
-            SwitchWeapon();
+            if (AlowedToSwitch())
+            {
+                SwitchWeapon();
+            }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
@@ -62,8 +64,16 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     }
                     break;
                 case KindofGun.BunderBuss:
+                    if (gun.cooldown1 >= gun.shootRate1 && gun.cooldown2 >= gun.shootRate2)
+                    {
+                        return true;
+                    }
                     break;
                 case KindofGun.SquidRayGun:
+                    if (gun.cooldown1 <= 0)
+                    {
+                        return true;
+                    }
                     break;
                 default:
                     return false;

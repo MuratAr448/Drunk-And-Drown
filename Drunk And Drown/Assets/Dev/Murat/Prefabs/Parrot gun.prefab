@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ParrotGun
   Kind: 1
-  cooldown1: 1
+  cooldown1: 1.5
   cooldown2: 1
   shootRate1: 2
   shootRate2: 1

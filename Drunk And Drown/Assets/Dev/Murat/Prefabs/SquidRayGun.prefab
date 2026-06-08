@@ -46,12 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SquidRayGun
   Kind: 2
-  cooldown1: 1
-  cooldown2: 1
-  shootRate1: 5
-  shootRate2: 0
+  cooldown1: 0
+  cooldown2: 2
+  shootRate1: 2
+  shootRate2: 2
   Basedamage: 1
-  size: 0
+  size: 0.1
   inkPrefab: {fileID: 2574407420245812532, guid: 9b159f0c34cba744ba1fadb78bfefd67, type: 3}
   layerMask:
     serializedVersion: 2
