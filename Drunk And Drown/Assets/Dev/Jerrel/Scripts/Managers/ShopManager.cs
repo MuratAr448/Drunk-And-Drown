@@ -15,9 +15,11 @@ public class ShopManager : MonoBehaviour
 
     public void ToggleShop()
     {
-        _shopUI.SetActive(!_shopUI.activeSelf);
+        bool shouldBeActive = !_shopUI.activeSelf;
 
-        if (_shopUI.activeSelf)
+        _shopUI.SetActive(shouldBeActive);
+
+        if (shouldBeActive)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
