@@ -111,7 +111,7 @@ MonoBehaviour:
   shootRate2: 3
   bullets: {fileID: 5337098593394553989, guid: dbf5a52685ce9334585fc09ad92dc049, type: 3}
   transvormPivit: {fileID: 8068826352823569636}
-  bulletSpeed: 15
+  bulletSpeed: 30
   bulletAmount: 18
   damage: 3
   spread: 10
