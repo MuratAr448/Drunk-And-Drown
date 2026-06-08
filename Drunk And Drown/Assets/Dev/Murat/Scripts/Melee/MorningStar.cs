@@ -18,37 +18,42 @@ public class MorningStar : Melee
     public override void Swing()
     {
         base.Swing();
-        if(swingRate < cooldown&& Input.GetKeyDown(KeyCode.Mouse0))
+        if(swingRate1 < cooldown1&& Input.GetKeyDown(KeyCode.Mouse0))
         {
-            cooldown = 0f;
+            cooldown1 = 0f;
         }
     }
     public override void SecondDairy()
     {
         base.SecondDairy();
-        if (swingRate < cooldown && Input.GetKeyDown(KeyCode.Mouse1))
+        if (swingRate2 < cooldown2 && Input.GetKeyDown(KeyCode.Mouse1))
         {
-            cooldown = 0f;
+            cooldown1 = 0f;
         }
     }
     // Update is called once per frame
     void Update()
     {
-        if (swingRate >= cooldown)
+        if (swingRate1 >= cooldown1)
         {
-            cooldown += Time.deltaTime;
+            cooldown1 += Time.deltaTime;
         }
-        if (cooldown >= hitDuration)
+        if (cooldown1 >= hitDuration)
         {
             colliderTrig.enabled = false;
             colliderTrig.radius = 0.15f;
             PufferFish.transform.localScale = Vector3.one*0.3f;
             hitEnemys.Clear();
-        }else
+        }
+        else
         {
             colliderTrig.enabled = true;
             colliderTrig.radius = 0.3f;
             PufferFish.transform.localScale = Vector3.one * 0.6f;
+        }
+        if (swingRate2 >= cooldown2)
+        {
+            cooldown2 += Time.deltaTime;
         }
     }
     private void OnTriggerEnter(Collider other)

@@ -77,14 +77,26 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     break;
                 default:
                     return false;
-                break;
             }
         }
-        else
+        else if (Weapon.TryGetComponent(out Melee Melee))
         {
-            if (Weapon.TryGetComponent(out Melee Melee))
+            switch (Melee.Kind)
             {
-
+                case KindofMelee.MorningStar:
+                    if(Melee.cooldown1>= Melee.swingRate1&& Melee.cooldown2>= Melee.swingRate2)
+                    {
+                        return true;
+                    }
+                    break;
+                case KindofMelee.SwordFish:
+                    if (Melee.cooldown1 >= Melee.swingRate1 && Melee.cooldown2 >= Melee.swingRate2)
+                    {
+                        return true;
+                    }
+                    break;
+                default: 
+                    return false;
             }
         }
         return false;

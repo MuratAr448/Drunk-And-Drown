@@ -7,8 +7,8 @@ public enum KindofMelee
 public class Melee : MonoBehaviour
 {
     public KindofMelee Kind;
-    public float cooldown = 1.0f;
-    public float swingRate;
+    public float cooldown1 = 1.0f, cooldown2 = 1.0f;
+    public float swingRate1, swingRate2;
     public virtual void Swing()
     {
 
