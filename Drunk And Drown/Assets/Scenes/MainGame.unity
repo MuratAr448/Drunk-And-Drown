@@ -1241,19 +1241,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 9102299022971004668, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
   m_PrefabInstance: {fileID: 4752795657637187373}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1236556422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236556417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d12627a888d4ac742b12aaec5229dfaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  _shopUI: {fileID: 1236556417}
 --- !u!20 &1271964014 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 5126710216777613449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
@@ -1941,6 +1928,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635695053}
   m_CullTransparentMesh: 1
+--- !u!1 &1704189889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1704189890}
+  - component: {fileID: 1704189891}
+  m_Layer: 0
+  m_Name: ShopManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1704189890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704189889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749669466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1704189891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704189889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12627a888d4ac742b12aaec5229dfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _shopUI: {fileID: 1236556417}
 --- !u!1 &1725084946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2087,6 +2119,7 @@ Transform:
   - {fileID: 1063054683}
   - {fileID: 1101496225}
   - {fileID: 3993497209853141417}
+  - {fileID: 1704189890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756860604
@@ -2178,7 +2211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0a1c8e9bea9b2e45a4ae561bbd7ff65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _itemCost: 0
+  _itemCost: 10
 --- !u!114 &1919440895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2922,10 +2955,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9102299022971004668, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1635695054}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3286641749884938989, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1236556422}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
 --- !u!1001 &5433366837232211458
 PrefabInstance:
