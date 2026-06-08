@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6980168927515543294
+--- !u!1 &1542841373787921869
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8787455957592018182}
-  - component: {fileID: 4266836917191526271}
+  - component: {fileID: 7654514833081906859}
+  - component: {fileID: 3335011914137747035}
   m_Layer: 0
   m_Name: ShopManager
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8787455957592018182
+--- !u!4 &7654514833081906859
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6980168927515543294}
+  m_GameObject: {fileID: 1542841373787921869}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,16 +32,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4266836917191526271
+--- !u!114 &3335011914137747035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6980168927515543294}
+  m_GameObject: {fileID: 1542841373787921869}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d12627a888d4ac742b12aaec5229dfaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
   _shopUI: {fileID: 0}
+  shopSlotPrefab: {fileID: 8282287564728577363, guid: e07b0dcc05283b8488463eef19970e8c, type: 3}
+  weaponsContainer: {fileID: 0}
+  upgradesContainer: {fileID: 0}
+  modifiersContainer: {fileID: 0}
+  availableWeapons:
+  - {fileID: 11400000, guid: 3efcb2617b8fcbf479fccf115ef7ca79, type: 2}
+  - {fileID: 11400000, guid: 9f180a928fd9f9d468cd94618e4572f1, type: 2}
+  availableUpgrades:
+  - {fileID: 11400000, guid: 5cf9f41bc9b41a646a8740f5536801ba, type: 2}
+  availableModifiers:
+  - {fileID: 11400000, guid: 8eed433aa3e2be94ca1baa2b5c2510b8, type: 2}

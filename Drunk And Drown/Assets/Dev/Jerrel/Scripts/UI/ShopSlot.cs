@@ -2,30 +2,58 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System.Collections;
 
 public class ShopSlot : MonoBehaviour, IPointerClickHandler
 {
-    [Header("UI References")]
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI costText;
 
     [SerializeField] private ShopItemData currentItemData;
 
+    private MainPlayer playerRef;
+    private bool isPurchased = false;
+    private bool isShaking = false;
+
     private void Start()
     {
+        if (playerRef == null)
+        {
+            playerRef = FindFirstObjectByType<MainPlayer>();
+        }
+        if (currentItemData != null)
+        {
+            SetupSlot();
+        }
+    }
+
+    public void Initialize(ShopItemData itemData)
+    {
+        currentItemData = itemData;
+        Debug.Log($"ShopSlot: Initialized with item: {(currentItemData != null ? currentItemData.itemName : "null")}");
+        if (playerRef == null)
+        {
+            playerRef = FindFirstObjectByType<MainPlayer>();
+        }
         SetupSlot();
     }
+
     public void SetupSlot()
     {
-        iconImage.sprite = currentItemData.icon;
-        nameText.text = currentItemData.itemName;
-        costText.text = $"{currentItemData.cost} Dabloons";
+        if (currentItemData == null)
+        {
+            Debug.LogWarning("ShopSlot: SetupSlot called but currentItemData is null.");
+            return;
+        }
+        if (iconImage != null) iconImage.sprite = currentItemData.icon;
+        if (nameText != null) nameText.text = currentItemData.itemName;
+        if (costText != null) costText.text = currentItemData is ModifierItemData ? "FREE" : $"{currentItemData.cost} Dabloons";
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-
+        if (isPurchased) return;
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             TryPurchase();
@@ -34,24 +62,77 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
 
     private void TryPurchase()
     {
-        if (CanAfford())
+        if (playerRef != null && !isPurchased)
         {
-            switch (currentItemData.itemType)
+            if (currentItemData.TryPurchase(playerRef))
             {
-                case ShopItemData.ItemType.Weapon:
-                    break;
-                case ShopItemData.ItemType.Upgrade:
-                    break;
-                case ShopItemData.ItemType.Modifier:
-                    break;
-                default:
-                    break;
+                StartCoroutine(PurchaseSuccessAnimation());
+            }
+            else
+            {
+                StartCoroutine(ShakeAnimation());
             }
         }
     }
 
-    private bool CanAfford()
+    private IEnumerator ShakeAnimation()
     {
-        return CoinSystem.Instance.GetCoinAmount() > currentItemData.cost;
+        if (isShaking) yield break;
+        isShaking = true;
+
+        Vector3 originalPos = transform.localPosition;
+        float duration = 0.25f;
+        float elapsed = 0f;
+        float magnitude = 8f;
+
+        while (elapsed < duration)
+        {
+            float percentComplete = elapsed / duration;
+            float damper = 1.0f - percentComplete;
+
+            float x = Random.Range(-1f, 1f) * magnitude * damper;
+            float y = Random.Range(-1f, 1f) * magnitude * damper;
+
+            transform.localPosition = originalPos + new Vector3(x, y, 0f);
+
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPos;
+        isShaking = false;
+    }
+
+    private IEnumerator PurchaseSuccessAnimation()
+    {
+        isPurchased = true;
+
+        Vector3 originalScale = transform.localScale;
+        float duration = 0.3f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float percentComplete = elapsed / duration;
+            float scaleFactor;
+
+            if (percentComplete < 0.3f)
+            {
+                float subPercent = percentComplete / 0.3f;
+                scaleFactor = Mathf.Lerp(1.0f, 1.15f, subPercent);
+            }
+            else
+            {
+                float subPercent = (percentComplete - 0.3f) / 0.7f;
+                scaleFactor = Mathf.Lerp(1.15f, 0.0f, subPercent);
+            }
+
+            transform.localScale = originalScale * scaleFactor;
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        transform.localScale = Vector3.zero;
+        gameObject.SetActive(false);
     }
 }

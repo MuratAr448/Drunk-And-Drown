@@ -35,6 +35,21 @@ public class ArenaSpawner : MonoBehaviour
             {
                 arenaDuration = 0f;
                 _isSpawning = false;
+
+                // Disable trigger/collider so it doesn't run again
+                if (TryGetComponent<Collider>(out var col))
+                {
+                    col.enabled = false;
+                }
+
+                // Find the ShopManager and open the shop with random items
+                ShopManager shopManager = FindFirstObjectByType<ShopManager>();
+                if (shopManager != null)
+                {
+                    shopManager.OpenShopWithRandomItems();
+                }
+
+                enabled = false; // Disable this script component
                 return;
             }
 

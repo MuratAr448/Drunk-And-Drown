@@ -350,6 +350,12 @@ public class Movement : MonoBehaviour
         return rb.linearVelocity.magnitude;
     }
 
+    public void ModifySpeed(float multiplier)
+    {
+        walkSpeed *= multiplier;
+        curSpeed = walkSpeed;
+    }
+
     public void ApplyKnockback(Vector3 forceDirection)
     {
         rb.AddForce(forceDirection, ForceMode.Impulse);
