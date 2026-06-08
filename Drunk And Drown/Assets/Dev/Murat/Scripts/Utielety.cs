@@ -1,15 +1,9 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Utielety : MonoBehaviour
 {
-#if UNITY_EDITOR
-    public SceneAsset scene;//je kan kiezen welke scene je kan loaden
-#endif
-
-    [HideInInspector, SerializeField]
-    private string sceneName;
+    [SerializeField] private string sceneName;
     public void ToScene()
     {
         Time.timeScale = 1;

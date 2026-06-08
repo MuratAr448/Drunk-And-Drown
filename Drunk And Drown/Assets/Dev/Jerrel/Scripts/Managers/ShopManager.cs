@@ -5,11 +5,19 @@ public class ShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject _shopUI;
 
-    public void ToggleShop(bool isActive)
+    private void Update()
     {
-        _shopUI.SetActive(isActive);
+        if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            ToggleShop();
+        }
+    }
 
-        if (isActive)
+    public void ToggleShop()
+    {
+        _shopUI.SetActive(!_shopUI.activeSelf);
+
+        if (_shopUI.activeSelf)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;

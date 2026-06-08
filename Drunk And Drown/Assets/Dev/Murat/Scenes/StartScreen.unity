@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311b548d3ba593a4788bb1f79a4d0c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Utielety
-  scene: {fileID: 0}
+  sceneName: 
 --- !u!114 &95367653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311b548d3ba593a4788bb1f79a4d0c3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Utielety
-  scene: {fileID: 102900000, guid: 44469604f2a17aa48a9c4803a02b0f1a, type: 3}
+  sceneName: MainGame
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
