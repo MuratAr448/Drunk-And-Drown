@@ -4,13 +4,13 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
 
-public class ShopSlot : MonoBehaviour, IPointerClickHandler
+public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI costText;
 
     [SerializeField] private ShopItemData currentItemData;
+
+    private ShopTooltip localTooltip;
 
     private MainPlayer playerRef;
     private bool isPurchased = false;
@@ -18,6 +18,10 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
 
     private void Start()
     {
+        if (localTooltip == null)
+        {
+            localTooltip = GetComponent<ShopTooltip>();
+        }
         if (playerRef == null)
         {
             playerRef = FindFirstObjectByType<MainPlayer>();
@@ -31,7 +35,7 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
     public void Initialize(ShopItemData itemData)
     {
         currentItemData = itemData;
-        Debug.Log($"ShopSlot: Initialized with item: {(currentItemData != null ? currentItemData.itemName : "null")}");
+        isPurchased = false;
         if (playerRef == null)
         {
             playerRef = FindFirstObjectByType<MainPlayer>();
@@ -47,8 +51,31 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler
             return;
         }
         if (iconImage != null) iconImage.sprite = currentItemData.icon;
-        if (nameText != null) nameText.text = currentItemData.itemName;
-        if (costText != null) costText.text = currentItemData is ModifierItemData ? "FREE" : $"{currentItemData.cost} Dabloons";
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (isPurchased || currentItemData == null) return;
+        if (localTooltip != null)
+        {
+            localTooltip.Show(currentItemData);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (localTooltip != null)
+        {
+            localTooltip.Hide();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (localTooltip != null)
+        {
+            localTooltip.Hide();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -311,7 +311,7 @@ public class Movement : MonoBehaviour
     {
         if (!isGrounded && crouchHeld)
         {
-            rb.AddForce(Vector3.down * fastFallForce, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * fastFallForce, ForceMode.VelocityChange);
         }
     }
 

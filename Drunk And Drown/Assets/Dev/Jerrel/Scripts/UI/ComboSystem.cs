@@ -72,6 +72,7 @@ public class ComboSystem : MonoBehaviour
         }
 
         UpdateUI();
+        TriggerTextBounce();
     }
 
     private void ResetCombo()
@@ -103,5 +104,48 @@ public class ComboSystem : MonoBehaviour
         {
             _comboBar.color = currentColor;
         }
+    }
+
+    private Coroutine _bounceRoutine;
+
+    private void TriggerTextBounce()
+    {
+        if (_multiplierText == null) return;
+        if (_bounceRoutine != null)
+        {
+            StopCoroutine(_bounceRoutine);
+        }
+        _bounceRoutine = StartCoroutine(BounceTextRoutine());
+    }
+
+    private System.Collections.IEnumerator BounceTextRoutine()
+    {
+        RectTransform rectTransform = _multiplierText.rectTransform;
+        rectTransform.localScale = Vector3.one;
+
+        float duration = 0.12f;
+        float elapsed = 0f;
+
+        // Scale up
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            rectTransform.localScale = Vector3.one * Mathf.Lerp(1f, 1.4f, t);
+            yield return null;
+        }
+
+        elapsed = 0f;
+        // Scale down
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            rectTransform.localScale = Vector3.one * Mathf.Lerp(1.4f, 1f, t);
+            yield return null;
+        }
+
+        rectTransform.localScale = Vector3.one;
+        _bounceRoutine = null;
     }
 }

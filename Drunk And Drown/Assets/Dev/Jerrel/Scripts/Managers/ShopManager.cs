@@ -23,15 +23,31 @@ public class ShopManager : MonoBehaviour
 
         _shopUI.SetActive(shouldBeActive);
 
+        Movement playerMovement = null;
+        if (MainPlayer.Instance != null)
+        {
+            playerMovement = MainPlayer.Instance.GetComponent<Movement>();
+        }
+
         if (shouldBeActive)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            Time.timeScale = 0f;
+            if (playerMovement != null)
+            {
+                playerMovement.canMove = false;
+            }
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            Time.timeScale = 1f;
+            if (playerMovement != null)
+            {
+                playerMovement.canMove = true;
+            }
         }
     }
 

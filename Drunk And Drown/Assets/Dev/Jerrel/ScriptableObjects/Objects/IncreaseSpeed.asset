@@ -15,5 +15,6 @@ MonoBehaviour:
   itemName: Speed Increase
   icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   cost: 25
+  description: Speed multiplied by 1.1x.
   healthIncrease: 0
-  speedMultiplier: 2
+  speedMultiplier: 1.1

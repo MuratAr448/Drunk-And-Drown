@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: Seahorse SMG
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   cost: 0
+  description: A fast firing gun with secondary shotgun attack.
   weaponPrefab: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}

@@ -117,8 +117,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void Die()
     {
         ComboSystem.Instance.OnEnemyKilled();
-        ScoreSystem.Instance.AddScore(_scoreOnDeath);
-        CoinSystem.Instance.AddCoins(_coinsOnDeath);
+        ScoreSystem.Instance.AddScore(_scoreOnDeath, transform.position);
+        CoinSystem.Instance.AddCoins(_coinsOnDeath, transform.position);
         if (_spawnedByArena)
         {
             EnemyUtils.Instance.RemoveEnemy();
