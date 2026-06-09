@@ -311,7 +311,7 @@ public class Movement : MonoBehaviour
     {
         if (!isGrounded && crouchHeld)
         {
-            rb.AddForce(Vector3.down * fastFallForce, ForceMode.Acceleration);
+            rb.AddForce(Vector3.down * fastFallForce, ForceMode.VelocityChange);
         }
     }
 
@@ -348,6 +348,12 @@ public class Movement : MonoBehaviour
     public float GetVelocity()
     {
         return rb.linearVelocity.magnitude;
+    }
+
+    public void ModifySpeed(float multiplier)
+    {
+        walkSpeed *= multiplier;
+        curSpeed = walkSpeed;
     }
 
     public void ApplyKnockback(Vector3 forceDirection)

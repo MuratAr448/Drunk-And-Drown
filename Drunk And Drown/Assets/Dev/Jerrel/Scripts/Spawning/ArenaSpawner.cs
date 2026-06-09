@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class ArenaSpawner : MonoBehaviour
 {
@@ -17,11 +18,51 @@ public class ArenaSpawner : MonoBehaviour
     [Tooltip("The amount of time for the arena to be finished")]
     [SerializeField] private float arenaDuration = 60f;
 
+    [Header("UI References")]
+    [Tooltip("Text element to display the remaining arena duration")]
+    [SerializeField] private TextMeshProUGUI _arenaTimerText;
+
+    [Header("UI Animation Settings")]
+    [Tooltip("The RectTransform of the HUD card/panel containing the text")]
+    [SerializeField] private RectTransform _arenaCardRect;
+    [SerializeField] private float _slideInDuration = 0.4f;
+    [SerializeField] private float _offScreenOffset = 500f;
+
+    private Vector2 _originalCardPos;
+
+    private void Start()
+    {
+        if (_arenaCardRect != null)
+        {
+            _originalCardPos = _arenaCardRect.anchoredPosition;
+            // Position off-screen initially
+            _arenaCardRect.anchoredPosition = _originalCardPos + new Vector2(_offScreenOffset, 0f);
+            _arenaCardRect.gameObject.SetActive(_isSpawning);
+            
+            if (_isSpawning)
+            {
+                StartCoroutine(SlideInCoroutine());
+            }
+        }
+        else if (_arenaTimerText != null)
+        {
+            _arenaTimerText.gameObject.SetActive(_isSpawning);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && !_isSpawning)
         {
             _isSpawning = true;
+            if (_arenaCardRect != null)
+            {
+                StartCoroutine(SlideInCoroutine());
+            }
+            else if (_arenaTimerText != null)
+            {
+                _arenaTimerText.gameObject.SetActive(true);
+            }
         }
     }
 
@@ -31,15 +72,90 @@ public class ArenaSpawner : MonoBehaviour
         {
             arenaDuration -= Time.deltaTime;
 
+            if (_arenaTimerText != null)
+            {
+                _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(arenaDuration)}s";
+            }
+
             if (arenaDuration <= 0f)
             {
                 arenaDuration = 0f;
                 _isSpawning = false;
+
+                if (_arenaCardRect != null)
+                {
+                    StartCoroutine(SlideOutCoroutine());
+                }
+                else if (_arenaTimerText != null)
+                {
+                    _arenaTimerText.gameObject.SetActive(false);
+                }
+
+                // Disable trigger/collider so it doesn't run again
+                if (TryGetComponent<Collider>(out var col))
+                {
+                    col.enabled = false;
+                }
+
+                // Find the ShopManager and open the shop with random items
+                ShopManager shopManager = FindFirstObjectByType<ShopManager>();
+                if (shopManager != null)
+                {
+                    shopManager.OpenShopWithRandomItems();
+                }
+
+                enabled = false; // Disable this script component
                 return;
             }
 
             SpawnEnemy();
         }
+    }
+
+    private IEnumerator SlideInCoroutine()
+    {
+        if (_arenaCardRect == null) yield break;
+
+        Vector2 targetPosition = _originalCardPos;
+        Vector2 startPosition = targetPosition + new Vector2(_offScreenOffset, 0f);
+
+        _arenaCardRect.anchoredPosition = startPosition;
+        _arenaCardRect.gameObject.SetActive(true);
+
+        float elapsed = 0f;
+        while (elapsed < _slideInDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float percent = Mathf.Clamp01(elapsed / _slideInDuration);
+            // Smooth ease out curve
+            float t = percent * (2f - percent); 
+            _arenaCardRect.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        _arenaCardRect.anchoredPosition = targetPosition;
+    }
+
+    private IEnumerator SlideOutCoroutine()
+    {
+        if (_arenaCardRect == null) yield break;
+
+        Vector2 startPosition = _originalCardPos;
+        Vector2 targetPosition = startPosition + new Vector2(_offScreenOffset, 0f);
+
+        float elapsed = 0f;
+        while (elapsed < _slideInDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float percent = Mathf.Clamp01(elapsed / _slideInDuration);
+            // Smooth ease in curve
+            float t = percent * percent; 
+            _arenaCardRect.anchoredPosition = Vector2.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        _arenaCardRect.anchoredPosition = targetPosition;
+        _arenaCardRect.gameObject.SetActive(false);
     }
 
     private IEnumerator SpawnCooldown()
@@ -78,5 +194,20 @@ public class ArenaSpawner : MonoBehaviour
     public void SetSpawning(bool isSpawning)
     {
         _isSpawning = isSpawning;
+        if (_arenaCardRect != null)
+        {
+            if (isSpawning)
+            {
+                StartCoroutine(SlideInCoroutine());
+            }
+            else
+            {
+                StartCoroutine(SlideOutCoroutine());
+            }
+        }
+        else if (_arenaTimerText != null)
+        {
+            _arenaTimerText.gameObject.SetActive(isSpawning);
+        }
     }
 }

@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ScoreSystem : MonoBehaviour
 {
@@ -8,6 +7,8 @@ public class ScoreSystem : MonoBehaviour
 
     [SerializeField] private int _totalScore = 0;
     [SerializeField] private TextMeshProUGUI _scoreTextLabel;
+
+    private Coroutine _bounceRoutine;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class ScoreSystem : MonoBehaviour
         UpdateScoreUI();
     }
 
-    public void AddScore(int baseScoreAmount)
+    public void AddScore(int baseScoreAmount, Vector3? worldPosition = null)
     {
         float multiplier = 1f;
 
@@ -34,8 +35,34 @@ public class ScoreSystem : MonoBehaviour
             multiplier = ComboSystem.Instance.CurrentMultiplier;
         }
 
-        _totalScore += Mathf.RoundToInt(baseScoreAmount * multiplier);
-        UpdateScoreUI();
+        int finalScore = Mathf.RoundToInt(baseScoreAmount * multiplier);
+
+        if (finalScore <= 0) return;
+
+        if (_scoreTextLabel != null && worldPosition.HasValue)
+        {
+            UIAnimationUtils.StartFlyingText(
+                this,
+                _scoreTextLabel,
+                finalScore,
+                worldPosition.Value,
+                Color.white,
+                () => {
+                    _totalScore += finalScore;
+                    UpdateScoreUI();
+                    _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _scoreTextLabel, _bounceRoutine);
+                }
+            );
+        }
+        else
+        {
+            _totalScore += finalScore;
+            UpdateScoreUI();
+            if (_scoreTextLabel != null)
+            {
+                _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _scoreTextLabel, _bounceRoutine);
+            }
+        }
     }
 
     public void UpdateScoreUI()

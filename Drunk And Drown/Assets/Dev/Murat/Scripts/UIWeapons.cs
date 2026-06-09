@@ -9,6 +9,11 @@ public class UIWeapons : MonoBehaviour
     [SerializeField] private GameObject weaponHolder;
     public void SwitchWeaponUI(int toWeapon)
     {
+        if (weaponsUI == null || toWeapon < 0 || toWeapon >= weaponsUI.Count)
+        {
+            Debug.LogWarning($"UIWeapons: Weapon index {toWeapon} is out of range for weaponsUI list (count: {weaponsUI.Count})");
+            return;
+        }
         weaponHolder.GetComponent<Image>().sprite = weaponsUI[toWeapon];
     }
 }

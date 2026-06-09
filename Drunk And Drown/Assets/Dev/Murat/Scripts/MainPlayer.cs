@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ using UnityEngine.UI;
 
 public class MainPlayer : MonoBehaviour, IDamageable
 {
+    public static MainPlayer Instance { get; private set; }
+
     public GameObject Weapon;
     public List<GameObject> Weapons;
     public bool pause = false;
@@ -28,17 +31,45 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public float BaseHealth => maxHealth;
     [SerializeField] private List<GameObject> BottleFaces;
 
-    private Transform hotbar;
+    [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
 
+    [Header("Sounds")]
+    private AudioSource audioSource;
+    [SerializeField] private AudioEvent playerHurt;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
+        Instance = this;
+        Weapons = new List<GameObject>();
+        weaponCurrentSwitch = 0;
+
+        if (Weapon != null)
+        {
+            Weapons.Add(Weapon);
+        }
+
         movement = GetComponent<Movement>();
         hitEffect = GetComponent<PlayerEffects>();
         maxHealth = health;
         weaponUI = FindFirstObjectByType<UIWeapons>();
-        hotbar = transform.Find("Hand 1");
+        if (hotbar == null)
+        {
+            hotbar = transform.Find("Hand 1");
+        }
         HotbarInstance = hotbar;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     void Update()
@@ -112,34 +143,16 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         if (Weapons == null || Weapons.Count == 0) return;
 
-        int current = weaponCurrentSwitch;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            weaponCurrentSwitch = 0;
-            //WeaponManager.Instance.GiveParrotgun();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            weaponCurrentSwitch = 1;
-            //WeaponManager.Instance.GiveMorningStar();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            weaponCurrentSwitch = 2;
-            //WeaponManager.Instance.GiveSeaHorseSMG();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            weaponCurrentSwitch = 3;
-            //WeaponManager.Instance.GiveSquidRayGun();
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            weaponUI.SwitchWeaponUI(4);
-        }
+        int targetSwitch = weaponCurrentSwitch;
+        if (Input.GetKeyDown(KeyCode.Alpha1)) targetSwitch = 0;
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) targetSwitch = 1;
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) targetSwitch = 2;
+        else if (Input.GetKeyDown(KeyCode.Alpha4)) targetSwitch = 3;
+        else if (Input.GetKeyDown(KeyCode.Alpha5)) targetSwitch = 4;
 
-        if (current != weaponCurrentSwitch && weaponCurrentSwitch < Weapons.Count)
+        if (targetSwitch != weaponCurrentSwitch && targetSwitch < Weapons.Count)
         {
+            weaponCurrentSwitch = targetSwitch;
             for (int i = 0; i < Weapons.Count; i++)
             {
                 if (Weapons[i] != null) Weapons[i].SetActive(false);
@@ -214,6 +227,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
+        playerHurt.PlayOneShot(audioSource);
         if (health <= 0 && !dead)
         {
             Die();
@@ -235,6 +249,13 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         health = maxHealth;
+        OnHealthChanged?.Invoke();
+    }
+
+    public void ModifyMaxHealth(float amount)
+    {
+        maxHealth += amount;
+        health += amount;
         OnHealthChanged?.Invoke();
     }
 
@@ -278,11 +299,33 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Weapons = new List<GameObject>();
         }
 
-        Weapons.Add(weapon);
-
         if (HotbarInstance != null)
         {
-            weapon.transform.SetParent(HotbarInstance);
+            weapon.transform.SetParent(HotbarInstance, false);
+        }
+
+        Weapons.Add(weapon);
+
+        // Deactivate all other weapons
+        for (int i = 0; i < Weapons.Count - 1; i++)
+        {
+            if (Weapons[i] != null)
+            {
+                Weapons[i].SetActive(false);
+            }
+        }
+
+        // Auto-equip the new weapon
+        weapon.SetActive(true);
+
+        if (Instance != null)
+        {
+            Instance.Weapon = weapon;
+            Instance.weaponCurrentSwitch = Weapons.Count - 1;
+            if (Instance.weaponUI != null)
+            {
+                Instance.weaponUI.SwitchWeaponUI(Instance.weaponCurrentSwitch);
+            }
         }
     }*/
 }

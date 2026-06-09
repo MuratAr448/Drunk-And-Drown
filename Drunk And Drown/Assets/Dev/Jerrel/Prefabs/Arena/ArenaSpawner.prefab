@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1883042115612946143}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 51.7, y: -1.74, z: -16.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240d4728bc802e14688b4c50631fae8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _isSpawning: 0
   _maxSpawns: 10
   _enemyPrefabs:
   - {fileID: 7173005847610792062, guid: 1844112c3e026544888890a8adf9d608, type: 3}
@@ -89,6 +90,11 @@ MonoBehaviour:
   - {fileID: 2550057009113221926}
   - {fileID: 8147857663648144671}
   _spawnRate: 0.5
+  arenaDuration: 5
+  _arenaTimerText: {fileID: 0}
+  _arenaCardRect: {fileID: 0}
+  _slideInDuration: 0.4
+  _offScreenOffset: 500
 --- !u!65 &6020479967039509896
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -135,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 5639527265003568477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 2.372, y: -2.43, z: -17.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,7 +172,7 @@ Transform:
   m_GameObject: {fileID: 9173169802555326542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.35, y: 1, z: 14.41}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

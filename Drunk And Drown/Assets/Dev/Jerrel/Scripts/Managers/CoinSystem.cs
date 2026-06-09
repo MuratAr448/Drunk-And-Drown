@@ -10,6 +10,7 @@ public class CoinSystem : MonoBehaviour
 
     public static CoinSystem Instance;
 
+    private Coroutine _bounceRoutine;
 
     private void Awake()
     {
@@ -22,13 +23,52 @@ public class CoinSystem : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
+    private void Start()
     {
         UpdateUI();
     }
-    public void AddCoins(int amount)
+
+    private void Update()
     {
-        _coins += Mathf.RoundToInt(amount * _coinMultiplier);
+        // Keep UI updated in case of other changes
+        UpdateUI();
+    }
+
+    public void AddCoins(int amount, Vector3? worldPosition = null)
+    {
+        int finalAmount = amount;
+        if (amount > 0)
+        {
+            finalAmount = Mathf.RoundToInt(amount * _coinMultiplier);
+        }
+
+        if (finalAmount == 0) return;
+
+        // Play flying animation if gaining coins and we have a world position
+        if (finalAmount > 0 && _coinTextLabel != null && worldPosition.HasValue)
+        {
+            UIAnimationUtils.StartFlyingText(
+                this,
+                _coinTextLabel,
+                finalAmount,
+                worldPosition.Value,
+                new Color(1f, 0.82f, 0f), // Gold color
+                () => {
+                    _coins += finalAmount;
+                    UpdateUI();
+                    _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _coinTextLabel, _bounceRoutine);
+                }
+            );
+        }
+        else
+        {
+            _coins += finalAmount;
+            UpdateUI();
+            if (finalAmount != 0 && _coinTextLabel != null)
+            {
+                _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _coinTextLabel, _bounceRoutine);
+            }
+        }
     }
 
     /// <summary>
@@ -47,6 +87,9 @@ public class CoinSystem : MonoBehaviour
 
     private void UpdateUI()
     {
-        _coinTextLabel.text = _coins.ToString();
+        if (_coinTextLabel != null)
+        {
+            _coinTextLabel.text = _coins.ToString();
+        }
     }
 }
