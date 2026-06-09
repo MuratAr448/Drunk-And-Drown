@@ -176,6 +176,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
+--- !u!4 &74037191 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6614462186804515169, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1127739579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &114620813
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2146,6 +2151,14 @@ PrefabInstance:
       propertyPath: 'm_Cameras.Array.data[0]'
       value: 
       objectReference: {fileID: 1131096902}
+    - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+      propertyPath: hotbar
+      value: 
+      objectReference: {fileID: 74037191}
+    - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+      propertyPath: playerHurt
+      value: 
+      objectReference: {fileID: 11400000, guid: 0eaa1a98193fe954f838e021d83b92f1, type: 2}
     - target: {fileID: 7552641462010466819, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 269.89795

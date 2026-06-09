@@ -142,7 +142,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Radius: 0.15
   m_Center: {x: 0, y: 0.7, z: 0}
@@ -159,12 +159,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MorningStar
   Kind: 0
-  cooldown: 1
-  swingRate: 1
+  cooldown1: 1
+  cooldown2: 5
+  swingRate1: 1
+  swingRate2: 5
   damage: 10
   hitDuration: 1
   colliderTrig: {fileID: 5256841569942313102}
-  PufferFish: {fileID: 9221922584040145315}
+  pufferFish: {fileID: 9221922584040145315}
+  smokePref: {fileID: 5737886122770402757, guid: 3b434eb5f783fab49ab7f1bc8b6ba8ce, type: 3}
+  explosive: {fileID: 3693124847376689817}
+  Attacking: 0
 --- !u!1 &9221922584040145315
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +181,7 @@ GameObject:
   - component: {fileID: 2920354442010044978}
   - component: {fileID: 5125124165944957080}
   - component: {fileID: 5587469531099062742}
+  - component: {fileID: 3693124847376689817}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -255,3 +261,18 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3693124847376689817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9221922584040145315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45bcc9d2465dd344b4e44b38cfb9cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveHammer
+  radius: 20
+  force: 100
+  damage: 10

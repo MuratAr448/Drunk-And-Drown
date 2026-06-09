@@ -14,7 +14,7 @@ public class MorningStar : Melee
     [SerializeField] private GameObject smokePref;
     private List<Enemy> hitEnemys = new List<Enemy>();
     [SerializeField] private ExplosiveHammer explosive;
-    private bool Attacking = false;
+    public bool Attacking = false;
     void Start()
     {
         Kind = KindofMelee.MorningStar;
@@ -24,8 +24,9 @@ public class MorningStar : Melee
         base.Swing();
         if(swingRate1 < cooldown1&& Input.GetKeyDown(KeyCode.Mouse0)&&!Attacking)
         {
-            Attacking = true;
             cooldown1 = 0f;
+            StartCoroutine(NormalAttack());
+            Expand();
         }
     }
     public override void SecondDairy()
@@ -33,10 +34,16 @@ public class MorningStar : Melee
         base.SecondDairy();
         if (swingRate2 < cooldown2 && Input.GetKeyDown(KeyCode.Mouse1)&& !Attacking)
         {
-            Attacking = true;
+            Expand();
             StartCoroutine(PowerSlam());
             cooldown2 = 0f;
         }
+    }
+    private IEnumerator NormalAttack()
+    {
+        //movement
+        yield return new WaitForSeconds(1f);
+        Deflate();
     }
     private IEnumerator PowerSlam()
     {
@@ -48,7 +55,7 @@ public class MorningStar : Melee
         Destroy(smoke,3f);
         StartCoroutine(Smoke(smoke, explosive.radius));
         yield return new WaitForSeconds (1f);
-        Attacking = false;
+        Deflate();
         //return
     }
     private IEnumerator Smoke(GameObject Smoke, float size)
@@ -62,9 +69,9 @@ public class MorningStar : Melee
     }
     void Update()
     {
-        if (Attacking)
+        if (cooldown1>=swingRate1&&cooldown2>=swingRate2&&Attacking)
         {
-            expand();
+            Deflate();
         }
         if (swingRate1 >= cooldown1)
         {
@@ -76,26 +83,24 @@ public class MorningStar : Melee
             cooldown2 += Time.deltaTime;
         }
     }
-    private void expand()
+    private void Expand()
     {
-        if (cooldown1 >= hitDuration&&cooldown2>= hitDuration)
-        {
-            colliderTrig.enabled = false;
-            colliderTrig.radius = 0.15f;
-            pufferFish.transform.localScale = Vector3.one * 0.3f;
-            hitEnemys.Clear();
-            Attacking = false;
-        }
-        else
-        {
-            colliderTrig.enabled = true;
-            colliderTrig.radius = 0.3f;
-            pufferFish.transform.localScale = Vector3.one * 0.6f;
-        }
+        colliderTrig.enabled = true;
+        colliderTrig.radius = 0.3f;
+        pufferFish.transform.localScale = Vector3.one * 0.6f;
+        Attacking = true;
+    }
+    private void Deflate()
+    {
+        colliderTrig.enabled = false;
+        colliderTrig.radius = 0.15f;
+        pufferFish.transform.localScale = Vector3.one * 0.3f;
+        hitEnemys.Clear();
+        Attacking = false;
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && other.GetComponent<Enemy>())
+        if (other.GetComponent<Enemy>())
         {
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
             if (!hitEnemys.Contains(enemy)&& Attacking)

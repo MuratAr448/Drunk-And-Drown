@@ -27,7 +27,7 @@ public class WeaponManager : MonoBehaviour
     }
 
     public List<Weapon> allWeapons = new List<Weapon>();
-    /*
+    
     public void AddWeapon(Weapon weaponData)
     {
         if (weaponData.weaponObject == null) return;
@@ -62,5 +62,5 @@ public class WeaponManager : MonoBehaviour
         {
             MainPlayer.AddWeaponToList(allWeapons[3].weaponObject);
         }
-    }*/
+    }
 }

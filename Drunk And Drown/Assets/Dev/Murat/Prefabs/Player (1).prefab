@@ -3464,7 +3464,7 @@ Transform:
   m_GameObject: {fileID: 9185948038355208753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 269.89795, y: 14.94115, z: 36.728287}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3574,11 +3574,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   Weapon: {fileID: 697924853482191546}
-  Weapons:
-  - {fileID: 697924853482191546}
-  - {fileID: 7604512959446719588}
-  - {fileID: 6786226012472222875}
-  - {fileID: 6070295748437567145}
   pause: 0
   pauseScreen: {fileID: 7374278538019710753}
   deathScreen: []
@@ -3588,6 +3583,8 @@ MonoBehaviour:
   health: 100
   hitColor: {r: 1, g: 0.216981, b: 0.216981, a: 0}
   BottleFaces: []
+  hotbar: {fileID: 0}
+  playerHurt: {fileID: 0}
 --- !u!114 &4969629400671806601
 MonoBehaviour:
   m_ObjectHideFlags: 0

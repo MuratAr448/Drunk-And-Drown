@@ -13,7 +13,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public static MainPlayer Instance { get; private set; }
 
     public GameObject Weapon;
-    public List<GameObject> Weapons;
+    public static List<GameObject> Weapons;
     public bool pause = false;
     public GameObject pauseScreen;
     public List<GameObject> deathScreen;
@@ -47,7 +47,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         Instance = this;
         Weapons = new List<GameObject>();
         weaponCurrentSwitch = 0;
-
         if (Weapon != null)
         {
             Weapons.Add(Weapon);
@@ -120,7 +119,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             switch (Melee.Kind)
             {
                 case KindofMelee.MorningStar:
-                    if (Melee.cooldown1 >= Melee.swingRate1 && Melee.cooldown2 >= Melee.swingRate2)
+                    if (!Melee.GetComponent<MorningStar>().Attacking)
                     {
                         return true;
                     }
@@ -142,16 +141,16 @@ public class MainPlayer : MonoBehaviour, IDamageable
     private void SwitchWeapon()
     {
         if (Weapons == null || Weapons.Count == 0) return;
-
+        
         int targetSwitch = weaponCurrentSwitch;
         if (Input.GetKeyDown(KeyCode.Alpha1)) targetSwitch = 0;
         else if (Input.GetKeyDown(KeyCode.Alpha2)) targetSwitch = 1;
         else if (Input.GetKeyDown(KeyCode.Alpha3)) targetSwitch = 2;
         else if (Input.GetKeyDown(KeyCode.Alpha4)) targetSwitch = 3;
         else if (Input.GetKeyDown(KeyCode.Alpha5)) targetSwitch = 4;
-
         if (targetSwitch != weaponCurrentSwitch && targetSwitch < Weapons.Count)
         {
+
             weaponCurrentSwitch = targetSwitch;
             for (int i = 0; i < Weapons.Count; i++)
             {
@@ -169,6 +168,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
             }
         }
+       
     }
 
     public void Pause()
@@ -291,7 +291,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
-    /*
+    
     public static void AddWeaponToList(GameObject weapon)
     {
         if (Weapons == null)
@@ -327,5 +327,5 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 Instance.weaponUI.SwitchWeaponUI(Instance.weaponCurrentSwitch);
             }
         }
-    }*/
+    }
 }
