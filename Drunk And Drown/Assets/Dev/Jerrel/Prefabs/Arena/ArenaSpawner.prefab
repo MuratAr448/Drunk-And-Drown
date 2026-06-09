@@ -12,7 +12,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn3
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -25,11 +25,7 @@ Transform:
   m_GameObject: {fileID: 1883042115612946143}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< Updated upstream
-  m_LocalPosition: {x: 51.7, y: -1.74, z: -16.43}
-=======
   m_LocalPosition: {x: 50.45, y: -0.33, z: -3.09}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -63,7 +59,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 257.34348, y: 13.89854, z: 37.34804}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2.1619, z: 4.8886}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3851320357964665317}
@@ -94,11 +90,7 @@ MonoBehaviour:
   - {fileID: 2550057009113221926}
   - {fileID: 8147857663648144671}
   _spawnRate: 0.5
-<<<<<<< Updated upstream
-  arenaDuration: 5
-=======
   arenaDuration: 15
->>>>>>> Stashed changes
   _arenaTimerText: {fileID: 0}
   _enemiesLeftText: {fileID: 0}
   _arenaCardRect: {fileID: 0}
@@ -137,7 +129,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn2
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -150,11 +142,7 @@ Transform:
   m_GameObject: {fileID: 5639527265003568477}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< Updated upstream
-  m_LocalPosition: {x: 2.372, y: -2.43, z: -17.69}
-=======
   m_LocalPosition: {x: 6.15, y: -0.8, z: -3.861}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -172,7 +160,7 @@ GameObject:
   m_Layer: 0
   m_Name: Spawn1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -185,11 +173,7 @@ Transform:
   m_GameObject: {fileID: 9173169802555326542}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-<<<<<<< Updated upstream
-  m_LocalPosition: {x: 4.35, y: 1, z: 14.41}
-=======
   m_LocalPosition: {x: 19.34, y: 0.03, z: 2.973}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
