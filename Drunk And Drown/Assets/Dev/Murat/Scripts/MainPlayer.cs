@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,6 +34,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
 
+    [Header("Sounds")]
+    private AudioSource audioSource;
+    [SerializeField] private AudioEvent playerHurt;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
         Instance = this;
@@ -164,6 +173,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
+        playerHurt.PlayOneShot(audioSource);
         if (health <= 0 && !dead)
         {
             Die();

@@ -33,7 +33,7 @@ public class ShopTooltip : MonoBehaviour
         canvas = GetComponentInParent<Canvas>();
         Hide();
     }
-
+    
     private void Update()
     {
         if (tooltipPanel != null && tooltipPanel.activeSelf)
