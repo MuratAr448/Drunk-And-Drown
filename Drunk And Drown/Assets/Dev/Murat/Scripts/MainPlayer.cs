@@ -12,8 +12,8 @@ public class MainPlayer : MonoBehaviour, IDamageable
 {
     public static MainPlayer Instance { get; private set; }
 
-    public GameObject Weapon;
-    public static List<GameObject> Weapons;
+    public Weapons weapon;
+    public static List<Weapons> weapons;
     public bool pause = false;
     public GameObject pauseScreen;
     public List<GameObject> deathScreen;
@@ -45,11 +45,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
     void Start()
     {
         Instance = this;
-        Weapons = new List<GameObject>();
+        weapons = new List<Weapons>();
         weaponCurrentSwitch = 0;
-        if (Weapon != null)
+        if (weapon != null)
         {
-            Weapons.Add(Weapon);
+            weapons.Add(weapon);
         }
 
         movement = GetComponent<Movement>();
@@ -88,7 +88,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     }
     private bool AlowedToSwitch()
     {
-        if (Weapon.TryGetComponent(out Gun gun))
+        if (weapon.TryGetComponent(out Gun gun))
         {
             switch (gun.Kind)
             {
@@ -114,7 +114,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     return false;
             }
         }
-        else if (Weapon.TryGetComponent(out Melee Melee))
+        else if (weapon.TryGetComponent(out Melee Melee))
         {
             switch (Melee.Kind)
             {
@@ -140,7 +140,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     private void SwitchWeapon()
     {
-        if (Weapons == null || Weapons.Count == 0) return;
+        if (weapons == null || weapons.Count == 0) return;
         
         int targetSwitch = weaponCurrentSwitch;
         if (Input.GetKeyDown(KeyCode.Alpha1)) targetSwitch = 0;
@@ -148,19 +148,19 @@ public class MainPlayer : MonoBehaviour, IDamageable
         else if (Input.GetKeyDown(KeyCode.Alpha3)) targetSwitch = 2;
         else if (Input.GetKeyDown(KeyCode.Alpha4)) targetSwitch = 3;
         else if (Input.GetKeyDown(KeyCode.Alpha5)) targetSwitch = 4;
-        if (targetSwitch != weaponCurrentSwitch && targetSwitch < Weapons.Count)
+        if (targetSwitch != weaponCurrentSwitch && targetSwitch < weapons.Count)
         {
 
             weaponCurrentSwitch = targetSwitch;
-            for (int i = 0; i < Weapons.Count; i++)
+            for (int i = 0; i < weapons.Count; i++)
             {
-                if (Weapons[i] != null) Weapons[i].SetActive(false);
+                if (weapons[i] != null) weapons[i].gameObject.SetActive(false);
             }
 
-            if (Weapons[weaponCurrentSwitch] != null)
+            if (weapons[weaponCurrentSwitch] != null)
             {
-                Weapons[weaponCurrentSwitch].SetActive(true);
-                Weapon = Weapons[weaponCurrentSwitch];
+                weapons[weaponCurrentSwitch].gameObject.SetActive(true);
+                weapon = weapons[weaponCurrentSwitch];
             }
 
             if (weaponUI != null)
@@ -194,11 +194,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     private void Shoot()
     {
-        if (Weapon == null) return;
+        if (weapon == null) return;
 
-        if (Weapon.GetComponent<Gun>() != null)
+        if (weapon.GetComponent<Gun>() != null)
         {
-            Gun Gun = Weapon.GetComponent<Gun>();
+            Gun Gun = weapon.GetComponent<Gun>();
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 Gun.Shoot();
@@ -208,9 +208,9 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 Gun.Secondary();
             }
         }
-        else if (Weapon.GetComponent<Melee>() != null)
+        else if (weapon.GetComponent<Melee>() != null)
         {
-            Melee Melee = Weapon.GetComponent<Melee>();
+            Melee Melee = weapon.GetComponent<Melee>();
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 Melee.Swing();
@@ -294,9 +294,10 @@ public class MainPlayer : MonoBehaviour, IDamageable
     
     public static void AddWeaponToList(GameObject weapon)
     {
-        if (Weapons == null)
+        Weapons Weapons = weapon.GetComponent<Weapons>();
+        if (weapons == null)
         {
-            Weapons = new List<GameObject>();
+            weapons = new List<Weapons>();
         }
 
         if (HotbarInstance != null)
@@ -304,24 +305,24 @@ public class MainPlayer : MonoBehaviour, IDamageable
             weapon.transform.SetParent(HotbarInstance, false);
         }
 
-        Weapons.Add(weapon);
+        weapons.Add(Weapons);
 
         // Deactivate all other weapons
-        for (int i = 0; i < Weapons.Count - 1; i++)
+        for (int i = 0; i < weapons.Count - 1; i++)
         {
-            if (Weapons[i] != null)
+            if (weapons[i] != null)
             {
-                Weapons[i].SetActive(false);
+                weapons[i].gameObject.SetActive(false);
             }
         }
 
         // Auto-equip the new weapon
-        weapon.SetActive(true);
+        weapon.gameObject.SetActive(true);
 
         if (Instance != null)
         {
-            Instance.Weapon = weapon;
-            Instance.weaponCurrentSwitch = Weapons.Count - 1;
+            Instance.weapon = Weapons;
+            Instance.weaponCurrentSwitch = weapons.Count - 1;
             if (Instance.weaponUI != null)
             {
                 Instance.weaponUI.SwitchWeaponUI(Instance.weaponCurrentSwitch);

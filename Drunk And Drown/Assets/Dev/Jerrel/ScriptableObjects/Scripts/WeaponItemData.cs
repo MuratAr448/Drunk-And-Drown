@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewWeaponItem", menuName = "Shop/Weapon Item")]
+[CreateAssetMenu(fileName = "NewWeaponItem", menuName = "Shop/weapon Item")]
 public class WeaponItemData : ShopItemData
 {
     public GameObject weaponPrefab;

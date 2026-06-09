@@ -8,7 +8,6 @@ using UnityEngine;
 public class MorningStar : Melee
 {
     [SerializeField] private float damage = 10;
-    [SerializeField] private float hitDuration = 0;
     [SerializeField] private SphereCollider colliderTrig;
     [SerializeField] private GameObject pufferFish;
     [SerializeField] private GameObject smokePref;

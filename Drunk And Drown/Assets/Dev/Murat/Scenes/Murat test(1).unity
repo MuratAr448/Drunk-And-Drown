@@ -936,6 +936,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1902246358}
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 1557440878}
+    - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: weaponUI
       value: 
       objectReference: {fileID: 0}
@@ -1867,6 +1871,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3233838173216696587, guid: 492c623966193f14a888b7620c5cebde, type: 3}
   m_PrefabInstance: {fileID: 541058352}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1557440878 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7940573120864521251, guid: 492c623966193f14a888b7620c5cebde, type: 3}
+  m_PrefabInstance: {fileID: 541058352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557440876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7460141ab90664047ab654722eb31024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SquidRayGun
 --- !u!1 &1606753838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2478,11 +2493,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2550057009113221926, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.43
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2550057009113221926, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.69
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: arenaDuration
@@ -2554,7 +2569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851320357964665317, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.41
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_Name
@@ -2566,11 +2581,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.74
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.43
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

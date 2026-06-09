@@ -5,7 +5,7 @@ public enum KindofGun
     ParrotGun,
     SquidRayGun
 }
-public class Gun : MonoBehaviour
+public class Gun : Weapons
 {
     public KindofGun Kind;
     public float cooldown1 = 1.0f, cooldown2 = 1.0f;
