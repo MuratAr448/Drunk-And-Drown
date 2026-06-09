@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Available Items to Generate")]
     [SerializeField] private List<WeaponItemData> availableWeapons;
+    public List<WeaponItemData> AvailableWeapons => availableWeapons;
     [SerializeField] private List<UpgradeItemData> availableUpgrades;
     [SerializeField] private List<ModifierItemData> availableModifiers;
 

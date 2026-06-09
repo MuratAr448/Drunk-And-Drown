@@ -21,6 +21,8 @@ public class ArenaSpawner : MonoBehaviour
     [Header("UI References")]
     [Tooltip("Text element to display the remaining arena duration")]
     [SerializeField] private TextMeshProUGUI _arenaTimerText;
+    [Tooltip("Text element to display the number of remaining enemies")]
+    [SerializeField] private TextMeshProUGUI _enemiesLeftText;
 
     [Header("UI Animation Settings")]
     [Tooltip("The RectTransform of the HUD card/panel containing the text")]
@@ -44,9 +46,16 @@ public class ArenaSpawner : MonoBehaviour
                 StartCoroutine(SlideInCoroutine());
             }
         }
-        else if (_arenaTimerText != null)
+        else
         {
-            _arenaTimerText.gameObject.SetActive(_isSpawning);
+            if (_arenaTimerText != null)
+            {
+                _arenaTimerText.gameObject.SetActive(_isSpawning);
+            }
+            if (_enemiesLeftText != null)
+            {
+                _enemiesLeftText.gameObject.SetActive(_isSpawning);
+            }
         }
     }
 
@@ -59,9 +68,16 @@ public class ArenaSpawner : MonoBehaviour
             {
                 StartCoroutine(SlideInCoroutine());
             }
-            else if (_arenaTimerText != null)
+            else
             {
-                _arenaTimerText.gameObject.SetActive(true);
+                if (_arenaTimerText != null)
+                {
+                    _arenaTimerText.gameObject.SetActive(true);
+                }
+                if (_enemiesLeftText != null)
+                {
+                    _enemiesLeftText.gameObject.SetActive(true);
+                }
             }
         }
     }
@@ -70,25 +86,66 @@ public class ArenaSpawner : MonoBehaviour
     {
         if (_isSpawning)
         {
-            arenaDuration -= Time.deltaTime;
-
-            if (_arenaTimerText != null)
+            // Only decrease duration if it hasn't reached 0 yet
+            if (arenaDuration > 0f)
             {
-                _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(arenaDuration)}s";
+                arenaDuration -= Time.deltaTime;
+                if (arenaDuration <= 0f)
+                {
+                    arenaDuration = 0f;
+                }
             }
 
-            if (arenaDuration <= 0f)
+            int enemyCount = EnemyUtils.Instance != null ? EnemyUtils.Instance.GetEnemyCount() : 0;
+
+            if (arenaDuration > 0f)
             {
-                arenaDuration = 0f;
+                if (_arenaTimerText != null)
+                {
+                    _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(arenaDuration)}s";
+                }
+                if (_enemiesLeftText != null)
+                {
+                    _enemiesLeftText.text = $"Current enemies: {enemyCount}";
+                }
+            }
+            else
+            {
+                if (_arenaTimerText != null)
+                {
+                    _arenaTimerText.text = "Clear all remaining enemies!";
+                }
+                if (_enemiesLeftText != null)
+                {
+                    _enemiesLeftText.text = $"Enemies left: {enemyCount}";
+                }
+            }
+
+            // Only spawn enemies if the timer is still running
+            if (arenaDuration > 0f)
+            {
+                SpawnEnemy();
+            }
+
+            // Finish the arena only when the timer has run out AND all enemies are dead
+            if (arenaDuration <= 0f && enemyCount <= 0)
+            {
                 _isSpawning = false;
 
                 if (_arenaCardRect != null)
                 {
                     StartCoroutine(SlideOutCoroutine());
                 }
-                else if (_arenaTimerText != null)
+                else
                 {
-                    _arenaTimerText.gameObject.SetActive(false);
+                    if (_arenaTimerText != null)
+                    {
+                        _arenaTimerText.gameObject.SetActive(false);
+                    }
+                    if (_enemiesLeftText != null)
+                    {
+                        _enemiesLeftText.gameObject.SetActive(false);
+                    }
                 }
 
                 // Disable trigger/collider so it doesn't run again
@@ -107,8 +164,6 @@ public class ArenaSpawner : MonoBehaviour
                 enabled = false; // Disable this script component
                 return;
             }
-
-            SpawnEnemy();
         }
     }
 
@@ -205,9 +260,16 @@ public class ArenaSpawner : MonoBehaviour
                 StartCoroutine(SlideOutCoroutine());
             }
         }
-        else if (_arenaTimerText != null)
+        else
         {
-            _arenaTimerText.gameObject.SetActive(isSpawning);
+            if (_arenaTimerText != null)
+            {
+                _arenaTimerText.gameObject.SetActive(isSpawning);
+            }
+            if (_enemiesLeftText != null)
+            {
+                _enemiesLeftText.gameObject.SetActive(isSpawning);
+            }
         }
     }
 }
