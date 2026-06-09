@@ -688,6 +688,26 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
+--- !u!1 &350905126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 742480336736992850, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 1127739579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &350905130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350905126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b45bcc9d2465dd344b4e44b38cfb9cd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveHammer
+  radius: 20
+  force: 200
+  damage: 10
 --- !u!1001 &374580095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -952,6 +972,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
+--- !u!1 &418499752
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 418499753}
+  - component: {fileID: 418499754}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &418499753
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418499752}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1749669466}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &418499754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418499752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31eb3104a6ec59a47b5567018e5b9165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  allWeapons:
+  - id: Parrot
+    weaponObject: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
+  - id: Seahorse
+    weaponObject: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+  - id: Pufferfish
+    weaponObject: {fileID: 2035521939117384597, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
+  - id: Squid
+    weaponObject: {fileID: 1091788659278207888, guid: 492c623966193f14a888b7620c5cebde, type: 3}
 --- !u!1 &419463930
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,9 +2173,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 365631995381551449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: explosive
+      value: 
+      objectReference: {fileID: 350905130}
+    - target: {fileID: 365631995381551449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: smokePref
+      value: 
+      objectReference: {fileID: 5737886122770402757, guid: 3b434eb5f783fab49ab7f1bc8b6ba8ce, type: 3}
+    - target: {fileID: 365631995381551449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: pufferFish
+      value: 
+      objectReference: {fileID: 350905126}
+    - target: {fileID: 365631995381551449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: swingRate1
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 365631995381551449, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: swingRate2
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 697924853482191546, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4969629400671806601, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: globalVolume
@@ -2123,7 +2216,7 @@ PrefabInstance:
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: Weapon
       value: 
-      objectReference: {fileID: 1055647853}
+      objectReference: {fileID: 1332697681}
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: Weapons.Array.size
       value: 4
@@ -2172,6 +2265,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7604512959446719588, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9185948038355208753, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_Name
       value: Player (1)
@@ -2182,7 +2279,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6614462186804515169, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       insertIndex: 3
       addedObject: {fileID: 1055647854}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 742480336736992850, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 350905130}
   m_SourcePrefab: {fileID: 100100000, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
 --- !u!20 &1131096902 stripped
 Camera:
@@ -2303,6 +2403,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1844112c3e026544888890a8adf9d608, type: 3}
+--- !u!1 &1332697681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 697924853482191546, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 1127739579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1393464871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3066,6 +3171,7 @@ Transform:
   - {fileID: 1040072140}
   - {fileID: 1063054683}
   - {fileID: 1101496225}
+  - {fileID: 418499753}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1758875605
@@ -3859,6 +3965,10 @@ PrefabInstance:
     - target: {fileID: 1091788659278207888, guid: 492c623966193f14a888b7620c5cebde, type: 3}
       propertyPath: m_Name
       value: SquidRayGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 1091788659278207888, guid: 492c623966193f14a888b7620c5cebde, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3233838173216696587, guid: 492c623966193f14a888b7620c5cebde, type: 3}
       propertyPath: m_LocalPosition.x

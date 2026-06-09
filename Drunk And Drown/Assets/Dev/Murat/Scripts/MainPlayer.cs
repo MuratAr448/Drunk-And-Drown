@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class MainPlayer : MonoBehaviour, IDamageable
 {
     public GameObject Weapon;
-    public static List<GameObject> Weapons = new List<GameObject>();
+    public List<GameObject> Weapons;
     public bool pause = false;
     public GameObject pauseScreen;
     public List<GameObject> deathScreen;
@@ -63,7 +63,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             switch (gun.Kind)
             {
                 case KindofGun.ParrotGun:
-                    if (gun.cooldown1 >= gun.shootRate1&& gun.cooldown2 >= gun.shootRate2)
+                    if (gun.cooldown1 >= gun.shootRate1 && gun.cooldown2 >= gun.shootRate2)
                     {
                         return true;
                     }
@@ -89,7 +89,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             switch (Melee.Kind)
             {
                 case KindofMelee.MorningStar:
-                    if(Melee.cooldown1>= Melee.swingRate1&& Melee.cooldown2>= Melee.swingRate2)
+                    if (Melee.cooldown1 >= Melee.swingRate1 && Melee.cooldown2 >= Melee.swingRate2)
                     {
                         return true;
                     }
@@ -100,12 +100,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
                         return true;
                     }
                     break;
-                default: 
+                default:
                     return false;
+
             }
         }
         return false;
     }
+
     private void SwitchWeapon()
     {
         if (Weapons == null || Weapons.Count == 0) return;
@@ -114,19 +116,22 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             weaponCurrentSwitch = 0;
+            //WeaponManager.Instance.GiveParrotgun();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             weaponCurrentSwitch = 1;
+            //WeaponManager.Instance.GiveMorningStar();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             weaponCurrentSwitch = 2;
+            //WeaponManager.Instance.GiveSeaHorseSMG();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {   
+        {
             weaponCurrentSwitch = 3;
-            //Weapon = Weapons[3];
+            //WeaponManager.Instance.GiveSquidRayGun();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -265,7 +270,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             yield return new WaitForSeconds(Time.deltaTime);
         }
     }
-
+    /*
     public static void AddWeaponToList(GameObject weapon)
     {
         if (Weapons == null)
@@ -279,5 +284,5 @@ public class MainPlayer : MonoBehaviour, IDamageable
         {
             weapon.transform.SetParent(HotbarInstance);
         }
-    }
+    }*/
 }
