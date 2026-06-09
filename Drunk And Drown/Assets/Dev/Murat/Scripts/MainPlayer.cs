@@ -62,6 +62,37 @@ public class MainPlayer : MonoBehaviour, IDamageable
             hotbar = transform.Find("Hand 1");
         }
         HotbarInstance = hotbar;
+
+        // Auto-discover weapons under the hotbar (Hand 1) at start
+        if (hotbar != null)
+        {
+            foreach (Transform child in hotbar)
+            {
+                if (child.GetComponent<Gun>() != null || child.GetComponent<Melee>() != null)
+                {
+                    if (!Weapons.Contains(child.gameObject))
+                    {
+                        Weapons.Add(child.gameObject);
+                    }
+                }
+            }
+        }
+
+        // Set the active weapon
+        if (Weapon == null && Weapons.Count > 0)
+        {
+            Weapon = Weapons[0];
+            weaponCurrentSwitch = 0;
+        }
+
+        // Ensure only the active weapon is enabled, and others are disabled
+        for (int i = 0; i < Weapons.Count; i++)
+        {
+            if (Weapons[i] != null)
+            {
+                Weapons[i].SetActive(Weapons[i] == Weapon);
+            }
+        }
     }
 
     private void OnDestroy()

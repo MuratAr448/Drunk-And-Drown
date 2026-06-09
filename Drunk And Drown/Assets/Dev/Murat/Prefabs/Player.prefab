@@ -543,8 +543,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6938084613086011860}
   - {fileID: 7562570603869307066}
+  - {fileID: 97634641406797443}
   m_Father: {fileID: 9045428603997792020}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2273186619318727237
@@ -3341,7 +3341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c6d08657d6e8804d84d311712985e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  Weapon: {fileID: 697924853482191546}
+  Weapon: {fileID: 0}
   pause: 0
   pauseScreen: {fileID: 7374278538019710753}
   deathScreen: []
@@ -3490,7 +3490,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &7284222386425329000
+--- !u!1001 &289664864788361791
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3542,75 +3542,17 @@ PrefabInstance:
       propertyPath: middleScreen
       value: 
       objectReference: {fileID: 6991028301256892608}
-    - target: {fileID: 5662579886598701061, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: m_Name
-      value: GunPivot
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: bullet
-      value: 
-      objectReference: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 5021108686444437553}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: radius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: cooldown
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: shootRate
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: shootRate1
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: bulletSpeed
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: parrotPrefab
-      value: 
-      objectReference: {fileID: 253190547825647205, guid: 7b8e5620422ceb64d9348f0cb5f02281, type: 3}
-    - target: {fileID: 6690632237554206734, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: transformPivot
-      value: 
-      objectReference: {fileID: 943243901864278657}
-    - target: {fileID: 7494503245247156201, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.6
-      objectReference: {fileID: 0}
     - target: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_Name
       value: Parrot gun
-      objectReference: {fileID: 0}
-    - target: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
---- !u!1 &697924853482191546 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-  m_PrefabInstance: {fileID: 7284222386425329000}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &943243901864278657 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7494503245247156201, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-  m_PrefabInstance: {fileID: 7284222386425329000}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6938084613086011860 stripped
+--- !u!4 &97634641406797443 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
-  m_PrefabInstance: {fileID: 7284222386425329000}
+  m_PrefabInstance: {fileID: 289664864788361791}
   m_PrefabAsset: {fileID: 0}

@@ -107,14 +107,20 @@ MonoBehaviour:
   Kind: 2
   cooldown1: 1
   cooldown2: 1
-  shootRate1: 1
+  shootRate1: 0
   shootRate2: 1
-  grappleForce: 150
-  maxGrappleDistance: 50
   grappleLayer:
     serializedVersion: 2
     m_Bits: 0
+  maxGrappleDistance: 30
+  grappleForce: 50
+  initialGrappleSpeed: 10
+  launchUpwardForce: 12
+  reachThreshold: 3
+  contactThreshold: 0.8
+  speedDamageMultiplier: 1
   transformPivot: {fileID: 3131343698844011692}
+  grappleIndicator: {fileID: 0}
 --- !u!1 &4680668513519654589
 GameObject:
   m_ObjectHideFlags: 0
