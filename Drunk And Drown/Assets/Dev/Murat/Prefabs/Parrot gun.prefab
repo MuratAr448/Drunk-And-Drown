@@ -192,3 +192,4 @@ MonoBehaviour:
   damage: 10
   radius: 4
   force: 5
+  shootSound: {fileID: 11400000, guid: 8884141e7c710f04d895c1215b31c25c, type: 2}

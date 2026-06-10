@@ -114,7 +114,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke();
     }
 
-    public void Die()
+    public virtual void Die()
     {
         ComboSystem.Instance.OnEnemyKilled();
         ScoreSystem.Instance.AddScore(_scoreOnDeath, transform.position);

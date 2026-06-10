@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
 public class MorningStar : Melee
 {
     [SerializeField] private float damage = 10;
@@ -64,4 +65,6 @@ public class MorningStar : Melee
             }
         }
     }
+
+    
 }
