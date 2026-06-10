@@ -2,7 +2,7 @@ using UnityEngine;
 public enum KindofMelee
 {
     MorningStar,
-    SwordFish
+    SeaShellsBoxingGloves
 }
 public class Melee : Weapons
 {

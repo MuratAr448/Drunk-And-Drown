@@ -14,7 +14,7 @@ public class SquidRayGun : Gun
     [SerializeField] private LayerMask layerMask;
     private Collider previosOponent;
     private bool ableToHit = false;
-    private Enemy enemy;
+    public Enemy enemy;
 
     void Start()
     {

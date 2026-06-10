@@ -105,7 +105,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     }
                     break;
                 case KindofGun.SquidRayGun:
-                    if (gun.cooldown1 <= 0)
+                    if (gun.cooldown1 <= 0&&gun.GetComponent<SquidRayGun>().enemy==null)
                     {
                         return true;
                     }
@@ -124,7 +124,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                         return true;
                     }
                     break;
-                case KindofMelee.SwordFish:
+                case KindofMelee.SeaShellsBoxingGloves:
                     if (Melee.cooldown1 >= Melee.swingRate1 && Melee.cooldown2 >= Melee.swingRate2)
                     {
                         return true;
