@@ -125,7 +125,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     }
                     break;
                 case KindofMelee.SeaShellsBoxingGloves:
-                    if (Melee.cooldown1 >= Melee.swingRate1 && Melee.cooldown2 >= Melee.swingRate2)
+                    if (Melee.cooldown1 >= Melee.swingRate1 && !Melee.GetComponent<SeaShellsBoxingGloves>().Lunging)
                     {
                         return true;
                     }
