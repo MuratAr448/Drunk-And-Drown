@@ -10,10 +10,25 @@ public class ParrotGun : Gun
     [SerializeField] private float radius = 4f;
     [SerializeField] private float force = 5f;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioEvent shootSound;
+    private AudioSource audioSource;
+
     private Movement player;
     private GameObject activeBullet;
     private float ammoLife = 3f;
     private MainPlayer mainPlayer;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 0.0f; // 2D sound for player weapon
+    }
 
     void Start()
     {
@@ -32,6 +47,11 @@ public class ParrotGun : Gun
         if (shootRate1 <= cooldown1 && activeBullet != null)
         {
             cooldown1 = 0f;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.Play(audioSource);
+            }
 
             Rigidbody bulletRb = activeBullet.GetComponent<Rigidbody>();
             Bullet ammunition = activeBullet.GetComponent<Bullet>();

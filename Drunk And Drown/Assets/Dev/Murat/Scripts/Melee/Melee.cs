@@ -11,7 +11,7 @@ public class Melee : Weapons
     public float swingRate1, swingRate2;
     public virtual void Swing()
     {
-
+        
     }
     public virtual void SecondDairy()
     {

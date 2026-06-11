@@ -114,6 +114,9 @@ MonoBehaviour:
   _attackRadius: 1
   _attackDamage: 10
   _attackOffset: {x: 0, y: 1, z: 1}
+  _attackSound: {fileID: 11400000, guid: ea7dab0bf0118e0419cbc83d432bf745, type: 2}
+  _deathSound: {fileID: 11400000, guid: d906f7277f57b4149bf38717cbb1a7f2, type: 2}
+  _attackSoundChance: 0.5
 --- !u!1001 &2891818911159672280
 PrefabInstance:
   m_ObjectHideFlags: 0
