@@ -122,6 +122,7 @@ public class SquidRayGun : Gun
     private IEnumerator ToEnemy(Enemy enemyPos)
     {
         float distance = Vector3.Distance(player.transform.position, enemyPos.transform.position);
+        float damage = distance;
         while (distance > 1f)
         {
             //stun enemy
@@ -130,6 +131,7 @@ public class SquidRayGun : Gun
             yield return new WaitForSeconds(Time.deltaTime);
             cooldown2 = 0f;
         }
+        enemy.TakeDamage(damage);
         enemy = null;
     }
     void Update()

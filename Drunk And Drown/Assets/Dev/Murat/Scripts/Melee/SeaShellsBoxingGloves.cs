@@ -23,6 +23,7 @@ public class SeaShellsBoxingGloves : Melee
             NormalAttack();
             cooldown1 = 0f;
         }
+
     }
     public override void SecondDairy()
     {
@@ -36,7 +37,7 @@ public class SeaShellsBoxingGloves : Melee
     }
     private void NormalAttack()
     {
-        Collider[] colliders = Physics.OverlapSphere(movement.transform.position+Vector3.forward,3);
+        Collider[] colliders = Physics.OverlapSphere(movement.transform.position + movement.transform.forward*2,2);
         foreach (Collider col in colliders)
         {
             if (col.TryGetComponent(out Enemy enemy))
@@ -51,7 +52,7 @@ public class SeaShellsBoxingGloves : Melee
         Vector3 fireDirection = origin.transform.forward;
         movement.ApplyKnockback(fireDirection * lunge);
 
-        Collider[] colliders = Physics.OverlapBox(movement.transform.position, new Vector3(2, 2, lunge * 0.5f), origin.transform.rotation);
+        Collider[] colliders = Physics.OverlapBox(movement.transform.position, new Vector3(1, 1, lunge) * 0.5f, origin.transform.rotation);
 
         yield return new WaitForSeconds(Time.deltaTime*2);
 

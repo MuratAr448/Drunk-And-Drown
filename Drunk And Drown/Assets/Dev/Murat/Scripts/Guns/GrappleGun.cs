@@ -111,7 +111,7 @@ public class GrappleGun : Gun
 
     private void InitializeGunSettings()
     {
-        Kind = KindofGun.GrappleGun;
+        //Kind = KindofGun.GrappleGun;
 
         // Set default shoot rates if left at 0 to avoid lockouts
         if (shootRate1 == 0f) shootRate1 = 0.2f;

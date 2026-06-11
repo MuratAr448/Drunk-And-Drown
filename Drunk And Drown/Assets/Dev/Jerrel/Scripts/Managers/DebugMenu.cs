@@ -164,12 +164,12 @@ public class DebugMenu : MonoBehaviour
 
             // Check if player already has this weapon in their hotbar list
             bool alreadyHas = false;
-            foreach (GameObject existingWeapon in MainPlayer.Weapons)
+            foreach (Weapons existingWeapon in MainPlayer.weapons)
             {
                 if (existingWeapon != null)
                 {
                     // Match by clean name (removing "(Clone)")
-                    string existingClean = existingWeapon.name.Replace("(Clone)", "").Trim();
+                    string existingClean = existingWeapon.gameObject.name.Replace("(Clone)", "").Trim();
                     string prefabClean = prefab.name.Trim();
 
                     if (existingClean == prefabClean)

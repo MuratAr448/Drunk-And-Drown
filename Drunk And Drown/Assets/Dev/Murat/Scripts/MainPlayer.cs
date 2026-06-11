@@ -67,29 +67,29 @@ public class MainPlayer : MonoBehaviour, IDamageable
         {
             foreach (Transform child in hotbar)
             {
-                if (child.GetComponent<Gun>() != null || child.GetComponent<Melee>() != null)
+                if (child.TryGetComponent(out Weapons weapon))
                 {
-                    if (!Weapons.Contains(child.gameObject))
+                    if (!weapons.Contains(weapon))
                     {
-                        Weapons.Add(child.gameObject);
+                        weapons.Add(weapon);
                     }
                 }
             }
         }
 
         // Set the active weapon
-        if (Weapon == null && Weapons.Count > 0)
+        if (weapon == null && weapons.Count > 0)
         {
-            Weapon = Weapons[0];
+            weapon = weapons[0];
             weaponCurrentSwitch = 0;
         }
 
         // Ensure only the active weapon is enabled, and others are disabled
-        for (int i = 0; i < Weapons.Count; i++)
+        for (int i = 0; i < weapons.Count; i++)
         {
-            if (Weapons[i] != null)
+            if (weapons[i] != null)
             {
-                Weapons[i].SetActive(Weapons[i] == Weapon);
+                weapons[i].gameObject.SetActive(weapons[i] == weapon);
             }
         }
     }
