@@ -56,7 +56,7 @@ public class Movement : MonoBehaviour
     private float curSpeed;
     private float rotationX = 0;
     private bool doubleJumpAvailable = true;
-    private bool isGrounded;
+    public bool isGrounded;
 
     private Vector2 moveInput;
     private Vector2 lookInput;

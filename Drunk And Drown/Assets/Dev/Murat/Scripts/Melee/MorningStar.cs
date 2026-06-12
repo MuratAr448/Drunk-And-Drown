@@ -17,8 +17,10 @@ public class MorningStar : Melee
     private List<Enemy> hitEnemys = new List<Enemy>();
     [SerializeField] private ExplosiveHammer explosive;
     public bool Attacking = false;
+    private Movement player;
     void Start()
     {
+        player = FindFirstObjectByType<Movement>();
         puffSize = pufferFish.transform.localScale;
         puffPos = pufferFish.transform.localPosition;
         ropeSize = rope.transform.localScale;
@@ -54,7 +56,12 @@ public class MorningStar : Melee
     private IEnumerator PowerSlam()
     {
         //movement
-        yield return new WaitForSeconds(1f);
+        while(!player.isGrounded)
+        {
+            yield return new WaitForSeconds(Time.deltaTime);
+            cooldown2 = 0f;
+            //falling
+        }
         explosive.damagedObjects.Clear();
         explosive.Explode();
         GameObject smoke = Instantiate(smokePref,pufferFish.transform.position, pufferFish.transform.rotation,null);
