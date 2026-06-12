@@ -14,6 +14,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected int _scoreOnDeath = 10;
     [SerializeField] protected int _coinsOnDeath = 5;
 
+    [Header("Effects")]
+    [SerializeField] protected GameObject _deathParticlePrefab;
+
     [Header("State Management")]
     [SerializeField] protected EnemyState _currentState;
 
@@ -127,6 +130,12 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         {
             EnemyUtils.Instance.RemoveEnemy();
         }
+
+        if (_deathParticlePrefab != null)
+        {
+            Instantiate(_deathParticlePrefab, transform.position, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 

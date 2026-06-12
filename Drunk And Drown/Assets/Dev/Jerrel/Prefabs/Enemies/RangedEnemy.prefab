@@ -161,6 +161,7 @@ MonoBehaviour:
   MaxHealth: 20
   _scoreOnDeath: 20
   _coinsOnDeath: 10
+  _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
   _currentState: 1
   _patrolRange: 10
   _moveSpeed: 3
