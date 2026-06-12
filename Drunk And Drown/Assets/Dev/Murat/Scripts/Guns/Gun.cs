@@ -3,9 +3,9 @@ public enum KindofGun
 {
     BunderBuss,
     ParrotGun,
-    GrappleGun
+    SquidRayGun
 }
-public class Gun : MonoBehaviour
+public class Gun : Weapons
 {
     public KindofGun Kind;
     public float cooldown1 = 1.0f, cooldown2 = 1.0f;
@@ -17,5 +17,22 @@ public class Gun : MonoBehaviour
     public virtual void Secondary()
     {
 
+    }
+
+    protected float lastDisableTime;
+
+    protected virtual void OnEnable()
+    {
+        if (lastDisableTime > 0f)
+        {
+            float timePassed = Time.time - lastDisableTime;
+            cooldown1 = Mathf.Min(cooldown1 + timePassed, shootRate1);
+            cooldown2 = Mathf.Min(cooldown2 + timePassed, shootRate2);
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        lastDisableTime = Time.time;
     }
 }

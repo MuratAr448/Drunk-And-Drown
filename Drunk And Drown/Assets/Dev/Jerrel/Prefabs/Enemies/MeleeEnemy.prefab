@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2136052578680976051}
   - component: {fileID: 6893833051630208084}
   - component: {fileID: 8761436604938811746}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MeleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,6 +145,9 @@ MonoBehaviour:
   _attackRadius: 2
   _attackDamage: 10
   _attackOffset: {x: 0, y: 0, z: 1}
+  _attackSound: {fileID: 0}
+  _deathSound: {fileID: 0}
+  _attackSoundChance: 0.5
 --- !u!54 &8761436604938811746
 Rigidbody:
   m_ObjectHideFlags: 0

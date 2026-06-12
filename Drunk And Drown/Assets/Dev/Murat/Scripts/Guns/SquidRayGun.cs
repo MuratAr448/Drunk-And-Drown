@@ -1,11 +1,25 @@
-using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class GrappleGun : Gun
+public class SquidRayGun : Gun
 {
+    [Header("Squid Ray Settings")]
+    [SerializeField] private float Basedamage = 1;
+    [SerializeField] private float size = 0.01f;
+    private MainPlayer playerSquid;
+    [SerializeField] private GameObject inkPrefab;
+    private GameObject inkRay;
+    [SerializeField] private LayerMask layerMask;
+    private GameObject previousTarget;
+    private bool ableToHit = false;
+    public Enemy enemy;
+
     [Header("Grapple Target & Layer settings")]
     [SerializeField] private LayerMask grappleLayer;
     [SerializeField] private float maxGrappleDistance = 50f;
+    [SerializeField] public Color grappleReadyColor = new Color(1f, 1f, 1f, 1f);
+    [SerializeField] public Color grappleCooldownColor = new Color(0.3f, 0.3f, 0.3f, 1f);
 
     [Header("Grapple Physics & Speeds")]
     [SerializeField] private float grappleForce = 150f; // Velocity change acceleration rate
@@ -36,19 +50,38 @@ public class GrappleGun : Gun
     private Collider activeEnemyCollider;
     private Vector3 staticGrappleWorldPos;
     private bool isStaticGrapple = false;
-    private bool isGrappling = false;
-    private bool isInputBlocked = false;
+    protected bool isGrappling = false;
+    protected bool isInputBlocked = false;
+    protected KeyCode grappleKey = KeyCode.Mouse1;
 
-    private void Start()
+    protected virtual void Start()
     {
+        playerSquid = FindFirstObjectByType<MainPlayer>();
+        Kind = KindofGun.SquidRayGun;
+
         InitializePlayerReferences();
         InitializeGunSettings();
         InitializeLineRenderer();
         InitializeGrappleIndicator();
     }
 
-    private void OnDisable()
+    protected override void OnEnable()
     {
+        if (lastDisableTime > 0f)
+        {
+            float timePassed = Time.time - lastDisableTime;
+            // Cooldown 1 is heat, so it decreases while unequipped! (5f per second is the cooling rate)
+            cooldown1 = Mathf.Max(cooldown1 - (5f * timePassed), 0f);
+            
+            // Cooldown 2 is a normal cooldown, so it increases!
+            cooldown2 = Mathf.Min(cooldown2 + timePassed, shootRate2);
+        }
+        // Deliberately NOT calling base.OnEnable() because it would increase cooldown1!
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
         StopGrapple();
         if (grappleIndicator != null)
         {
@@ -58,22 +91,110 @@ public class GrappleGun : Gun
 
     public override void Shoot()
     {
-        base.Shoot();
-
-        if (isInputBlocked) return;
-
-        if (shootRate1 <= cooldown1 && !isGrappling)
+        // Primary attack logic
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            cooldown1 = 0f;
-            StartGrapple();
+            cooldown1 += Time.deltaTime*2;
         }
     }
 
-    private void Update()
+    private void CoolingDown()
+    {
+        if(!Input.GetKey(KeyCode.Mouse0))
+        {
+            cooldown1 -= Time.deltaTime;
+            ableToHit = false;
+
+            // Instantly destroy inkRay when we stop firing
+            if (inkRay != null)
+            {
+                Destroy(inkRay);
+                inkRay = null;
+            }
+
+            if (cooldown1 < 0f)
+            {
+                cooldown1 = 0;
+            }
+        }
+        else
+        {
+            if (inkRay == null)
+            {
+                inkRay = Instantiate(inkPrefab, gameObject.transform);
+            }
+            ableToHit = true;
+            if (cooldown1>= shootRate1)
+            {
+                cooldown1 = shootRate1;
+            }
+        }
+        
+        size = cooldown1 * 0.5f;
+        RaycastHit hit;
+        GameObject Origin = playerSquid.rayOrigin;
+        
+        if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit, 20, layerMask) && inkRay != null)
+        {
+            if (hit.collider != inkRay.GetComponent<Collider>())
+            {
+                float distance = Vector3.Distance(transform.position, hit.point);
+                transform.LookAt(hit.point);
+                inkRay.transform.rotation = transform.rotation;
+                inkRay.transform.localScale = new Vector3(size, size, distance);
+                inkRay.transform.localPosition = Vector3.forward * (distance * 0.3f);
+                IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
+                if (damageable != null && ableToHit)
+                {
+                    GameObject targetObj = (damageable as MonoBehaviour).gameObject;
+                    if (targetObj.TryGetComponent(out RayDamage RD))
+                    {
+                        if (RD.Iframe <= 0)
+                        {
+                            RD.RayIframe();
+                            if (previousTarget != targetObj)
+                            {
+                                RD.Multiplyer = 0;
+                            }
+                            RD.Multiplyer += Basedamage;
+                            damageable.TakeDamage(RD.Multiplyer);
+                        }
+                    }
+                    else
+                    {
+                        targetObj.AddComponent<RayDamage>();
+                        damageable.TakeDamage(Basedamage);
+                    }
+                    previousTarget = targetObj;
+                }
+            }
+        }
+        else if(inkRay != null)
+        {
+            inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
+            inkRay.transform.rotation = transform.rotation;
+            inkRay.transform.localScale = new Vector3(size, size, 20);
+        }
+    }
+
+    public override void Secondary()
+    {
+        if (isInputBlocked) return;
+
+        if (shootRate2 <= cooldown2 && !isGrappling)
+        {
+            if (StartGrapple())
+            {
+                cooldown2 = 0f;
+            }
+        }
+    }
+
+    protected virtual void Update()
     {
         HandleCooldowns();
 
-        if (isInputBlocked && !Input.GetKey(KeyCode.Mouse0))
+        if (isInputBlocked && !Input.GetKey(grappleKey))
         {
             isInputBlocked = false;
         }
@@ -86,9 +207,11 @@ public class GrappleGun : Gun
         {
             UpdateRangeIndicator();
         }
+
+        CoolingDown(); // Squid ray gun specific cooling down logic
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (isGrappling && playerRb != null)
         {
@@ -111,8 +234,6 @@ public class GrappleGun : Gun
 
     private void InitializeGunSettings()
     {
-        Kind = KindofGun.GrappleGun;
-
         // Set default shoot rates if left at 0 to avoid lockouts
         if (shootRate1 == 0f) shootRate1 = 0.2f;
         if (shootRate2 == 0f) shootRate2 = 0.2f;
@@ -164,12 +285,13 @@ public class GrappleGun : Gun
                 {
                     GameObject indicatorGo = new GameObject("GrappleIndicator");
                     indicatorGo.transform.SetParent(canvas.transform, false);
+                    indicatorGo.transform.SetAsFirstSibling();
                     
                     grappleIndicator = indicatorGo.AddComponent<UnityEngine.UI.Image>();
                     RectTransform rect = indicatorGo.GetComponent<RectTransform>();
                     rect.sizeDelta = new Vector2(20f, 20f);
                     rect.anchoredPosition = Vector2.zero;
-                    grappleIndicator.color = new Color(0f, 1f, 0.8f, 0.6f); 
+                    grappleIndicator.color = grappleReadyColor; 
                     
                     Sprite knob = Resources.GetBuiltinResource<Sprite>("UI/Skin/Knob.psd");
                     if (knob != null)
@@ -188,9 +310,9 @@ public class GrappleGun : Gun
 
     // --- Core Grapple Logic ---
 
-    private void StartGrapple()
+    protected bool StartGrapple()
     {
-        if (mainPlayer == null || mainPlayer.rayOrigin == null) return;
+        if (mainPlayer == null || mainPlayer.rayOrigin == null) return false;
 
         GameObject origin = mainPlayer.rayOrigin;
         Vector3 fireDirection = origin.transform.forward;
@@ -203,6 +325,7 @@ public class GrappleGun : Gun
 
         RaycastHit hit = default;
         bool hitSomething = false;
+        Enemy hitEnemy = null;
 
         foreach (var h in hits)
         {
@@ -210,29 +333,25 @@ public class GrappleGun : Gun
             {
                 continue;
             }
-            hit = h;
-            hitSomething = true;
-            break;
+            
+            hitEnemy = h.collider.GetComponentInParent<Enemy>();
+            if (hitEnemy != null)
+            {
+                hit = h;
+                hitSomething = true;
+                break;
+            }
         }
 
-        if (hitSomething)
+        if (hitSomething && hitEnemy != null)
         {
-            Enemy enemy = hit.collider.GetComponentInParent<Enemy>();
-            
-            if (enemy != null)
-            {
-                activeEnemyCollider = hit.collider;
-                Transform grapplePoint = enemy.transform.Find("GrapplePoint");
-                activeGrapplePoint = grapplePoint != null ? grapplePoint : enemy.transform;
-                isStaticGrapple = false;
-                isGrappling = true;
-            }
-            else
-            {
-                staticGrappleWorldPos = hit.point;
-                isStaticGrapple = true;
-                isGrappling = true;
-            }
+            activeEnemyCollider = hit.collider;
+            Transform grapplePoint = hitEnemy.transform.Find("GrapplePoint");
+            activeGrapplePoint = grapplePoint != null ? grapplePoint : hitEnemy.transform;
+            isStaticGrapple = false;
+            isGrappling = true;
+            this.enemy = hitEnemy;
+            this.enemy.SetStunned(true);
 
             if (lineRenderer != null)
             {
@@ -248,21 +367,30 @@ public class GrappleGun : Gun
                 float launchSpeed = Mathf.Max(currentSpeed, initialGrappleSpeed);
                 playerRb.linearVelocity = pullDirection * launchSpeed;
             }
+            
+            return true;
         }
+        
+        return false;
     }
 
-    private void StopGrapple()
+    protected void StopGrapple()
     {
+        if (this.enemy != null)
+        {
+            this.enemy.SetStunned(false);
+        }
         isGrappling = false;
         activeGrapplePoint = null;
         activeEnemyCollider = null;
         isStaticGrapple = false;
+        this.enemy = null;
         if (lineRenderer != null)
         {
             lineRenderer.enabled = false;
         }
 
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(grappleKey))
         {
             isInputBlocked = true;
         }
@@ -284,13 +412,13 @@ public class GrappleGun : Gun
 
     private void HandleCooldowns()
     {
-        if (shootRate1 >= cooldown1) cooldown1 += Time.deltaTime;
+        // cooldown1 is managed by CoolingDown() uniquely for the primary laser
         if (shootRate2 >= cooldown2) cooldown2 += Time.deltaTime;
     }
 
     private void HandleActiveGrapple()
     {
-        bool isHoldingGrapple = Input.GetKey(KeyCode.Mouse0);
+        bool isHoldingGrapple = Input.GetKey(grappleKey);
         Vector3 targetPos = isStaticGrapple ? staticGrappleWorldPos : (activeGrapplePoint != null ? activeGrapplePoint.position : Vector3.zero);
         float currentDistance = Vector3.Distance(player.transform.position, targetPos);
 
@@ -413,11 +541,30 @@ public class GrappleGun : Gun
                 {
                     continue;
                 }
-                inRange = true;
-                break;
+                
+                if (h.collider.GetComponentInParent<Enemy>() != null)
+                {
+                    inRange = true;
+                    break;
+                }
             }
 
-            grappleIndicator.gameObject.SetActive(inRange);
+            if (inRange)
+            {
+                grappleIndicator.gameObject.SetActive(true);
+                if (cooldown2 >= shootRate2)
+                {
+                    grappleIndicator.color = grappleReadyColor; // White (Ready)
+                }
+                else
+                {
+                    grappleIndicator.color = grappleCooldownColor; // Dark Grey (On Cooldown)
+                }
+            }
+            else
+            {
+                grappleIndicator.gameObject.SetActive(false);
+            }
         }
         else
         {

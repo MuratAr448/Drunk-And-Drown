@@ -21,7 +21,10 @@ public class AudioEvent : ScriptableObject
     {
         if (clips == null || clips.Length == 0) return;
 
-        source.clip = clips[Random.Range(0, clips.Length)];
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip == null) return;
+
+        source.clip = clip;
         source.volume = Mathf.Clamp(volume + Random.Range(-volumeRandomRange, volumeRandomRange), 0f, 1f);
         source.pitch = Mathf.Clamp(pitch + Random.Range(-pitchRandomRange, pitchRandomRange), 0.1f, 3f);
         source.Play();
@@ -37,6 +40,8 @@ public class AudioEvent : ScriptableObject
         if (clips == null || clips.Length == 0) return;
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip == null) return;
+
         float calculatedVolume = Mathf.Clamp(volume + Random.Range(-volumeRandomRange, volumeRandomRange), 0f, 1f);
         float calculatedPitch = Mathf.Clamp(pitch + Random.Range(-pitchRandomRange, pitchRandomRange), 0.1f, 3f);
         

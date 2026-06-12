@@ -5,7 +5,8 @@ using UnityEngine;
 public enum BulletType
 {
     Normal,
-    Explosive // Fixed spelling
+    Explosive, // Fixed spelling
+    Ray
 }
 
 public class Bullet : MonoBehaviour
@@ -26,7 +27,6 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(timeTillDeath);
         Destroy(gameObject);
     }
-
     public void OnTriggerEnter(Collider other)
     {
         // Don't hit the player who shot the bullet (optional check)
@@ -38,10 +38,11 @@ public class Bullet : MonoBehaviour
                 HandleDirectHit(other, damage);
                 Destroy(gameObject);
                 break;
-
             case BulletType.Explosive:
                 Explode(other);
                 Destroy(gameObject);
+                break;
+            case BulletType.Ray:
                 break;
         }
     }
@@ -104,4 +105,5 @@ public class Bullet : MonoBehaviour
             }
         }
     }
+
 }

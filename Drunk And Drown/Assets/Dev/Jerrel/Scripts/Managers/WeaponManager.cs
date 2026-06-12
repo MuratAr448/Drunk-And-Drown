@@ -27,7 +27,7 @@ public class WeaponManager : MonoBehaviour
     }
 
     public List<Weapon> allWeapons = new List<Weapon>();
-
+    
     public void AddWeapon(Weapon weaponData)
     {
         if (weaponData.weaponObject == null) return;
@@ -40,6 +40,27 @@ public class WeaponManager : MonoBehaviour
         if (allWeapons != null && allWeapons.Count > 0 && allWeapons[0].weaponObject != null)
         {
             MainPlayer.AddWeaponToList(allWeapons[0].weaponObject);
+        }
+    }
+    public void GiveMorningStar()
+    {
+        if (allWeapons != null && allWeapons.Count > 0 && allWeapons[1].weaponObject != null)
+        {
+            MainPlayer.AddWeaponToList(allWeapons[1].weaponObject);
+        }
+    }
+    public void GiveSeaHorseSMG()
+    {
+        if (allWeapons != null && allWeapons.Count > 0 && allWeapons[2].weaponObject != null)
+        {
+            MainPlayer.AddWeaponToList(allWeapons[2].weaponObject);
+        }
+    }
+    public void GiveSquidRayGun()
+    {
+        if (allWeapons != null && allWeapons.Count > 0 && allWeapons[3].weaponObject != null)
+        {
+            MainPlayer.AddWeaponToList(allWeapons[3].weaponObject);
         }
     }
 }

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9699e50cad523c419614190e67c79d7, type: 3}
-  m_Name: Grapple
+  m_Name: SquidRaygun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponItemData
-  itemName: GrappleSquid
-  icon: {fileID: 21300000, guid: 69aa625a5fb137643b4066a8c75e32f5, type: 3}
-  cost: 0
-  description: Grapple towards enemies dealing damage the faster you go.
-  weaponPrefab: {fileID: 2793050114531414949, guid: 49569adf1460a7e429efad62ab1eee6a, type: 3}
+  itemName: SquidRaygun
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  cost: 25
+  description: Shoot ink at enemies and grapple towards them.
+  weaponPrefab: {fileID: 1091788659278207888, guid: 492c623966193f14a888b7620c5cebde, type: 3}

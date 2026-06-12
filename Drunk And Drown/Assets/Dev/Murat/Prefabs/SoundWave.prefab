@@ -108,7 +108,7 @@ MonoBehaviour:
   type: 1
   damage: 10
   timeTillDeath: 3
-  radius: 4
+  radius: 7
   force: 5
 --- !u!54 &-3130241070398865076
 Rigidbody:

@@ -12,10 +12,10 @@ public class SeaHorseSMG : Gun
     [SerializeField] private float damage = 3;
     [SerializeField] private float spread = 10f; 
     private float ammoLife = 1f;
-    [SerializeField] private Movement player;
+    private MainPlayer player;
     private void Start()
     {
-        player = FindFirstObjectByType<Movement>();
+        player = FindFirstObjectByType<MainPlayer>();
         Kind = KindofGun.BunderBuss;
     }
     public override void Shoot()
@@ -31,7 +31,7 @@ public class SeaHorseSMG : Gun
             amunition.type = BulletType.Normal;
             amunition.Lanched();
             RaycastHit hit;
-            GameObject Origin = player.GetComponent<MainPlayer>().rayOrigin;
+            GameObject Origin = player.rayOrigin;
             if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
             {
                 rb.transform.LookAt(hit.point);

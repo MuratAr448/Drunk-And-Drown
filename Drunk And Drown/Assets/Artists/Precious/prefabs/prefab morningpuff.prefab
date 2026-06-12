@@ -54,7 +54,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 37f01cab8aa806e4981cd2ca5f543407, type: 2}
     - target: {fileID: 919132149155446097, guid: 4aa32e711f15b21499c5d92f51dad376, type: 3}
       propertyPath: m_Name
-      value: MorningPuff
+      value: prefab morningpuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 5106100113720459132, guid: 4aa32e711f15b21499c5d92f51dad376, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
