@@ -9,7 +9,9 @@ public class DebugMenu : MonoBehaviour
     [SerializeField] private List<GameObject> customWeaponPrefabs; // Manual fallback weapon list
 
     private bool showMenu = false;
-    private Rect windowRect = new Rect(50, 50, 500, 480);
+    // Base resolution for scaling is 1920x1080.
+    // 576 width is exactly 30% of 1920.
+    private Rect windowRect = new Rect(50, 50, 576, 540);
 
     private void Update()
     {
@@ -58,6 +60,12 @@ public class DebugMenu : MonoBehaviour
     {
         if (!showMenu) return;
 
+        Matrix4x4 originalMatrix = GUI.matrix;
+        
+        // Scale everything relative to a 1920x1080 reference resolution
+        float scale = Screen.width / 1920f;
+        GUI.matrix = Matrix4x4.TRS(Vector3.zero, Quaternion.identity, new Vector3(scale, scale, 1));
+
         // Scale styles for a bigger, cleaner menu
         int originalBtnFontSize = GUI.skin.button.fontSize;
         int originalLabelFontSize = GUI.skin.label.fontSize;
@@ -73,6 +81,8 @@ public class DebugMenu : MonoBehaviour
         GUI.skin.button.fontSize = originalBtnFontSize;
         GUI.skin.label.fontSize = originalLabelFontSize;
         GUI.skin.window.fontSize = originalWindowFontSize;
+        
+        GUI.matrix = originalMatrix;
     }
 
     private void DrawDebugWindow(int windowID)
@@ -130,16 +140,28 @@ public class DebugMenu : MonoBehaviour
         }
 
         // 1. Gather all weapons from the ShopManager
-        ShopManager shopManager = FindFirstObjectByType<ShopManager>();
+        ShopManager shopManager = FindFirstObjectByType<ShopManager>(FindObjectsInactive.Include);
         List<GameObject> prefabsToInstantiate = new List<GameObject>();
 
         if (shopManager != null && shopManager.AvailableWeapons != null)
         {
             foreach (var weaponData in shopManager.AvailableWeapons)
             {
-                if (weaponData != null && weaponData.weaponPrefab != null)
+                if (weaponData != null && weaponData.weaponPrefab != null && !prefabsToInstantiate.Contains(weaponData.weaponPrefab))
                 {
                     prefabsToInstantiate.Add(weaponData.weaponPrefab);
+                }
+            }
+        }
+
+        // 1.5. Gather weapons from WeaponManager
+        if (WeaponManager.Instance != null && WeaponManager.Instance.allWeapons != null)
+        {
+            foreach (var w in WeaponManager.Instance.allWeapons)
+            {
+                if (w.weaponObject != null && !prefabsToInstantiate.Contains(w.weaponObject))
+                {
+                    prefabsToInstantiate.Add(w.weaponObject);
                 }
             }
         }

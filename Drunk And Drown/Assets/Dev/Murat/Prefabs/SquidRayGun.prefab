@@ -55,7 +55,22 @@ MonoBehaviour:
   inkPrefab: {fileID: 2574407420245812532, guid: 9b159f0c34cba744ba1fadb78bfefd67, type: 3}
   layerMask:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 193
+  enemy: {fileID: 0}
+  grappleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  maxGrappleDistance: 50
+  grappleReadyColor: {r: 1, g: 1, b: 1, a: 1}
+  grappleCooldownColor: {r: 1, g: 0, b: 0, a: 1}
+  grappleForce: 50
+  initialGrappleSpeed: 15
+  launchUpwardForce: 12
+  reachThreshold: 3
+  contactThreshold: 0.8
+  speedDamageMultiplier: 1
+  transformPivot: {fileID: 0}
+  grappleIndicator: {fileID: 0}
 --- !u!1 &2115374430174971591
 GameObject:
   m_ObjectHideFlags: 0

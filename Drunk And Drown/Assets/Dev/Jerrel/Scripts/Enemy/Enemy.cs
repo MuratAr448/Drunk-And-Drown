@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum EnemyState { Idle, Patrol, Chase, Attack }
+public enum EnemyState { Idle, Patrol, Chase, Attack, Stunned }
 
 public abstract class Enemy : MonoBehaviour, IDamageable
 {
@@ -73,12 +73,16 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             case EnemyState.Attack:
                 AttackState();
                 break;
+            case EnemyState.Stunned:
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+                break;
         }
     }
 
     private void CheckForPlayer()
     {
         if (_playerTransform == null) return;
+        if (_currentState == EnemyState.Stunned) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
 
@@ -218,5 +222,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void SpawnedByArena()
     {
         _spawnedByArena = true;
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        if (isStunned)
+        {
+            _currentState = EnemyState.Stunned;
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        }
+        else if (_currentState == EnemyState.Stunned)
+        {
+            _currentState = EnemyState.Idle;
+        }
     }
 }
