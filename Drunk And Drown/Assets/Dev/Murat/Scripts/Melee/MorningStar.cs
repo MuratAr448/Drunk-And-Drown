@@ -10,13 +10,19 @@ public class MorningStar : Melee
 {
     [SerializeField] private float damage = 10;
     [SerializeField] private SphereCollider colliderTrig;
-    [SerializeField] private GameObject pufferFish;
+    [SerializeField] private GameObject pufferFish, rope;
+    private Vector3 puffSize,ropeSize;
+    private Vector3 puffPos,ropePos;
     [SerializeField] private GameObject smokePref;
     private List<Enemy> hitEnemys = new List<Enemy>();
     [SerializeField] private ExplosiveHammer explosive;
     public bool Attacking = false;
     void Start()
     {
+        puffSize = pufferFish.transform.localScale;
+        puffPos = pufferFish.transform.localPosition;
+        ropeSize = rope.transform.localScale;
+        ropePos = rope.transform.localPosition;
         Kind = KindofMelee.MorningStar;
     }
     public override void Swing()
@@ -87,14 +93,20 @@ public class MorningStar : Melee
     {
         colliderTrig.enabled = true;
         colliderTrig.radius = 0.3f;
-        pufferFish.transform.localScale = Vector3.one * 0.6f;
+        pufferFish.transform.localScale = puffSize * 2f;
+        pufferFish.transform.localPosition = puffPos + Vector3.down*0.15f;
+        rope.transform.localScale = ropeSize * 2;
+        rope.transform.localPosition = ropePos + Vector3.up*.15f;
         Attacking = true;
     }
     private void Deflate()
     {
         colliderTrig.enabled = false;
         colliderTrig.radius = 0.15f;
-        pufferFish.transform.localScale = Vector3.one * 0.3f;
+        pufferFish.transform.localScale = puffSize;
+        pufferFish.transform.localPosition = puffPos;
+        rope.transform.localScale = ropeSize;
+        rope.transform.localPosition = ropePos;
         hitEnemys.Clear();
         Attacking = false;
     }
