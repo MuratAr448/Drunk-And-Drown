@@ -123,7 +123,7 @@ public class SquidRayGun : Gun
     {
         float distance = Vector3.Distance(player.transform.position, enemyPos.transform.position);
         float damage = distance;
-        while (distance > 1f)
+        while (distance > 1.5f)
         {
             //stun enemy
             distance = Vector3.Distance(player.transform.position, enemyPos.transform.position);
