@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class ComboSystem : MonoBehaviour
 {
     public static ComboSystem Instance { get; private set; }
@@ -17,9 +18,13 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private Image _comboBar;
     [SerializeField] private TextMeshProUGUI _multiplierText;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioEvent _comboSound;
+
     private int _currentCombo = 0;
     private float _comboTimer = 0f;
     private float _currentMultiplier = 1f;
+    private AudioSource _audioSource;
 
     public float CurrentMultiplier => _currentMultiplier;
 
@@ -35,6 +40,7 @@ public class ComboSystem : MonoBehaviour
 
     private void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         UpdateUI();
     }
 
@@ -73,6 +79,12 @@ public class ComboSystem : MonoBehaviour
 
         UpdateUI();
         TriggerTextBounce();
+
+        if (_comboSound != null && _audioSource != null && _currentCombo > 0)
+        {
+            float pitchMultiplier = Mathf.Pow(1.059463f, _currentCombo - 1);
+            _comboSound.Play(_audioSource, pitchMultiplier);
+        }
     }
 
     private void ResetCombo()

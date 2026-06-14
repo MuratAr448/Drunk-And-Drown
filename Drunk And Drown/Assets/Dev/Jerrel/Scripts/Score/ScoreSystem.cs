@@ -39,29 +39,13 @@ public class ScoreSystem : MonoBehaviour
 
         if (finalScore <= 0) return;
 
-        if (_scoreTextLabel != null && worldPosition.HasValue)
+        _totalScore += finalScore;
+        UpdateScoreUI();
+
+        if (_scoreTextLabel != null)
         {
-            UIAnimationUtils.StartFlyingText(
-                this,
-                _scoreTextLabel,
-                finalScore,
-                worldPosition.Value,
-                Color.white,
-                () => {
-                    _totalScore += finalScore;
-                    UpdateScoreUI();
-                    _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _scoreTextLabel, _bounceRoutine);
-                }
-            );
-        }
-        else
-        {
-            _totalScore += finalScore;
-            UpdateScoreUI();
-            if (_scoreTextLabel != null)
-            {
-                _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _scoreTextLabel, _bounceRoutine);
-            }
+            float intensityMultiplier = Mathf.Clamp(1f + (finalScore - 10) * 0.02f, 1f, 2.5f);
+            _bounceRoutine = UIAnimationUtils.StartTextBounce(this, _scoreTextLabel, _bounceRoutine, intensityMultiplier);
         }
     }
 

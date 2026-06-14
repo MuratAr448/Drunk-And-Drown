@@ -25,7 +25,8 @@ public static class UIAnimationUtils
     public static Coroutine StartTextBounce(
         MonoBehaviour caller,
         TextMeshProUGUI targetLabel,
-        Coroutine activeBounceRoutine
+        Coroutine activeBounceRoutine,
+        float intensityMultiplier = 1f
     )
     {
         if (caller == null || targetLabel == null) return null;
@@ -35,7 +36,7 @@ public static class UIAnimationUtils
             caller.StopCoroutine(activeBounceRoutine);
         }
 
-        return caller.StartCoroutine(BounceTextRoutine(targetLabel));
+        return caller.StartCoroutine(BounceTextRoutine(targetLabel, intensityMultiplier));
     }
 
     private static IEnumerator FlyTextRoutine(
@@ -65,13 +66,14 @@ public static class UIAnimationUtils
         TextMeshProUGUI flyingText = flyingGo.AddComponent<TextMeshProUGUI>();
         flyingText.font = targetLabel.font;
         flyingText.fontSharedMaterial = targetLabel.fontSharedMaterial;
-        flyingText.fontSize = 36f;
+        float intensityMultiplier = Mathf.Clamp(1f + (amount - 10) * 0.02f, 1f, 2.5f);
+        flyingText.fontSize = 36f * intensityMultiplier;
         flyingText.color = color;
         flyingText.alignment = TextAlignmentOptions.Center;
         flyingText.text = "+" + amount;
 
         RectTransform flyingRect = flyingGo.GetComponent<RectTransform>();
-        flyingRect.sizeDelta = new Vector2(200f, 50f);
+        flyingRect.sizeDelta = new Vector2(200f * intensityMultiplier, 50f * intensityMultiplier);
 
         // Convert world position to screen position
         Vector2 startScreenPos;
@@ -118,7 +120,7 @@ public static class UIAnimationUtils
         Vector2 startPos = localStartPoint;
 
         // Curved arc path for a beautiful float/fly trajectory
-        Vector2 controlPoint = (startPos + targetLocalPoint) / 2f + new Vector2(Random.Range(-80f, 80f), Random.Range(100f, 150f));
+        Vector2 controlPoint = (startPos + targetLocalPoint) / 2f + new Vector2(Random.Range(-80f, 80f), Random.Range(100f, 150f)) * intensityMultiplier;
 
         while (elapsed < duration)
         {
@@ -147,20 +149,21 @@ public static class UIAnimationUtils
         onComplete?.Invoke();
     }
 
-    private static IEnumerator BounceTextRoutine(TextMeshProUGUI targetLabel)
+    private static IEnumerator BounceTextRoutine(TextMeshProUGUI targetLabel, float intensityMultiplier)
     {
         RectTransform labelRect = targetLabel.rectTransform;
         labelRect.localScale = Vector3.one;
 
         float duration = 0.08f;
         float elapsed = 0f;
+        float maxScale = 1f + 0.3f * intensityMultiplier;
 
         // Scale up
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
-            labelRect.localScale = Vector3.one * Mathf.Lerp(1f, 1.3f, t);
+            labelRect.localScale = Vector3.one * Mathf.Lerp(1f, maxScale, t);
             yield return null;
         }
 
@@ -170,7 +173,7 @@ public static class UIAnimationUtils
         {
             elapsed += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
-            labelRect.localScale = Vector3.one * Mathf.Lerp(1.3f, 1f, t);
+            labelRect.localScale = Vector3.one * Mathf.Lerp(maxScale, 1f, t);
             yield return null;
         }
 

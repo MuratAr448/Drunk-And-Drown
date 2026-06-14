@@ -1811,7 +1811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5392935353217283456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1829,7 +1829,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 30, y: 3}
+  m_SizeDelta: {x: 35, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7226153662439028933
 CanvasRenderer:
@@ -1852,7 +1852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3395,7 +3395,7 @@ MonoBehaviour:
   flatGroundSlideForce: 15
   slideCooldownDuration: 1
   canSlide: 1
-  slideColor: {r: 0, g: 0, b: 0, a: 1}
+  slideColor: {r: 1, g: 0.87977815, b: 0.47358483, a: 1}
   slideVFX: {fileID: 7008045845526750182}
   normalMaterial: {fileID: 13400000, guid: b8d73a35784dee940bbb31f1d7bbccc8, type: 2}
   slideMaterial: {fileID: 13400000, guid: 4193198a3067ec64a92b8d11c4b3e881, type: 2}
