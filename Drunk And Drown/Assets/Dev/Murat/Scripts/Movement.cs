@@ -26,6 +26,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private float lookSpeed = 0.1f;
     [SerializeField] private float lookXLimit = 60f;
     [SerializeField] private float maxForce = 15f;
+    [SerializeField] private float acceleration = 12f;
+    [SerializeField] private float deceleration = 16f;
+    [SerializeField] private float airControl = 2f;
 
     [Header("Ground Settings")]
     [SerializeField] private Transform groundCheck;
@@ -35,14 +38,19 @@ public class Movement : MonoBehaviour
     [SerializeField] private float maxSlopeAngle = 45f;
     [SerializeField] private float flatGroundSlideForce = 5f;
     [SerializeField] private float slideCooldownDuration = 1f;
+    [SerializeField] private float slideDuration = 0.5f;
     [SerializeField] private bool canSlide = true;
     [SerializeField] private Color slideColor;
     [SerializeField] private ParticleSystem slideVFX;
+    [SerializeField] private AudioEvent dashSound;
     private RaycastHit slopeHit;
     private bool isOnSlope;
     private float nextSlideTime;
     private bool isCooldownActive;
     private Coroutine slideVFXCoroutine;
+    private AudioSource audioSource;
+    private float slideStartTime;
+    private bool isBoostedSlide;
     [SerializeField] private PhysicsMaterial normalMaterial;
     [SerializeField] private PhysicsMaterial slideMaterial;
 
@@ -65,6 +73,7 @@ public class Movement : MonoBehaviour
     private bool jumpPressed;
     private bool crouchHeld;
     private bool slideBuffered;
+    private bool fastFallBuffered;
 
     private InputAction moveAction;
     private InputAction lookAction;
@@ -109,6 +118,7 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsuleCollider = GetComponent<CapsuleCollider>();
         playerEffects = GetComponent<PlayerEffects>();
+        audioSource = GetComponent<AudioSource>();
 
         rb.freezeRotation = true;
         rb.useGravity = true;
@@ -153,7 +163,21 @@ public class Movement : MonoBehaviour
 
         if (crouchAction.WasPressedThisFrame())
         {
-            slideBuffered = true;
+            if (isGrounded)
+            {
+                if (moveInput.sqrMagnitude > 0.01f)
+                {
+                    slideBuffered = true;
+                }
+            }
+            else
+            {
+                fastFallBuffered = true;
+                if (moveInput.sqrMagnitude > 0.01f)
+                {
+                    slideBuffered = true;
+                }
+            }
         }
 
         if (jumpAction.WasPressedThisFrame())
@@ -180,25 +204,46 @@ public class Movement : MonoBehaviour
 
     private void HandleMovementState()
     {
-        if (slideBuffered && isGrounded && Time.time >= nextSlideTime && !isCooldownActive)
+        if (slideBuffered && isGrounded)
         {
             movementState = MovementState.Sliding;
             slideBuffered = false;
-            if (slideVFX != null)
+            slideStartTime = Time.time;
+            if (Time.time >= nextSlideTime && !isCooldownActive)
             {
-                if (slideVFXCoroutine != null)
+                isBoostedSlide = true;
+                if (slideVFX != null)
                 {
-                    StopCoroutine(slideVFXCoroutine);
+                    if (slideVFXCoroutine != null)
+                    {
+                        StopCoroutine(slideVFXCoroutine);
+                    }
+                    slideVFXCoroutine = StartCoroutine(PlaySlideVFXForDuration(0.5f));
                 }
-                slideVFXCoroutine = StartCoroutine(PlaySlideVFXForDuration(0.5f));
+                if (dashSound != null && audioSource != null)
+                {
+                    dashSound.Play(audioSource);
+                }
+            }
+            else
+            {
+                isBoostedSlide = false;
+            }
+        }
+        else if (movementState == MovementState.Sliding)
+        {
+            bool durationEnded = isBoostedSlide && (Time.time - slideStartTime >= slideDuration);
+            if (durationEnded || !isGrounded || !crouchHeld)
+            {
+                if (isBoostedSlide)
+                {
+                    StartCoroutine(SlideCooldown());
+                }
+                movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
             }
         }
         else
         {
-            if (movementState == MovementState.Sliding)
-            {
-                StartCoroutine(SlideCooldown());
-            }
             movementState = crouchHeld ? MovementState.Crouched : MovementState.Running;
         }
 
@@ -254,15 +299,51 @@ public class Movement : MonoBehaviour
 
             if (!canSlide)
             {
-                if (playerEffects != null)
+                if (isBoostedSlide)
                 {
-                    playerEffects.TakeDamageFlash(slideColor);
+                    if (playerEffects != null)
+                    {
+                        playerEffects.TakeDamageFlash(slideColor);
+                    }
+
+                    Vector3 flatSlideDirection = transform.forward;
+                    rb.AddForce(flatSlideDirection * flatGroundSlideForce, ForceMode.VelocityChange);
                 }
 
-                Vector3 flatSlideDirection = transform.forward;
-                rb.AddForce(flatSlideDirection * flatGroundSlideForce, ForceMode.VelocityChange);
-
                 canSlide = true;
+            }
+
+            // Apply a small sustained movement force if holding inputs, so they don't stop completely
+            if (moveInput.sqrMagnitude > 0.01f)
+            {
+                Vector3 slideMoveDir = (transform.forward * moveInput.y + transform.right * moveInput.x).normalized;
+                Vector3 slideCurrentVel = rb.linearVelocity;
+                slideCurrentVel.y = 0;
+
+                float targetSpeed = isBoostedSlide ? walkSpeed : crouchSpeedTarget;
+                float currentSpeedInMoveDir = Vector3.Dot(slideCurrentVel, slideMoveDir);
+
+                Vector3 slideForce = Vector3.zero;
+
+                // If moving slower than target speed in the input direction, accelerate up to it
+                if (currentSpeedInMoveDir < targetSpeed)
+                {
+                    float speedDiff = targetSpeed - currentSpeedInMoveDir;
+                    slideForce += slideMoveDir * speedDiff * 3f;
+                }
+
+                // Apply some lateral friction/steering to align velocity with move direction
+                Vector3 lateralVel = slideCurrentVel - (slideMoveDir * currentSpeedInMoveDir);
+                if (lateralVel.sqrMagnitude > 0.01f)
+                {
+                    slideForce += -lateralVel * 2f;
+                }
+
+                slideForce *= Time.fixedDeltaTime;
+                slideForce.x = Mathf.Clamp(slideForce.x, -maxForce, maxForce);
+                slideForce.z = Mathf.Clamp(slideForce.z, -maxForce, maxForce);
+
+                rb.AddForce(slideForce, ForceMode.VelocityChange);
             }
             return;
         }
@@ -273,11 +354,14 @@ public class Movement : MonoBehaviour
         Vector3 targetVelocity = moveDirection * curSpeed;
 
         Vector3 currentVelocity = rb.linearVelocity;
+        float speedChangeRate = isGrounded ? ((targetVelocity.sqrMagnitude > 0.01f) ? acceleration : deceleration) : airControl;
 
         if (isOnSlope && isGrounded)
         {
             Vector3 slopeDirection = Vector3.ProjectOnPlane(targetVelocity, slopeHit.normal);
             Vector3 slopeVelocityChange = slopeDirection - currentVelocity;
+
+            slopeVelocityChange *= speedChangeRate * Time.fixedDeltaTime;
 
             slopeVelocityChange.x = Mathf.Clamp(slopeVelocityChange.x, -maxForce, maxForce);
             slopeVelocityChange.y = Mathf.Clamp(slopeVelocityChange.y, -maxForce, maxForce);
@@ -285,7 +369,7 @@ public class Movement : MonoBehaviour
 
             rb.useGravity = false;
 
-            rb.AddForce(slopeVelocityChange, ForceMode.Force);
+            rb.AddForce(slopeVelocityChange, ForceMode.VelocityChange);
             return;
         }
 
@@ -293,10 +377,12 @@ public class Movement : MonoBehaviour
         Vector3 velocityChange = targetVelocity - currentVelocity;
         velocityChange.y = 0;
 
+        velocityChange *= speedChangeRate * Time.fixedDeltaTime;
+
         velocityChange.x = Mathf.Clamp(velocityChange.x, -maxForce, maxForce);
         velocityChange.z = Mathf.Clamp(velocityChange.z, -maxForce, maxForce);
 
-        rb.AddForce(velocityChange, ForceMode.Force);
+        rb.AddForce(velocityChange, ForceMode.VelocityChange);
     }
 
     private void HandleJumping()
@@ -328,9 +414,10 @@ public class Movement : MonoBehaviour
 
     private void HandleAirMechanics()
     {
-        if (!isGrounded && crouchHeld)
+        if (!isGrounded && fastFallBuffered)
         {
             rb.AddForce(Vector3.down * fastFallForce, ForceMode.VelocityChange);
+            fastFallBuffered = false;
         }
     }
 
@@ -343,6 +430,11 @@ public class Movement : MonoBehaviour
         else
         {
             isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
+        }
+
+        if (isGrounded)
+        {
+            fastFallBuffered = false;
         }
 
         if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, (capsuleCollider.height / 2f) + 0.3f, groundLayer))
