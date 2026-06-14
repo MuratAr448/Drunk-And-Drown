@@ -37,10 +37,12 @@ public class Movement : MonoBehaviour
     [SerializeField] private float slideCooldownDuration = 1f;
     [SerializeField] private bool canSlide = true;
     [SerializeField] private Color slideColor;
+    [SerializeField] private ParticleSystem slideVFX;
     private RaycastHit slopeHit;
     private bool isOnSlope;
     private float nextSlideTime;
     private bool isCooldownActive;
+    private Coroutine slideVFXCoroutine;
     [SerializeField] private PhysicsMaterial normalMaterial;
     [SerializeField] private PhysicsMaterial slideMaterial;
 
@@ -91,6 +93,15 @@ public class Movement : MonoBehaviour
     void OnDisable()
     {
         inputActions.Disable();
+        if (slideVFXCoroutine != null)
+        {
+            StopCoroutine(slideVFXCoroutine);
+            slideVFXCoroutine = null;
+        }
+        if (slideVFX != null)
+        {
+            slideVFX.Stop();
+        }
     }
 
     void Start()
@@ -173,6 +184,14 @@ public class Movement : MonoBehaviour
         {
             movementState = MovementState.Sliding;
             slideBuffered = false;
+            if (slideVFX != null)
+            {
+                if (slideVFXCoroutine != null)
+                {
+                    StopCoroutine(slideVFXCoroutine);
+                }
+                slideVFXCoroutine = StartCoroutine(PlaySlideVFXForDuration(0.5f));
+            }
         }
         else
         {
@@ -343,6 +362,13 @@ public class Movement : MonoBehaviour
         nextSlideTime = Time.time + slideCooldownDuration;
         yield return new WaitForSeconds(slideCooldownDuration);
         isCooldownActive = false;
+    }
+
+    private IEnumerator PlaySlideVFXForDuration(float duration)
+    {
+        slideVFX.Play();
+        yield return new WaitForSeconds(duration);
+        slideVFX.Stop();
     }
 
     public float GetVelocity()

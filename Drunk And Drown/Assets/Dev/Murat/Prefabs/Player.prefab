@@ -335,8 +335,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -3315,6 +3314,7 @@ Transform:
   - {fileID: 9045428603997792020}
   - {fileID: 7430531728942225198}
   - {fileID: 4469727904420260340}
+  - {fileID: 8108335702186943161}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2865410533863923715
@@ -3396,6 +3396,7 @@ MonoBehaviour:
   slideCooldownDuration: 1
   canSlide: 1
   slideColor: {r: 0, g: 0, b: 0, a: 1}
+  slideVFX: {fileID: 7008045845526750182}
   normalMaterial: {fileID: 13400000, guid: b8d73a35784dee940bbb31f1d7bbccc8, type: 2}
   slideMaterial: {fileID: 13400000, guid: 4193198a3067ec64a92b8d11c4b3e881, type: 2}
   fastFallForce: 2
@@ -3610,4 +3611,99 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
   m_PrefabInstance: {fileID: 289664864788361791}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8976096209315665910
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7552641462010466819}
+    m_Modifications:
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: ShapeModule.type
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: ShapeModule.m_Scale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: ShapeModule.m_Scale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5923591047849225056, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+      propertyPath: m_Name
+      value: Slide vfx
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+--- !u!198 &7008045845526750182 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2148475824397595664, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+  m_PrefabInstance: {fileID: 8976096209315665910}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8108335702186943161 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 871419784905225551, guid: 44d7ff2ee91268b469f2c3bdabcd1bd4, type: 3}
+  m_PrefabInstance: {fileID: 8976096209315665910}
   m_PrefabAsset: {fileID: 0}
