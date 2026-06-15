@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum EnemyState { Idle, Patrol, Chase, Attack }
+public enum EnemyState { Idle, Patrol, Chase, Attack, Stunned }
 
 public abstract class Enemy : MonoBehaviour, IDamageable
 {
@@ -13,6 +13,9 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [Header("Score & Coins")]
     [SerializeField] protected int _scoreOnDeath = 10;
     [SerializeField] protected int _coinsOnDeath = 5;
+
+    [Header("Effects")]
+    [SerializeField] protected GameObject _deathParticlePrefab;
 
     [Header("State Management")]
     [SerializeField] protected EnemyState _currentState;
@@ -73,12 +76,16 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             case EnemyState.Attack:
                 AttackState();
                 break;
+            case EnemyState.Stunned:
+                rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+                break;
         }
     }
 
     private void CheckForPlayer()
     {
         if (_playerTransform == null) return;
+        if (_currentState == EnemyState.Stunned) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, _playerTransform.position);
 
@@ -123,6 +130,13 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         {
             EnemyUtils.Instance.RemoveEnemy();
         }
+
+        if (_deathParticlePrefab != null)
+        {
+            GameObject prt = Instantiate(_deathParticlePrefab, transform.position, Quaternion.identity);
+            Destroy(prt);
+        }
+
         Destroy(gameObject);
     }
 
@@ -218,5 +232,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void SpawnedByArena()
     {
         _spawnedByArena = true;
+    }
+
+    public void SetStunned(bool isStunned)
+    {
+        if (isStunned)
+        {
+            _currentState = EnemyState.Stunned;
+            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        }
+        else if (_currentState == EnemyState.Stunned)
+        {
+            _currentState = EnemyState.Idle;
+        }
     }
 }

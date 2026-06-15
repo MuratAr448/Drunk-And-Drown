@@ -18,4 +18,21 @@ public class Gun : Weapons
     {
 
     }
+
+    protected float lastDisableTime;
+
+    protected virtual void OnEnable()
+    {
+        if (lastDisableTime > 0f)
+        {
+            float timePassed = Time.time - lastDisableTime;
+            cooldown1 = Mathf.Min(cooldown1 + timePassed, shootRate1);
+            cooldown2 = Mathf.Min(cooldown2 + timePassed, shootRate2);
+        }
+    }
+
+    protected virtual void OnDisable()
+    {
+        lastDisableTime = Time.time;
+    }
 }

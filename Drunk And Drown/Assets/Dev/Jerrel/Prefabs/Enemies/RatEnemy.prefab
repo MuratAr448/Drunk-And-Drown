@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6642968425645737768}
   - component: {fileID: 5637350753119678664}
   - component: {fileID: 6063335288032154449}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RatEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,6 +102,7 @@ MonoBehaviour:
   MaxHealth: 10
   _scoreOnDeath: 10
   _coinsOnDeath: 5
+  _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
   _currentState: 0
   _patrolRange: 10
   _moveSpeed: 6

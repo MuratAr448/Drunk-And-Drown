@@ -124,19 +124,19 @@ public class MainPlayer : MonoBehaviour, IDamageable
             switch (gun.Kind)
             {
                 case KindofGun.ParrotGun:
-                    if (gun.cooldown1 >= gun.shootRate1 && gun.cooldown2 >= gun.shootRate2)
-                    {
-                        return true;
-                    }
-                    break;
+                    return true;
                 case KindofGun.BunderBuss:
-                    if (gun.cooldown1 >= gun.shootRate1 && gun.cooldown2 >= gun.shootRate2)
-                    {
-                        return true;
-                    }
-                    break;
+                    return true;
                 case KindofGun.SquidRayGun:
-                    if (gun.cooldown1 <= 0&&gun.GetComponent<SquidRayGun>().enemy==null)
+                    SquidRayGun squidGun = gun.GetComponent<SquidRayGun>();
+                    if (squidGun != null)
+                    {
+                        if (squidGun.enemy == null)
+                        {
+                            return true;
+                        }
+                    }
+                    else
                     {
                         return true;
                     }
@@ -156,7 +156,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     }
                     break;
                 case KindofMelee.SeaShellsBoxingGloves:
-                    if (Melee.cooldown1 >= Melee.swingRate1 && !Melee.GetComponent<SeaShellsBoxingGloves>().Lunging)
+                    if (!Melee.GetComponent<SeaShellsBoxingGloves>().Lunging)
                     {
                         return true;
                     }
@@ -258,7 +258,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
-        playerHurt.PlayOneShot(audioSource);
+        if (playerHurt != null) playerHurt.PlayOneShot(audioSource);
         if (health <= 0 && !dead)
         {
             Die();

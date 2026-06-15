@@ -17,13 +17,16 @@ public class AudioEvent : ScriptableObject
     /// <summary>
     /// Play the event on a specified AudioSource
     /// </summary>
-    public void Play(AudioSource source)
+    public void Play(AudioSource source, float pitchMultiplier = 1f)
     {
         if (clips == null || clips.Length == 0) return;
 
-        source.clip = clips[Random.Range(0, clips.Length)];
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip == null) return;
+
+        source.clip = clip;
         source.volume = Mathf.Clamp(volume + Random.Range(-volumeRandomRange, volumeRandomRange), 0f, 1f);
-        source.pitch = Mathf.Clamp(pitch + Random.Range(-pitchRandomRange, pitchRandomRange), 0.1f, 3f);
+        source.pitch = Mathf.Clamp((pitch + Random.Range(-pitchRandomRange, pitchRandomRange)) * pitchMultiplier, 0.1f, 3f);
         source.Play();
     }
 
@@ -32,13 +35,15 @@ public class AudioEvent : ScriptableObject
     /// Good for overlapping multiple sounds on a single source.
     /// Note: Changing pitch affects all currently playing sounds on the same AudioSource.
     /// </summary>
-    public void PlayOneShot(AudioSource source)
+    public void PlayOneShot(AudioSource source, float pitchMultiplier = 1f)
     {
         if (clips == null || clips.Length == 0) return;
 
         AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip == null) return;
+
         float calculatedVolume = Mathf.Clamp(volume + Random.Range(-volumeRandomRange, volumeRandomRange), 0f, 1f);
-        float calculatedPitch = Mathf.Clamp(pitch + Random.Range(-pitchRandomRange, pitchRandomRange), 0.1f, 3f);
+        float calculatedPitch = Mathf.Clamp((pitch + Random.Range(-pitchRandomRange, pitchRandomRange)) * pitchMultiplier, 0.1f, 3f);
         
         source.pitch = calculatedPitch;
         source.PlayOneShot(clip, calculatedVolume);

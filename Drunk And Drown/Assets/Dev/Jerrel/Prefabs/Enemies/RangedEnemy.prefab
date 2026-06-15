@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3347269844130479809}
   - component: {fileID: 6705801971980447089}
   - component: {fileID: 7737483661048159230}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RangedEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,6 +161,7 @@ MonoBehaviour:
   MaxHealth: 20
   _scoreOnDeath: 20
   _coinsOnDeath: 10
+  _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
   _currentState: 1
   _patrolRange: 10
   _moveSpeed: 3
