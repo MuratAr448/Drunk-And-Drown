@@ -3015,8 +3015,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9185948038355208753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.43673113, z: 0, w: 0.8995921}
-  m_LocalPosition: {x: 231.37, y: 14.96, z: 32.44}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3025,7 +3025,7 @@ Transform:
   - {fileID: 7430531728942225198}
   - {fileID: 4469727904420260340}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 51.791, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &2865410533863923715
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3096,6 +3096,9 @@ MonoBehaviour:
   lookSpeed: 0.1
   lookXLimit: 60
   maxForce: 15
+  acceleration: 12
+  deceleration: 16
+  airControl: 2
   groundCheck: {fileID: 7430531728942225198}
   groundLayer:
     serializedVersion: 2
@@ -3103,14 +3106,18 @@ MonoBehaviour:
   maxSlopeAngle: 75
   flatGroundSlideForce: 15
   slideCooldownDuration: 1
+  slideDuration: 0.5
   canSlide: 1
   slideColor: {r: 0, g: 0.7132075, b: 0.70642465, a: 1}
+  slideVFX: {fileID: 0}
+  dashSound: {fileID: 0}
   normalMaterial: {fileID: 13400000, guid: b8d73a35784dee940bbb31f1d7bbccc8, type: 2}
   slideMaterial: {fileID: 13400000, guid: 4193198a3067ec64a92b8d11c4b3e881, type: 2}
   fastFallForce: 2
   cameraStandHeight: 0.8
   cameraCrouchHeight: 0.1
   cameraLerpSpeed: 5
+  isGrounded: 0
   canMove: 1
   movementState: 0
 --- !u!114 &7068656509366083197

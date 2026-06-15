@@ -171,6 +171,7 @@ public class SquidRayGun : Gun
         }
         else if(inkRay != null)
         {
+            transform.LookAt(player.transform.position + Origin.transform.forward* 20);
             inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
             inkRay.transform.rotation = transform.rotation;
             inkRay.transform.localScale = new Vector3(size, size, 20);
