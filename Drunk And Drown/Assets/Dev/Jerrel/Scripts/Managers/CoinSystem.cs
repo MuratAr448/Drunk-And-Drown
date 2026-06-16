@@ -172,6 +172,8 @@ public class CoinSystem : MonoBehaviour
         }
     }
 
+    public float CoinMultiplier => _coinMultiplier;
+
     /// <summary>
     /// Base coin multiplier is 1x. To increase add to amount, to decrease make amount negative.
     /// </summary>

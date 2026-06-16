@@ -468,6 +468,8 @@ public class Movement : MonoBehaviour
         return rb.linearVelocity.magnitude;
     }
 
+    public float WalkSpeed => walkSpeed;
+
     public void ModifySpeed(float multiplier)
     {
         walkSpeed *= multiplier;
