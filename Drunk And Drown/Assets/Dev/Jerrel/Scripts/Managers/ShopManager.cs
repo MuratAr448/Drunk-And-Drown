@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject _shopUI;
+    
+    public bool IsShopActive => _shopUI != null && _shopUI.activeSelf;
 
     [Header("Shop Layout")]
     [SerializeField] private GameObject shopSlotPrefab;

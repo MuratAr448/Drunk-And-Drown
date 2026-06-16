@@ -605,6 +605,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461858141}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!225 &502422933 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 3149229038780619851, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 848331132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &506889812
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,33 +840,9 @@ PrefabInstance:
       propertyPath: globalVolume
       value: 
       objectReference: {fileID: 506889813}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: maxForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: dashSound
-      value: 
-      objectReference: {fileID: 11400000, guid: ca1e7287e7e89d44dae0283f2c8b08f9, type: 2}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: walkSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: deceleration
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: fastFallForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: slideDuration
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5021108686444437553, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
-      propertyPath: crouchSpeedTarget
-      value: 5
+    - target: {fileID: 4366227585577971529, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7552641462010466819, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -869,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552641462010466819, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.96
+      value: 19.19
       objectReference: {fileID: 0}
     - target: {fileID: 7552641462010466819, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1291,6 +1272,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!225 &1172230939 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4078176042161943723, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 848331132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1236556417 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3286641749884938989, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
@@ -2174,7 +2160,7 @@ Transform:
   m_GameObject: {fileID: 1756860604}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2704,7 +2690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.39
+      value: 22.59
       objectReference: {fileID: 0}
     - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2872,6 +2858,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6c0576ab95d4601498a862a3caa5961f, type: 2}
     - target: {fileID: 6296932510428907670, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
+      propertyPath: _canvasGroup
+      value: 
+      objectReference: {fileID: 502422933}
+    - target: {fileID: 6296932510428907670, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
+      propertyPath: _fadeDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296932510428907670, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _comboDuration
       value: 3
       objectReference: {fileID: 0}
@@ -2888,9 +2882,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1091788659278207888, guid: 492c623966193f14a888b7620c5cebde, type: 3}
     - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
+      propertyPath: _canvasGroup
+      value: 
+      objectReference: {fileID: 1172230939}
+    - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
+      propertyPath: _fadeDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _coinTextLabel
       value: 
       objectReference: {fileID: 1172230936}
+    - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
+      propertyPath: _visibleDuration
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8680720092104695909, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _scoreTextLabel
       value: 
