@@ -161,6 +161,16 @@ public class ShopTooltip : MonoBehaviour
                     sb.AppendLine($"- Max Arena Spawns: <color={color}>{sign}{modifier.maxEnemyCountIncrease}</color> Enemies");
                 }
             }
+
+            // Luck
+            if (modifier.luckIncrease != 0f)
+            {
+                float oldLuck = player != null ? player.Luck : 1f;
+                float newLuck = oldLuck + modifier.luckIncrease;
+                string color = modifier.luckIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = modifier.luckIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Luck: {oldLuck:F1} -> <color={color}>{newLuck:F1}</color> ({sign}{modifier.luckIncrease:F1})");
+            }
         }
         else if (itemData is UpgradeItemData upgrade)
         {
@@ -186,6 +196,46 @@ public class ShopTooltip : MonoBehaviour
                 string sign = upgrade.speedMultiplier > 1f ? "+" : "";
                 float pct = (upgrade.speedMultiplier - 1f) * 100f;
                 sb.AppendLine($"- Speed: {oldSpeed:F1} -> <color={color}>{newSpeed:F1}</color> ({sign}{pct:F0}%)");
+            }
+
+            // Healing
+            if (upgrade.healAmount > 0f)
+            {
+                float oldHP = player != null ? player.CurrentHealth : 100f;
+                float newHP = Mathf.Min(oldHP + upgrade.healAmount, currentMaxHP + upgrade.healthIncrease);
+                sb.AppendLine($"- Healing: {oldHP} -> <color=#55FF55>{newHP}</color> (+{upgrade.healAmount})");
+            }
+        }
+        else if (itemData is WeaponItemData weaponItem && weaponItem.weaponPrefab != null)
+        {
+            Weapons baseWeapon = weaponItem.weaponPrefab.GetComponent<Weapons>();
+            if (baseWeapon != null)
+            {
+                sb.AppendLine();
+                sb.AppendLine("<color=#FF00FF><b>Weapon Stats:</b></color>");
+
+                float mult = RaritySystem.GetMultiplier(weaponItem.rarity);
+
+                float baseDamage = baseWeapon.GetDamage();
+                float scaledDamage = baseDamage * mult;
+                if (baseDamage > 0f)
+                {
+                    sb.AppendLine($"- Damage: {baseDamage:F1} -> <color=#55FF55>{scaledDamage:F1}</color>");
+                }
+
+                float baseRate1 = baseWeapon.GetRate1();
+                float scaledRate1 = baseRate1 / mult;
+                if (baseRate1 > 0f)
+                {
+                    sb.AppendLine($"- {baseWeapon.GetRate1Name()}: {baseRate1:F2}s -> <color=#55FF55>{scaledRate1:F2}s</color>");
+                }
+
+                float baseRate2 = baseWeapon.GetRate2();
+                float scaledRate2 = baseRate2 / mult;
+                if (baseRate2 > 0f)
+                {
+                    sb.AppendLine($"- {baseWeapon.GetRate2Name()}: {baseRate2:F2}s -> <color=#55FF55>{scaledRate2:F2}s</color>");
+                }
             }
         }
 

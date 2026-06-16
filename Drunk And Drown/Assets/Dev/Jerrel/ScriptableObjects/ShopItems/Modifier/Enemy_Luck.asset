@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935c883fbcb6aab458c231e5c89b2467, type: 3}
-  m_Name: CoinsForHealth
+  m_Name: Enemy_Luck
   m_EditorClassIdentifier: Assembly-CSharp::ModifierItemData
-  itemName: Coins for Health
+  itemName: Lucky Aggro
   icon: {fileID: 21300000, guid: 69aa625a5fb137643b4066a8c75e32f5, type: 3}
-  cost: 10
-  description: Increases your coin multiplier by 0.5 but decreases your max health
-    by 10.
+  cost: 30
+  description: Gives 0.1 luck but increases enemy count.
   rarity: 0
-  healthDecrease: 10
+  healthDecrease: 0
   speedMultiplier: 1
   coinReward: 0
-  coinMultiplierIncrease: 0.5
-  maxEnemyCountIncrease: 0
-  luckIncrease: 0
+  coinMultiplierIncrease: 0
+  maxEnemyCountIncrease: 1
+  luckIncrease: 0.1

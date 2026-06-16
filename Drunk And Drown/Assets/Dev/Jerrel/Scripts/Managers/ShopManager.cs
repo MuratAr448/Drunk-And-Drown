@@ -157,10 +157,18 @@ public class ShopManager : MonoBehaviour
         {
             if (i < selectedItems.Count)
             {
+                // Instantiate a runtime copy so we don't overwrite the original ScriptableObject asset
+                T itemCopy = Instantiate(selectedItems[i]);
+
+                // Roll and apply rarity based on current player Luck
+                float luck = MainPlayer.Instance != null ? MainPlayer.Instance.Luck : 1f;
+                ItemRarity rolledRarity = RaritySystem.RollRarity(luck);
+                RaritySystem.ApplyRarity(itemCopy, rolledRarity);
+
                 // Reset scale in case it was shrunk to zero in a previous purchase
                 slots[i].transform.localScale = Vector3.one;
                 slots[i].gameObject.SetActive(true);
-                slots[i].Initialize(selectedItems[i]);
+                slots[i].Initialize(itemCopy);
             }
             else
             {

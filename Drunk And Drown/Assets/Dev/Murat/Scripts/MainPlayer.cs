@@ -35,6 +35,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     [SerializeField] private Volume _pauseVolume;
 
+    [Header("Luck Settings")]
+    [SerializeField] private float luck = 1f;
+    public float Luck
+    {
+        get => luck;
+        set => luck = value;
+    }
+
     [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
 
@@ -352,6 +360,12 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         health = maxHealth;
+        OnHealthChanged?.Invoke();
+    }
+
+    public void Heal(float amount)
+    {
+        health = Mathf.Min(health + amount, maxHealth);
         OnHealthChanged?.Invoke();
     }
 

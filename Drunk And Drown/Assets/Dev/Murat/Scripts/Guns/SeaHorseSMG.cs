@@ -13,6 +13,14 @@ public class SeaHorseSMG : Gun
     [SerializeField] private float spread = 10f; 
     private float ammoLife = 1f;
     private MainPlayer player;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
+
     private void Start()
     {
         player = FindFirstObjectByType<MainPlayer>();

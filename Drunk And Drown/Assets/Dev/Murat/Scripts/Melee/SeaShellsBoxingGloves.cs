@@ -9,6 +9,14 @@ public class SeaShellsBoxingGloves : Melee
     public bool Lunging = false;
     private Movement movement;
     private MainPlayer player;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
+
     void Start()
     {
         movement = FindFirstObjectByType<Movement>();

@@ -8,12 +8,15 @@ public class ModifierItemData : ShopItemData
     public int coinReward;
     public float coinMultiplierIncrease;
     public int maxEnemyCountIncrease;
+    public float luckIncrease;
 
     public override bool TryPurchase(MainPlayer player)
     {
         CoinSystem.Instance.AddCoins(coinReward);
         CoinSystem.Instance.AddCoinMultiplier(coinMultiplierIncrease);
         player.ModifyMaxHealth(-healthDecrease);
+        player.Luck += luckIncrease;
+
         if (player.TryGetComponent<Movement>(out var movement))
         {
             movement.ModifySpeed(speedMultiplier);

@@ -19,6 +19,13 @@ public class ParrotGun : Gun
     private float ammoLife = 3f;
     private MainPlayer mainPlayer;
 
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
+
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();

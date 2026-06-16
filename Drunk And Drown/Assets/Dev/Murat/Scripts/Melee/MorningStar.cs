@@ -15,6 +15,18 @@ public class MorningStar : Melee
     private List<Enemy> hitEnemys = new List<Enemy>();
     [SerializeField] private ExplosiveHammer explosive;
     public bool Attacking = false;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+        if (explosive != null)
+        {
+            explosive.damage *= multiplier;
+        }
+    }
+
     void Start()
     {
         Kind = KindofMelee.MorningStar;

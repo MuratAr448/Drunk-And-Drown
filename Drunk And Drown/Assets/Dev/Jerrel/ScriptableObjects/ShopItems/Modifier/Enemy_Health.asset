@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 935c883fbcb6aab458c231e5c89b2467, type: 3}
-  m_Name: EnemyCount
+  m_Name: Enemy_Health
   m_EditorClassIdentifier: Assembly-CSharp::ModifierItemData
-  itemName: Enemy Count
+  itemName: Run Away!
   icon: {fileID: 21300000, guid: 69aa625a5fb137643b4066a8c75e32f5, type: 3}
   cost: 20
-  description: Increases the max amount of enemies that can spawn at a time.
+  description: Increases the max amount of enemies that can spawn at a time but also
+    increases your speed.
+  rarity: 0
   healthDecrease: 0
-  speedMultiplier: 1
+  speedMultiplier: 1.1
   coinReward: 0
   coinMultiplierIncrease: 0
   maxEnemyCountIncrease: 3
+  luckIncrease: 0
