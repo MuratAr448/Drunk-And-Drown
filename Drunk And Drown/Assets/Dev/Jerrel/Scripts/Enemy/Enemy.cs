@@ -108,6 +108,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         Health -= damage;
         OnHealthChanged?.Invoke();
+        FloatingDamageText.Create(transform.position, damage);
         if (Health <= 0)
         {
             Health = 0;

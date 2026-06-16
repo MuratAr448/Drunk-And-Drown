@@ -36,32 +36,136 @@ public class ArenaSpawner : MonoBehaviour
     [SerializeField] private float _slideInDuration = 0.4f;
     [SerializeField] private float _offScreenOffset = 500f;
 
-    private Vector2 _originalCardPos;
+    private static readonly System.Collections.Generic.Dictionary<RectTransform, Vector2> OriginalCardPositions = 
+        new System.Collections.Generic.Dictionary<RectTransform, Vector2>();
+
+    private Vector2 GetOriginalCardPos()
+    {
+        if (_arenaCardRect != null)
+        {
+            if (!OriginalCardPositions.ContainsKey(_arenaCardRect))
+            {
+                OriginalCardPositions[_arenaCardRect] = _arenaCardRect.anchoredPosition;
+            }
+            return OriginalCardPositions[_arenaCardRect];
+        }
+        return Vector2.zero;
+    }
+
+    private static readonly System.Collections.Generic.List<ArenaSpawner> ActiveSpawners = new System.Collections.Generic.List<ArenaSpawner>();
+
+    private void RegisterActive()
+    {
+        if (!ActiveSpawners.Contains(this))
+        {
+            ActiveSpawners.Add(this);
+        }
+
+        if (ActiveSpawners.Count == 1)
+        {
+            if (_arenaCardRect != null)
+            {
+                _arenaCardRect.gameObject.SetActive(true);
+                StartCoroutine(SlideInCoroutine());
+            }
+            else
+            {
+                if (_arenaTimerText != null) _arenaTimerText.gameObject.SetActive(true);
+                if (_enemiesLeftText != null) _enemiesLeftText.gameObject.SetActive(true);
+            }
+        }
+    }
+
+    private void UnregisterActive()
+    {
+        ActiveSpawners.Remove(this);
+
+        if (ActiveSpawners.Count == 0)
+        {
+            if (_arenaCardRect != null)
+            {
+                StartCoroutine(SlideOutCoroutine());
+            }
+            else
+            {
+                if (_arenaTimerText != null) _arenaTimerText.gameObject.SetActive(false);
+                if (_enemiesLeftText != null) _enemiesLeftText.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ActiveSpawners.Remove(this);
+    }
+
+    private float _initialArenaDuration;
+
+    private void Awake()
+    {
+        _initialArenaDuration = arenaDuration;
+    }
 
     private void Start()
     {
         if (_arenaCardRect != null)
         {
-            _originalCardPos = _arenaCardRect.anchoredPosition;
-            // Position off-screen initially
-            _arenaCardRect.anchoredPosition = _originalCardPos + new Vector2(_offScreenOffset, 0f);
-            _arenaCardRect.gameObject.SetActive(_isSpawning);
-            
-            if (_isSpawning)
+            Vector2 origPos = GetOriginalCardPos();
+            // Position off-screen initially if nothing is spawning yet
+            if (ActiveSpawners.Count == 0)
             {
-                StartCoroutine(SlideInCoroutine());
+                _arenaCardRect.anchoredPosition = origPos + new Vector2(_offScreenOffset, 0f);
+                _arenaCardRect.gameObject.SetActive(false);
             }
         }
-        else
+
+        if (_isSpawning)
         {
-            if (_arenaTimerText != null)
+            RegisterActive();
+        }
+    }
+
+    public static void ResetAllArenas()
+    {
+        ActiveSpawners.Clear();
+
+        ArenaSpawner[] spawners = FindObjectsByType<ArenaSpawner>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (ArenaSpawner spawner in spawners)
+        {
+            spawner._isSpawning = false;
+            spawner.arenaDuration = spawner._initialArenaDuration;
+            spawner._canSpawn = true;
+            spawner.enabled = true;
+            if (spawner.TryGetComponent<Collider>(out var col))
             {
-                _arenaTimerText.gameObject.SetActive(_isSpawning);
+                col.enabled = true;
             }
-            if (_enemiesLeftText != null)
+
+            if (spawner._arenaCardRect != null)
             {
-                _enemiesLeftText.gameObject.SetActive(_isSpawning);
+                Vector2 origPos = spawner.GetOriginalCardPos();
+                spawner._arenaCardRect.anchoredPosition = origPos + new Vector2(spawner._offScreenOffset, 0f);
+                spawner._arenaCardRect.gameObject.SetActive(false);
             }
+            else
+            {
+                if (spawner._arenaTimerText != null) spawner._arenaTimerText.gameObject.SetActive(false);
+                if (spawner._enemiesLeftText != null) spawner._enemiesLeftText.gameObject.SetActive(false);
+            }
+        }
+
+        Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy != null && enemy.gameObject != null)
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+
+        if (EnemyUtils.Instance != null)
+        {
+            EnemyUtils.Instance.ResetEnemyCount();
         }
     }
 
@@ -70,21 +174,7 @@ public class ArenaSpawner : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !_isSpawning)
         {
             _isSpawning = true;
-            if (_arenaCardRect != null)
-            {
-                StartCoroutine(SlideInCoroutine());
-            }
-            else
-            {
-                if (_arenaTimerText != null)
-                {
-                    _arenaTimerText.gameObject.SetActive(true);
-                }
-                if (_enemiesLeftText != null)
-                {
-                    _enemiesLeftText.gameObject.SetActive(true);
-                }
-            }
+            RegisterActive();
         }
     }
 
@@ -104,26 +194,44 @@ public class ArenaSpawner : MonoBehaviour
 
             int enemyCount = EnemyUtils.Instance != null ? EnemyUtils.Instance.GetEnemyCount() : 0;
 
-            if (arenaDuration > 0f)
+            // Only the first active spawner updates the UI
+            if (ActiveSpawners.Count > 0 && ActiveSpawners[0] == this)
             {
-                if (_arenaTimerText != null)
+                float maxDuration = 0f;
+                bool anyTimerRunning = false;
+                foreach (var spawner in ActiveSpawners)
                 {
-                    _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(arenaDuration)}s";
+                    if (spawner.arenaDuration > 0f)
+                    {
+                        anyTimerRunning = true;
+                        if (spawner.arenaDuration > maxDuration)
+                        {
+                            maxDuration = spawner.arenaDuration;
+                        }
+                    }
                 }
-                if (_enemiesLeftText != null)
+
+                if (anyTimerRunning)
                 {
-                    _enemiesLeftText.text = $"Current enemies: {enemyCount}";
+                    if (_arenaTimerText != null)
+                    {
+                        _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(maxDuration)}s";
+                    }
+                    if (_enemiesLeftText != null)
+                    {
+                        _enemiesLeftText.text = $"Current enemies: {enemyCount}";
+                    }
                 }
-            }
-            else
-            {
-                if (_arenaTimerText != null)
+                else
                 {
-                    _arenaTimerText.text = "Clear all remaining enemies!";
-                }
-                if (_enemiesLeftText != null)
-                {
-                    _enemiesLeftText.text = $"Enemies left: {enemyCount}";
+                    if (_arenaTimerText != null)
+                    {
+                        _arenaTimerText.text = "Clear all remaining enemies!";
+                    }
+                    if (_enemiesLeftText != null)
+                    {
+                        _enemiesLeftText.text = $"Enemies left: {enemyCount}";
+                    }
                 }
             }
 
@@ -137,22 +245,7 @@ public class ArenaSpawner : MonoBehaviour
             if (arenaDuration <= 0f && enemyCount <= 0)
             {
                 _isSpawning = false;
-
-                if (_arenaCardRect != null)
-                {
-                    StartCoroutine(SlideOutCoroutine());
-                }
-                else
-                {
-                    if (_arenaTimerText != null)
-                    {
-                        _arenaTimerText.gameObject.SetActive(false);
-                    }
-                    if (_enemiesLeftText != null)
-                    {
-                        _enemiesLeftText.gameObject.SetActive(false);
-                    }
-                }
+                UnregisterActive();
 
                 // Disable trigger/collider so it doesn't run again
                 if (TryGetComponent<Collider>(out var col))
@@ -177,7 +270,7 @@ public class ArenaSpawner : MonoBehaviour
     {
         if (_arenaCardRect == null) yield break;
 
-        Vector2 targetPosition = _originalCardPos;
+        Vector2 targetPosition = GetOriginalCardPos();
         Vector2 startPosition = targetPosition + new Vector2(_offScreenOffset, 0f);
 
         _arenaCardRect.anchoredPosition = startPosition;
@@ -201,7 +294,7 @@ public class ArenaSpawner : MonoBehaviour
     {
         if (_arenaCardRect == null) yield break;
 
-        Vector2 startPosition = _originalCardPos;
+        Vector2 startPosition = GetOriginalCardPos();
         Vector2 targetPosition = startPosition + new Vector2(_offScreenOffset, 0f);
 
         float elapsed = 0f;
@@ -254,28 +347,16 @@ public class ArenaSpawner : MonoBehaviour
 
     public void SetSpawning(bool isSpawning)
     {
+        if (_isSpawning == isSpawning) return;
+
         _isSpawning = isSpawning;
-        if (_arenaCardRect != null)
+        if (isSpawning)
         {
-            if (isSpawning)
-            {
-                StartCoroutine(SlideInCoroutine());
-            }
-            else
-            {
-                StartCoroutine(SlideOutCoroutine());
-            }
+            RegisterActive();
         }
         else
         {
-            if (_arenaTimerText != null)
-            {
-                _arenaTimerText.gameObject.SetActive(isSpawning);
-            }
-            if (_enemiesLeftText != null)
-            {
-                _enemiesLeftText.gameObject.SetActive(isSpawning);
-            }
+            UnregisterActive();
         }
     }
 }

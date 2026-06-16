@@ -848,6 +848,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -200
       objectReference: {fileID: 0}
+    - target: {fileID: 1622964307575723463, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 4366227585577971529, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -100
@@ -2318,6 +2322,79 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1529954444574667977, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
   m_PrefabInstance: {fileID: 4752795657637187373}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1826767757
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: _arenaCardRect
+      value: 
+      objectReference: {fileID: 1736910733}
+    - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: _arenaTimerText
+      value: 
+      objectReference: {fileID: 883424368}
+    - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: _enemiesLeftText
+      value: 
+      objectReference: {fileID: 2004374183}
+    - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: '_enemyPrefabs.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1984432752}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 301.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 54.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 91.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882772046189723557, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Name
+      value: ArenaSpawner (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
 --- !u!1001 &1959987030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2770,6 +2847,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArenaSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.87
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3168,6 +3249,7 @@ SceneRoots:
   - {fileID: 1959987030}
   - {fileID: 3058305743427089341}
   - {fileID: 1000159409290413869}
+  - {fileID: 1826767757}
   - {fileID: 4752795657637187373}
   - {fileID: 506889814}
   - {fileID: 3341773441387333749}
