@@ -29,6 +29,9 @@ public class Bullet : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
+        // Ignore trigger colliders (like spawn zones, checkpoints, collectables, etc.)
+        if (other.isTrigger) return;
+
         // Don't hit the player who shot the bullet (optional check)
         if (other.CompareTag("Player")) return;
 

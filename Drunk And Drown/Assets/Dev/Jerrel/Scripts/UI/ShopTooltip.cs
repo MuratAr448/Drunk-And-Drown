@@ -73,13 +73,7 @@ public class ShopTooltip : MonoBehaviour
         if (nameText != null) nameText.text = itemData.itemName;
         if (descriptionText != null)
         {
-            string desc = itemData.description;
-            string statChanges = GetStatChangesText(itemData);
-            if (!string.IsNullOrEmpty(statChanges))
-            {
-                desc += "\n" + statChanges;
-            }
-            descriptionText.text = desc;
+            descriptionText.text = GetStatChangesText(itemData);
         }
         if (costText != null)
         {
@@ -103,7 +97,6 @@ public class ShopTooltip : MonoBehaviour
 
         if (itemData is ModifierItemData modifier)
         {
-            sb.AppendLine();
             sb.AppendLine("<color=#FFA500><b>Stat Modifications:</b></color>");
 
             // Max Health
@@ -174,7 +167,6 @@ public class ShopTooltip : MonoBehaviour
         }
         else if (itemData is UpgradeItemData upgrade)
         {
-            sb.AppendLine();
             sb.AppendLine("<color=#00FFFF><b>Upgrade Stats:</b></color>");
 
             // Max Health
@@ -205,13 +197,22 @@ public class ShopTooltip : MonoBehaviour
                 float newHP = Mathf.Min(oldHP + upgrade.healAmount, currentMaxHP + upgrade.healthIncrease);
                 sb.AppendLine($"- Healing: {oldHP} -> <color=#55FF55>{newHP}</color> (+{upgrade.healAmount})");
             }
+
+            // Luck
+            if (upgrade.luckIncrease != 0f)
+            {
+                float oldLuck = player != null ? player.Luck : 1f;
+                float newLuck = oldLuck + upgrade.luckIncrease;
+                string color = upgrade.luckIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = upgrade.luckIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Luck: {oldLuck:F1} -> <color={color}>{newLuck:F1}</color> ({sign}{upgrade.luckIncrease:F1})");
+            }
         }
         else if (itemData is WeaponItemData weaponItem && weaponItem.weaponPrefab != null)
         {
             Weapons baseWeapon = weaponItem.weaponPrefab.GetComponent<Weapons>();
             if (baseWeapon != null)
             {
-                sb.AppendLine();
                 sb.AppendLine("<color=#FF00FF><b>Weapon Stats:</b></color>");
 
                 float mult = RaritySystem.GetMultiplier(weaponItem.rarity);

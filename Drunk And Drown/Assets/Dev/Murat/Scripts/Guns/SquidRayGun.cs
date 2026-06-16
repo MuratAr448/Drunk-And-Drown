@@ -179,9 +179,11 @@ public class SquidRayGun : Gun
         }
         else if(inkRay != null)
         {
-            inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
+            Vector3 targetPoint = Origin.transform.position + Origin.transform.forward * 20f;
+            transform.LookAt(targetPoint);
             inkRay.transform.rotation = transform.rotation;
             inkRay.transform.localScale = new Vector3(size, size, 20);
+            inkRay.transform.localPosition = Vector3.forward * (20f * 0.3f);
         }
     }
 

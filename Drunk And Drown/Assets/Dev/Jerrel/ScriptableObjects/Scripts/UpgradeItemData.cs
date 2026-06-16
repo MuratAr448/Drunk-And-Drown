@@ -6,6 +6,7 @@ public class UpgradeItemData : ShopItemData
     public float healthIncrease;
     public float speedMultiplier = 1f;
     public float healAmount;
+    public float luckIncrease;
 
     public override bool TryPurchase(MainPlayer player)
     {
@@ -23,6 +24,8 @@ public class UpgradeItemData : ShopItemData
             {
                 movement.ModifySpeed(speedMultiplier);
             }
+
+            player.Luck += luckIncrease;
             return true;
         }
         return false;

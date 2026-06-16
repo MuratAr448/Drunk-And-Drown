@@ -83,7 +83,7 @@ MonoBehaviour:
   _maxSpawns: 10
   _enemyPrefabs:
   - {fileID: 3657911580836469680, guid: d5f244bec10a2594d824296157614298, type: 3}
-  - {fileID: 0}
+  - {fileID: 7173005847610792062, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
   - {fileID: 653010563350576321, guid: 28b80fcf9418d3f4ca5a6b20e1591476, type: 3}
   _spawnPoints:
   - {fileID: 3851320357964665317}

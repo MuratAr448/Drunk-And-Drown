@@ -135,7 +135,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         if (_deathParticlePrefab != null)
         {
             GameObject prt = Instantiate(_deathParticlePrefab, transform.position, Quaternion.identity);
-            Destroy(prt);
+            Destroy(prt, 3f);
         }
 
         Destroy(gameObject);

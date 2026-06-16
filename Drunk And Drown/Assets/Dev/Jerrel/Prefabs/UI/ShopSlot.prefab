@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopSlot
   iconImage: {fileID: 3369573400930137578}
+  backgroundImage: {fileID: 7911955368501361988}
   currentItemData: {fileID: 0}
 --- !u!114 &7725480464205036270
 MonoBehaviour:

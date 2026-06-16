@@ -72,6 +72,7 @@ public static class RaritySystem
             upgrade.healthIncrease = Mathf.Round(upgrade.healthIncrease * mult);
             upgrade.speedMultiplier = 1f + (upgrade.speedMultiplier - 1f) * mult;
             upgrade.healAmount = Mathf.Round(upgrade.healAmount * mult);
+            upgrade.luckIncrease = upgrade.luckIncrease * mult;
         }
         else if (item is ModifierItemData modifier)
         {
@@ -95,7 +96,6 @@ public abstract class ShopItemData : ScriptableObject
     public string itemName;
     public Sprite icon;
     public int cost;
-    [TextArea(3, 10)] public string description;
 
     [Header("Rarity Settings")]
     public ItemRarity rarity = ItemRarity.Common;
