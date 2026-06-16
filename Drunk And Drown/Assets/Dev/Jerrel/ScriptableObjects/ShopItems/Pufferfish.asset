@@ -16,4 +16,4 @@ MonoBehaviour:
   icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   cost: 0
   description: Melee weapon that expands to deal damage
-  weaponPrefab: {fileID: 2035521939117384597, guid: 2b3e634e512a57343b18257e8d395fb7, type: 3}
+  weaponPrefab: {fileID: 728167684974510916, guid: 2a65beef8658b4e4b89cf0e853db1ae5, type: 3}
