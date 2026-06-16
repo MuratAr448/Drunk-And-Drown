@@ -10,6 +10,12 @@ public class ArenaSpawner : MonoBehaviour
 
     [Tooltip("Max Enemies that are allowed to spawn")]
     [SerializeField] private int _maxSpawns = 10;
+    
+    public int MaxSpawns
+    {
+        get => _maxSpawns;
+        set => _maxSpawns = value;
+    }
     [SerializeField] private GameObject[] _enemyPrefabs;
     [SerializeField] private Transform[] _spawnPoints;
 

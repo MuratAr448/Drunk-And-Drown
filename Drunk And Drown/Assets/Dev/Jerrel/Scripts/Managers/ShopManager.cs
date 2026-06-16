@@ -1,12 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.UI;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject _shopUI;
     
     public bool IsShopActive => _shopUI != null && _shopUI.activeSelf;
+
+    [Header("Reroll Settings")]
+    [SerializeField] private Button _rerollButton;
+    [SerializeField] private TextMeshProUGUI _rerollText;
+    private int _currentRerollCost = 10;
 
     [Header("Shop Layout")]
     [SerializeField] private GameObject shopSlotPrefab;
@@ -54,9 +61,49 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (_shopUI != null && _shopUI.activeSelf)
+        {
+            UpdateRerollUI();
+        }
+    }
+
+    private void UpdateRerollUI()
+    {
+        if (_rerollText != null)
+        {
+            _rerollText.text = $"Reroll ({_currentRerollCost} Coins)";
+        }
+        
+        if (_rerollButton != null)
+        {
+            bool canAfford = CoinSystem.Instance != null && CoinSystem.Instance.GetCoinAmount() >= _currentRerollCost;
+            _rerollButton.interactable = canAfford;
+        }
+    }
+
+    public void RerollShop()
+    {
+        if (CoinSystem.Instance == null) return;
+
+        int playerCoins = CoinSystem.Instance.GetCoinAmount();
+        if (playerCoins >= _currentRerollCost)
+        {
+            CoinSystem.Instance.AddCoins(-_currentRerollCost);
+            
+            // Generate shop with new items but keep current reroll state
+            GenerateShop(true);
+
+            // Increase cost by 10 for the next reroll
+            _currentRerollCost += 10;
+            UpdateRerollUI();
+        }
+    }
+
     public void OpenShopWithRandomItems()
     {
-        GenerateShop();
+        GenerateShop(false);
 
         // Open the shop UI if not already active
         if (!_shopUI.activeSelf)
@@ -65,12 +112,19 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void GenerateShop()
+    public void GenerateShop(bool isReroll = false)
     {
+        if (!isReroll)
+        {
+            _currentRerollCost = 10;
+        }
+
         // Assign items to existing slots in the containers
         PopulateSlots(weaponsContainer, availableWeapons, 1);
         PopulateSlots(upgradesContainer, availableUpgrades, 2);
         PopulateSlots(modifiersContainer, availableModifiers, 3);
+
+        UpdateRerollUI();
     }
 
     private void PopulateSlots<T>(Transform container, List<T> availableItems, int count) where T : ShopItemData

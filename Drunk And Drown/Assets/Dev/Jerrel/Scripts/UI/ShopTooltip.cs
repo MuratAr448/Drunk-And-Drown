@@ -142,6 +142,25 @@ public class ShopTooltip : MonoBehaviour
                 string sign = modifier.coinReward > 0 ? "+" : "";
                 sb.AppendLine($"- Coin Reward: <color={color}>{sign}{modifier.coinReward}</color> Dabloons");
             }
+
+            // Max Enemy Spawns
+            if (modifier.maxEnemyCountIncrease != 0)
+            {
+                ArenaSpawner sampleSpawner = FindFirstObjectByType<ArenaSpawner>(FindObjectsInactive.Include);
+                string color = modifier.maxEnemyCountIncrease > 0 ? "#FF5555" : "#55FF55"; // red for harder (more enemies), green for easier
+                string sign = modifier.maxEnemyCountIncrease > 0 ? "+" : "";
+
+                if (sampleSpawner != null)
+                {
+                    int oldSpawns = sampleSpawner.MaxSpawns;
+                    int newSpawns = oldSpawns + modifier.maxEnemyCountIncrease;
+                    sb.AppendLine($"- Max Arena Spawns: {oldSpawns} -> <color={color}>{newSpawns}</color> ({sign}{modifier.maxEnemyCountIncrease})");
+                }
+                else
+                {
+                    sb.AppendLine($"- Max Arena Spawns: <color={color}>{sign}{modifier.maxEnemyCountIncrease}</color> Enemies");
+                }
+            }
         }
         else if (itemData is UpgradeItemData upgrade)
         {

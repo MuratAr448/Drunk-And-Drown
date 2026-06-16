@@ -7,6 +7,7 @@ public class ModifierItemData : ShopItemData
     public float speedMultiplier = 1f;
     public int coinReward;
     public float coinMultiplierIncrease;
+    public int maxEnemyCountIncrease;
 
     public override bool TryPurchase(MainPlayer player)
     {
@@ -17,6 +18,16 @@ public class ModifierItemData : ShopItemData
         {
             movement.ModifySpeed(speedMultiplier);
         }
+
+        if (maxEnemyCountIncrease != 0)
+        {
+            var spawners = FindObjectsByType<ArenaSpawner>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var spawner in spawners)
+            {
+                spawner.MaxSpawns += maxEnemyCountIncrease;
+            }
+        }
+
         return true;
     }
 }

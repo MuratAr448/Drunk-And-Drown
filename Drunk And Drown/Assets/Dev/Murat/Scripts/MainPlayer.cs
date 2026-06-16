@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class MainPlayer : MonoBehaviour, IDamageable
 {
@@ -30,6 +32,8 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
     [SerializeField] private List<GameObject> BottleFaces;
+
+    [SerializeField] private Volume _pauseVolume;
 
     [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
@@ -220,6 +224,74 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
             movement.canMove = true;
+        }
+        TogglePauseVolume(pause);
+    }
+
+    private void TogglePauseVolume(bool active)
+    {
+        // Automatically ensure the Main Camera has URP Post Processing enabled
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            var cameraData = mainCam.GetComponent<UniversalAdditionalCameraData>();
+            if (cameraData != null && !cameraData.renderPostProcessing)
+            {
+                cameraData.renderPostProcessing = true;
+            }
+        }
+
+        if (_pauseVolume == null)
+        {
+            // Try to find an existing Volume in the scene named "PauseVolume"
+            Volume[] allVolumes = FindObjectsByType<Volume>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var vol in allVolumes)
+            {
+                if (vol.name.Contains("Pause"))
+                {
+                    _pauseVolume = vol;
+                    break;
+                }
+            }
+        }
+
+        if (_pauseVolume == null)
+        {
+            // Create a dynamic volume parented to the player
+            GameObject volumeGo = new GameObject("PauseVolumeDynamic");
+            volumeGo.transform.SetParent(transform);
+            _pauseVolume = volumeGo.AddComponent<Volume>();
+            _pauseVolume.isGlobal = true;
+            _pauseVolume.priority = 100f; // High priority to override other volume profiles
+            
+            VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            _pauseVolume.profile = profile;
+        }
+
+        if (_pauseVolume != null)
+        {
+            if (_pauseVolume.profile == null)
+            {
+                _pauseVolume.profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            }
+
+            // Always configure the Depth of Field settings so changes in the code apply to any volume profile used
+            DepthOfField dof;
+            if (!_pauseVolume.profile.TryGet<DepthOfField>(out dof))
+            {
+                dof = _pauseVolume.profile.Add<DepthOfField>(true);
+            }
+
+            if (dof != null)
+            {
+                dof.active = true;
+                dof.mode.Override(DepthOfFieldMode.Gaussian);
+                dof.focusDistance.Override(0.1f);
+                dof.aperture.Override(0.1f);
+                dof.focalLength.Override(500f);
+            }
+
+            _pauseVolume.weight = active ? 1f : 0f;
         }
     }
 
