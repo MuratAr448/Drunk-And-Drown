@@ -233,6 +233,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5087d42842072e440af32aa68f17b86a, type: 3}
+--- !u!114 &198060874 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 882309558868840722, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 7176451930309194704}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &377257242
 GameObject:
   m_ObjectHideFlags: 0
@@ -1390,15 +1401,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.5251255
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.4644394
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.893951
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 387246451518608572, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2560,7 +2571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2550057009113221926, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -1.95
       objectReference: {fileID: 0}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: arenaDuration
@@ -2574,6 +2585,10 @@ PrefabInstance:
       propertyPath: _arenaTimerText
       value: 
       objectReference: {fileID: 8921175553740624190}
+    - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: _enemiesLeftText
+      value: 
+      objectReference: {fileID: 198060874}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _offScreenOffset
       value: 500
@@ -2624,7 +2639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851320357964665317, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.35
+      value: 16.2
       objectReference: {fileID: 0}
     - target: {fileID: 3851320357964665317, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2632,7 +2647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3851320357964665317, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 4.85
       objectReference: {fileID: 0}
     - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_Name
@@ -2640,7 +2655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 51.7
+      value: 49.49
       objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2648,7 +2663,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: -1.32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

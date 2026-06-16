@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 public class Utielety : MonoBehaviour
 {
     private string sceneName;
-    [SerializeField] private SceneAsset scene;
+#if UNITY_EDITOR
+    public SceneAsset scene;//je kan kiezen welke scene je kan loaden
+#endif
     public void ToScene()
     {
         Time.timeScale = 1;
