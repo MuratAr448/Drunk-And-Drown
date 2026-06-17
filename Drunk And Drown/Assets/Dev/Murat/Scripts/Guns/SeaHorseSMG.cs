@@ -13,6 +13,14 @@ public class SeaHorseSMG : Gun
     [SerializeField] private float spread = 10f; 
     private float ammoLife = 1f;
     private MainPlayer player;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
+
     private void Start()
     {
         player = FindFirstObjectByType<MainPlayer>();
@@ -30,21 +38,42 @@ public class SeaHorseSMG : Gun
             amunition.timeTillDeath = ammoLife;
             amunition.type = BulletType.Normal;
             amunition.Lanched();
-            RaycastHit hit;
+
             GameObject Origin = player.rayOrigin;
-            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out hit))
+            Vector3 targetPoint;
+            int mask = ~(1 << player.gameObject.layer);
+            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out RaycastHit hit, 1000f, mask, QueryTriggerInteraction.Ignore))
             {
-                rb.transform.LookAt(hit.point);
+                targetPoint = hit.point;
             }
-            rb.AddForce(Origin.transform.forward * 100 * bulletSpeed);
+            else
+            {
+                targetPoint = Origin.transform.position + Origin.transform.forward * 100f;
+            }
+
+            Vector3 fireDirection = (targetPoint - bullet.transform.position).normalized;
+            bullet.transform.forward = fireDirection;
+            rb.AddForce(fireDirection * 100 * bulletSpeed);
             cooldown1 = 0f;
         }
     }
     public override void Secondary()
     {
         base.Secondary();
-        if (shootRate2 <= cooldown2&& Input.GetKeyDown(KeyCode.Mouse1))
+        if (shootRate2 <= cooldown2 && Input.GetKeyDown(KeyCode.Mouse1))
         {
+            GameObject Origin = player.rayOrigin;
+            Vector3 targetPoint;
+            int mask = ~(1 << player.gameObject.layer);
+            if (Physics.Raycast(Origin.transform.position, Origin.transform.forward, out RaycastHit hit, 1000f, mask, QueryTriggerInteraction.Ignore))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = Origin.transform.position + Origin.transform.forward * 100f;
+            }
+
             for (int i = 0; i < bulletAmount; i++)
             {
                 GameObject bullet = Instantiate(bullets, transvormPivit.transform.position, transvormPivit.transform.rotation);
@@ -54,6 +83,9 @@ public class SeaHorseSMG : Gun
                 amunition.timeTillDeath = ammoLife;
                 amunition.type = BulletType.Normal;
                 amunition.Lanched();
+
+                Vector3 fireDirection = (targetPoint - bullet.transform.position).normalized;
+                bullet.transform.forward = fireDirection;
                 bullet.transform.rotation = Quaternion.RotateTowards(bullet.transform.rotation, Random.rotation, spread);
                 rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             }

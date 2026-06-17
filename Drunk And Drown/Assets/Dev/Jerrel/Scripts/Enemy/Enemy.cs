@@ -108,6 +108,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         Health -= damage;
         OnHealthChanged?.Invoke();
+        FloatingDamageText.Create(transform.position, damage);
         if (Health <= 0)
         {
             Health = 0;
@@ -134,7 +135,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         if (_deathParticlePrefab != null)
         {
             GameObject prt = Instantiate(_deathParticlePrefab, transform.position, Quaternion.identity);
-            Destroy(prt);
+            Destroy(prt, 3f);
         }
 
         Destroy(gameObject);

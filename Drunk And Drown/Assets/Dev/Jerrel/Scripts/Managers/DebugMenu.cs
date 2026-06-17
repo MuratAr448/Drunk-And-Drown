@@ -114,6 +114,13 @@ public class DebugMenu : MonoBehaviour
             }
         }
 
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("Reset Arenas", GUILayout.Height(45)))
+        {
+            ArenaSpawner.ResetAllArenas();
+        }
+
         GUILayout.Space(25);
         GUILayout.Label("Controls:");
         GUILayout.Label("- Press [~] or [F1] to close debug menu.");

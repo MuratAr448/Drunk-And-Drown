@@ -19,6 +19,13 @@ public class ParrotGun : Gun
     private float ammoLife = 3f;
     private MainPlayer mainPlayer;
 
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
+
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -69,13 +76,20 @@ public class ParrotGun : Gun
             ammunition.Lanched();
 
             GameObject origin = mainPlayer.rayOrigin;
-            Vector3 fireDirection = origin.transform.forward;
+            Vector3 targetPoint;
+            int mask = ~(1 << mainPlayer.gameObject.layer);
 
-            if (Physics.Raycast(origin.transform.position, fireDirection, out RaycastHit hit))
+            if (Physics.Raycast(origin.transform.position, origin.transform.forward, out RaycastHit hit, 1000f, mask, QueryTriggerInteraction.Ignore))
             {
-                fireDirection = (hit.point - activeBullet.transform.position).normalized;
-                bulletRb.transform.LookAt(hit.point);
+                targetPoint = hit.point;
             }
+            else
+            {
+                targetPoint = origin.transform.position + origin.transform.forward * 100f;
+            }
+
+            Vector3 fireDirection = (targetPoint - activeBullet.transform.position).normalized;
+            bulletRb.transform.LookAt(targetPoint);
 
             bulletRb.AddForce(fireDirection * 100f * bulletSpeed, ForceMode.Force);
 

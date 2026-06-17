@@ -18,6 +18,18 @@ public class MorningStar : Melee
     [SerializeField] private ExplosiveHammer explosive;
     public bool Attacking = false;
     private Movement player;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+        if (explosive != null)
+        {
+            explosive.damage *= multiplier;
+        }
+    }
+
     void Start()
     {
         player = FindFirstObjectByType<Movement>();

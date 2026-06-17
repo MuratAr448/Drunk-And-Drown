@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class MainPlayer : MonoBehaviour, IDamageable
 {
@@ -30,6 +32,19 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
     [SerializeField] private List<GameObject> BottleFaces;
+
+    [SerializeField] private Volume _pauseVolume;
+
+    [Header("Luck Settings")]
+    [SerializeField] private float luck = 1f;
+    public float Luck
+    {
+        get => luck;
+        set => luck = value;
+    }
+
+    [Header("Stats Screen Settings")]
+    [SerializeField] private TextMeshProUGUI statsText;
 
     [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
@@ -104,16 +119,17 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+
         if (movement.canMove)
         {
             Shoot();
             if (AlowedToSwitch())
             {
                 SwitchWeapon();
-            }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Pause();
             }
         }
     }
@@ -208,6 +224,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (pause)
         {
             pauseScreen.SetActive(true);
+            UpdateStatsText();
             movement.canMove = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -220,6 +237,71 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
             movement.canMove = true;
+        }
+        TogglePauseVolume(pause);
+    }
+
+    private void TogglePauseVolume(bool active)
+    {
+        // Automatically ensure the Main Camera has URP Post Processing enabled
+        Camera mainCam = Camera.main;
+        if (mainCam != null)
+        {
+            var cameraData = mainCam.GetComponent<UniversalAdditionalCameraData>();
+            if (cameraData != null && !cameraData.renderPostProcessing)
+            {
+                cameraData.renderPostProcessing = true;
+            }
+        }
+
+        if (_pauseVolume == null)
+        {
+            // Try to find an existing Volume in the scene named "PauseVolume"
+            Volume[] allVolumes = FindObjectsByType<Volume>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var vol in allVolumes)
+            {
+                if (vol.name.Contains("Pause"))
+                {
+                    _pauseVolume = vol;
+                    break;
+                }
+            }
+        }
+
+        if (_pauseVolume == null)
+        {
+            // Create a dynamic volume parented to the player
+            GameObject volumeGo = new GameObject("PauseVolumeDynamic");
+            volumeGo.transform.SetParent(transform);
+            _pauseVolume = volumeGo.AddComponent<Volume>();
+            _pauseVolume.isGlobal = true;
+            _pauseVolume.priority = 100f; // High priority to override other volume profiles
+            
+            VolumeProfile profile = ScriptableObject.CreateInstance<VolumeProfile>();
+            _pauseVolume.profile = profile;
+
+            // Always configure the Depth of Field settings for our dynamic fallback volume
+            DepthOfField dof;
+            if (!_pauseVolume.profile.TryGet<DepthOfField>(out dof))
+            {
+                dof = _pauseVolume.profile.Add<DepthOfField>(true);
+            }
+
+            if (dof != null)
+            {
+                dof.active = true;
+                dof.mode.Override(DepthOfFieldMode.Gaussian);
+                dof.gaussianStart.Override(0.1f);
+                dof.gaussianEnd.Override(1.0f);
+                dof.gaussianMaxRadius.Override(1.5f);
+                dof.highQualitySampling.Override(true);
+            }
+        }
+
+        if (_pauseVolume != null)
+        {
+            _pauseVolume.priority = 100f;
+            _pauseVolume.weight = active ? 1f : 0f;
         }
     }
 
@@ -280,6 +362,12 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public void ResetHealth()
     {
         health = maxHealth;
+        OnHealthChanged?.Invoke();
+    }
+
+    public void Heal(float amount)
+    {
+        health = Mathf.Min(health + amount, maxHealth);
         OnHealthChanged?.Invoke();
     }
 
@@ -359,5 +447,103 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 Instance.weaponUI.SwitchWeaponUI(Instance.weaponCurrentSwitch);
             }
         }
+    }
+
+
+
+    private void GetRarityChances(float luckVal, out float commonPct, out float uncommonPct, out float rarePct, out float epicPct, out float legendaryPct)
+    {
+        float wCommon = 40f / Mathf.Max(0.1f, luckVal);
+        float wUncommon = 25f;
+        float wRare = 18f * Mathf.Sqrt(luckVal);
+        float wEpic = 12f * luckVal;
+        float wLegendary = 5f * luckVal * luckVal;
+
+        float totalWeight = wCommon + wUncommon + wRare + wEpic + wLegendary;
+        
+        commonPct = (wCommon / totalWeight) * 100f;
+        uncommonPct = (wUncommon / totalWeight) * 100f;
+        rarePct = (wRare / totalWeight) * 100f;
+        epicPct = (wEpic / totalWeight) * 100f;
+        legendaryPct = (wLegendary / totalWeight) * 100f;
+    }
+
+    private void UpdateStatsText()
+    {
+        if (statsText == null) return;
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        // Header Title
+        sb.AppendLine("<size=140%><color=#FFFFFF><b>CHARACTER STATS</b></color></size>");
+        sb.AppendLine();
+
+        // 1. Attributes
+        sb.AppendLine("<color=#FFFFFF><b>Attributes:</b></color>");
+        float currentMaxHP = BaseHealth;
+        float currentSpeed = movement != null ? movement.WalkSpeed : 6f;
+        float currentCoinMultiplier = CoinSystem.Instance != null ? CoinSystem.Instance.CoinMultiplier : 1f;
+        int currentCoins = CoinSystem.Instance != null ? CoinSystem.Instance.GetCoinAmount() : 0;
+
+        // Health: Green if full, Red if damaged. Max health: Green if >= baseline 100, Red otherwise.
+        string hpColor = health < currentMaxHP ? "#FF5555" : "#55FF55";
+        string maxHpColor = currentMaxHP >= 100f ? "#55FF55" : "#FF5555";
+        sb.AppendLine($"- Health: <color={hpColor}>{health:F0}</color> / <color={maxHpColor}>{currentMaxHP:F0}</color>");
+
+        // Speed: Green if >= baseline 6.0, Red otherwise.
+        string speedColor = currentSpeed >= 6f ? "#55FF55" : "#FF5555";
+        sb.AppendLine($"- Speed: <color={speedColor}>{currentSpeed:F1}</color>");
+
+        // Coin multiplier: Green if >= baseline 1.0, Red otherwise.
+        string multColor = currentCoinMultiplier >= 1f ? "#55FF55" : "#FF5555";
+        sb.AppendLine($"- Coin Mult: <color={multColor}>{currentCoinMultiplier:F1}x</color>");
+
+        // Coins: Green if you have dabloons
+        string coinColor = currentCoins > 0 ? "#55FF55" : "#FFFFFF";
+        sb.AppendLine($"- Dabloons: <color={coinColor}>{currentCoins}</color>");
+
+        // Luck: Green if >= baseline 1.0, Red otherwise.
+        string luckColor = luck >= 1f ? "#55FF55" : "#FF5555";
+        sb.AppendLine($"- Luck: <color={luckColor}>{luck:F2}</color>");
+        sb.AppendLine();
+
+        // 2. Rarity Chances
+        sb.AppendLine("<color=#FFFFFF><b>Shop Rarity Chances:</b></color>");
+        float common, uncommon, rare, epic, legendary;
+        GetRarityChances(luck, out common, out uncommon, out rare, out epic, out legendary);
+
+        sb.AppendLine($"- <color=#BBBBBB>Common: {common:F1}%</color>");
+        sb.AppendLine($"- <color=#55FF55>Uncommon: {uncommon:F1}%</color>");
+        sb.AppendLine($"- <color=#5555FF>Rare: {rare:F1}%</color>");
+        sb.AppendLine($"- <color=#AA00FF>Epic: {epic:F1}%</color>");
+        sb.AppendLine($"- <color=#FF9900>Legendary: {legendary:F1}%</color>");
+        sb.AppendLine();
+
+        // 3. Weapons
+        sb.AppendLine("<color=#FFFFFF><b>Equipped Weapons:</b></color>");
+        if (weapons != null && weapons.Count > 0)
+        {
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if (weapons[i] == null) continue;
+                string wName = weapons[i].gameObject.name.Replace("(Clone)", "").Trim();
+                string activeText = (weapons[i] == weapon) ? " <color=#55FF55>[Active]</color>" : "";
+                
+                float dmg = weapons[i].GetDamage();
+                string rates = "";
+                float r1 = weapons[i].GetRate1();
+                if (r1 > 0f) rates += $", {weapons[i].GetRate1Name()}: {r1:F2}s";
+                float r2 = weapons[i].GetRate2();
+                if (r2 > 0f) rates += $", {weapons[i].GetRate2Name()}: {r2:F2}s";
+
+                sb.AppendLine($"- Slot {i+1}: {wName} (Dmg: <color=#55FF55>{dmg:F1}</color>{rates}){activeText}");
+            }
+        }
+        else
+        {
+            sb.AppendLine("- No weapons equipped");
+        }
+
+        statsText.text = sb.ToString();
     }
 }

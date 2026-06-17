@@ -54,6 +54,14 @@ public class SquidRayGun : Gun
     protected bool isInputBlocked = false;
     protected KeyCode grappleKey = KeyCode.Mouse1;
 
+    public override float GetDamage() { return Basedamage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        Basedamage *= multiplier;
+        speedDamageMultiplier *= multiplier;
+    }
+
     protected virtual void Start()
     {
         playerSquid = FindFirstObjectByType<MainPlayer>();
@@ -175,6 +183,7 @@ public class SquidRayGun : Gun
             inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
             inkRay.transform.rotation = transform.rotation;
             inkRay.transform.localScale = new Vector3(size, size, 20);
+            inkRay.transform.localPosition = Vector3.forward * (20f * 0.3f);
         }
     }
 

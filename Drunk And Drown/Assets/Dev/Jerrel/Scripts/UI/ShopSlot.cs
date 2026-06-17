@@ -7,6 +7,7 @@ using System.Collections;
 public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image iconImage;
+    [SerializeField] private Image backgroundImage;
 
     [SerializeField] private ShopItemData currentItemData;
 
@@ -51,6 +52,21 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             return;
         }
         if (iconImage != null) iconImage.sprite = currentItemData.icon;
+
+        if (backgroundImage == null)
+        {
+            backgroundImage = GetComponent<Image>();
+        }
+
+        if (backgroundImage != null)
+        {
+            Color rarityColor;
+            if (ColorUtility.TryParseHtmlString(RaritySystem.GetRarityColor(currentItemData.rarity), out rarityColor))
+            {
+                rarityColor.a = backgroundImage.color.a;
+                backgroundImage.color = rarityColor;
+            }
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

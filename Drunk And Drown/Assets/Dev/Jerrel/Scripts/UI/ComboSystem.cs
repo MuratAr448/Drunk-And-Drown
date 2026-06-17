@@ -21,6 +21,10 @@ public class ComboSystem : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioEvent _comboSound;
 
+    [Header("Fade Settings")]
+    [SerializeField] private CanvasGroup _canvasGroup;
+    [SerializeField] private float _fadeDuration = 0.5f;
+
     private int _currentCombo = 0;
     private float _comboTimer = 0f;
     private float _currentMultiplier = 1f;
@@ -41,6 +45,45 @@ public class ComboSystem : MonoBehaviour
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+
+        // Try to automatically find or add a CanvasGroup on parent/text
+        if (_canvasGroup == null)
+        {
+            if (_multiplierText != null)
+            {
+                Transform parent = _multiplierText.transform.parent;
+                if (parent != null)
+                {
+                    _canvasGroup = parent.GetComponent<CanvasGroup>();
+                    if (_canvasGroup == null)
+                    {
+                        _canvasGroup = parent.gameObject.AddComponent<CanvasGroup>();
+                    }
+                }
+                else
+                {
+                    _canvasGroup = _multiplierText.GetComponent<CanvasGroup>();
+                    if (_canvasGroup == null)
+                    {
+                        _canvasGroup = _multiplierText.gameObject.AddComponent<CanvasGroup>();
+                    }
+                }
+            }
+            else
+            {
+                _canvasGroup = GetComponent<CanvasGroup>();
+                if (_canvasGroup == null)
+                {
+                    _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                }
+            }
+        }
+
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 0f;
+        }
+
         UpdateUI();
     }
 
@@ -58,6 +101,29 @@ public class ComboSystem : MonoBehaviour
             if (_comboTimer <= 0)
             {
                 ResetCombo();
+            }
+        }
+
+        UpdateFading();
+    }
+
+    private void UpdateFading()
+    {
+        if (_canvasGroup == null) return;
+
+        if (_currentCombo > 0)
+        {
+            _canvasGroup.alpha = 1f;
+        }
+        else
+        {
+            if (_canvasGroup.alpha > 0f)
+            {
+                _canvasGroup.alpha -= Time.deltaTime / _fadeDuration;
+                if (_canvasGroup.alpha < 0f)
+                {
+                    _canvasGroup.alpha = 0f;
+                }
             }
         }
     }
