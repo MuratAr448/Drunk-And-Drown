@@ -5,7 +5,7 @@ public class ScoreSystem : MonoBehaviour
 {
     public static ScoreSystem Instance { get; private set; }
 
-    [SerializeField] private int _totalScore = 0;
+    public int _totalScore = 0;
     [SerializeField] private TextMeshProUGUI _scoreTextLabel;
 
     private Coroutine _bounceRoutine;

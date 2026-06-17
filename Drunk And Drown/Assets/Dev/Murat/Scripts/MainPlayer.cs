@@ -17,8 +17,8 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public Weapons weapon;
     public static List<Weapons> weapons;
     public bool pause = false;
+    public GameObject pausedScreen;
     public GameObject pauseScreen;
-    public List<GameObject> deathScreen;
     public bool dead = false;
     private Movement movement;
     public GameObject rayOrigin;
@@ -48,6 +48,10 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     [SerializeField] private Transform hotbar;
     public static Transform HotbarInstance { get; private set; }
+
+    [Header("Death Screen Settings")]
+    public GameObject deathScreen;
+    [SerializeField] private TextMeshProUGUI finalScore;
 
     [Header("Sounds")]
     private AudioSource audioSource;
@@ -223,6 +227,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         pause = !pause;
         if (pause)
         {
+            pausedScreen.SetActive(true);
             pauseScreen.SetActive(true);
             UpdateStatsText();
             movement.canMove = false;
@@ -236,6 +241,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.visible = false;
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
+            pausedScreen.SetActive(false);
             movement.canMove = true;
         }
         TogglePauseVolume(pause);
@@ -347,17 +353,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
     }
 
-    private void BottleFaceChange()
-    {
-        float hpProcent = 100 / maxHealth * health;
-        int bottleface = 0;
-
-        for (int i = 0; i < BottleFaces.Count; i++)
-        {
-            BottleFaces[i].SetActive(false);
-        }
-        BottleFaces[bottleface].SetActive(true);
-    }
 
     public void ResetHealth()
     {
@@ -382,33 +377,13 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         movement.canMove = false;
         dead = true;
-        Time.timeScale = 1;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private IEnumerator DeathScreen()
-    {
-        deathScreen[0].SetActive(true);
+        pausedScreen.SetActive(true);
+        deathScreen.SetActive(true);
+        UpdateStatsText();
+        finalScore.text = "Score: " + ScoreSystem.Instance._totalScore.ToString();
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        int x = 150;
-        for (int i = 0; i < x; i++)
-        {
-            for (int j = 0; j < deathScreen.Count; j++)
-            {
-                if (deathScreen[j].GetComponent<Image>())
-                {
-                    Image Deathcurrent = deathScreen[j].GetComponent<Image>();
-                    Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
-                }
-                else if (deathScreen[j].GetComponent<TextMeshProUGUI>())
-                {
-                    TextMeshProUGUI Deathcurrent = deathScreen[j].GetComponent<TextMeshProUGUI>();
-                    Deathcurrent.color = Deathcurrent.color + new UnityEngine.Color(0, 0, 0, Time.deltaTime);
-                }
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
+        Time.timeScale = 0;
     }
     
     public static void AddWeaponToList(GameObject weapon)
