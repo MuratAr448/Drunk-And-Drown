@@ -1181,6 +1181,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2618081718899537428, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4969629400671806601, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: globalVolume
       value: 
@@ -1197,6 +1201,10 @@ PrefabInstance:
       propertyPath: _pauseVolume
       value: 
       objectReference: {fileID: 313953546}
+    - target: {fileID: 7374278538019710753, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7552641462010466819, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 220.53
@@ -1235,6 +1243,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7552641462010466819, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8666665000086298218, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9185948038355208753, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
@@ -1365,6 +1377,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6614462186804515169, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
   m_PrefabInstance: {fileID: 1107773668}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1349242995 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 758724013061870447, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1107773668}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1349242996 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6178686919318248232, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1107773668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!224 &1366455029 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3728956155810662016, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
@@ -1594,6 +1622,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377867619}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1456689718 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 882309558868840722, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1107773668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &1503340942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,11 +2438,11 @@ PrefabInstance:
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _arenaTimerText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2028714960}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _enemiesLeftText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1456689718}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: '_enemyPrefabs.Array.data[1]'
       value: 
@@ -2614,6 +2653,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+--- !u!114 &2028714960 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1581209575732780425, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1107773668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1001 &2066605504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3014,11 +3064,11 @@ PrefabInstance:
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _arenaTimerText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2028714960}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _enemiesLeftText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1456689718}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: '_enemyPrefabs.Array.data[1]'
       value: 
@@ -3207,11 +3257,11 @@ PrefabInstance:
     - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _canvasGroup
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1349242995}
     - target: {fileID: 8095798536578804089, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _coinTextLabel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1349242996}
     - target: {fileID: 8680720092104695909, guid: ed55a9fec33e1f1468cade794228d6a5, type: 3}
       propertyPath: _scoreTextLabel
       value: 
