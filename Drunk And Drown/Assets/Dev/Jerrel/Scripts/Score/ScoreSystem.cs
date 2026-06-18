@@ -53,7 +53,7 @@ public class ScoreSystem : MonoBehaviour
     {
         if (_scoreTextLabel != null)
         {
-            _scoreTextLabel.text = _totalScore.ToString();
+            _scoreTextLabel.text = UIUtils.FormatNumber(_totalScore);
         }
     }
 }

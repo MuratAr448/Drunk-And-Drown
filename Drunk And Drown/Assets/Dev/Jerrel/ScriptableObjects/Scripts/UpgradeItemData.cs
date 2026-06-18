@@ -4,7 +4,7 @@ using UnityEngine;
 public class UpgradeItemData : ShopItemData
 {
     public float healthIncrease;
-    public float speedMultiplier = 1f;
+    public float speedIncrease;
     public float healAmount;
     public float luckIncrease;
 
@@ -22,7 +22,7 @@ public class UpgradeItemData : ShopItemData
 
             if (player.TryGetComponent<Movement>(out var movement))
             {
-                movement.ModifySpeed(speedMultiplier);
+                movement.ModifySpeed(speedIncrease);
             }
 
             player.Luck += luckIncrease;

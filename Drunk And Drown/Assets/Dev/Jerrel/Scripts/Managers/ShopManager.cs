@@ -73,7 +73,7 @@ public class ShopManager : MonoBehaviour
     {
         if (_rerollText != null)
         {
-            _rerollText.text = $"Reroll ({_currentRerollCost} Coins)";
+            _rerollText.text = $"Reroll ({UIUtils.FormatNumber(_currentRerollCost)} Coins)";
         }
         
         if (_rerollButton != null)

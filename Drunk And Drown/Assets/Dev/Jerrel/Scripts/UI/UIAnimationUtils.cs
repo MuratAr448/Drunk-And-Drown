@@ -70,7 +70,7 @@ public static class UIAnimationUtils
         flyingText.fontSize = 36f * intensityMultiplier;
         flyingText.color = color;
         flyingText.alignment = TextAlignmentOptions.Center;
-        flyingText.text = "+" + amount;
+        flyingText.text = "+" + UIUtils.FormatNumber(amount);
 
         RectTransform flyingRect = flyingGo.GetComponent<RectTransform>();
         flyingRect.sizeDelta = new Vector2(200f * intensityMultiplier, 50f * intensityMultiplier);

@@ -192,7 +192,7 @@ public class CoinSystem : MonoBehaviour
     {
         if (_coinTextLabel != null)
         {
-            _coinTextLabel.text = _coins.ToString();
+            _coinTextLabel.text = UIUtils.FormatNumber(_coins);
         }
     }
 }

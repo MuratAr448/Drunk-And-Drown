@@ -70,23 +70,23 @@ public static class RaritySystem
         {
             // Upgrades: Scale all positive stats
             upgrade.healthIncrease = Mathf.Round(upgrade.healthIncrease * mult);
-            upgrade.speedMultiplier = 1f + (upgrade.speedMultiplier - 1f) * mult;
+            upgrade.speedIncrease = upgrade.speedIncrease * mult;
             upgrade.healAmount = Mathf.Round(upgrade.healAmount * mult);
             upgrade.luckIncrease = upgrade.luckIncrease * mult;
         }
         else if (item is ModifierItemData modifier)
         {
             // Modifiers: Only scale the BUFFS, do not affect DEBUFFS
-            // Buffs: coinReward, coinMultiplierIncrease, speedMultiplier (if > 1f)
+            // Buffs: coinReward, coinMultiplierIncrease, speedIncrease (if > 0f)
             modifier.coinReward = Mathf.RoundToInt(modifier.coinReward * mult);
             modifier.coinMultiplierIncrease = modifier.coinMultiplierIncrease * mult;
             
-            if (modifier.speedMultiplier > 1f)
+            if (modifier.speedIncrease > 0f)
             {
-                modifier.speedMultiplier = 1f + (modifier.speedMultiplier - 1f) * mult;
+                modifier.speedIncrease = modifier.speedIncrease * mult;
             }
 
-            // Note: healthDecrease, maxEnemyCountIncrease, and speedMultiplier (if < 1f) remain at their base values.
+            // Note: healthDecrease, maxEnemyCountIncrease, and speedIncrease (if < 0f) remain at their base values.
         }
     }
 }

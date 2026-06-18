@@ -376,7 +376,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         dead = true;
         deathScreen.SetActive(true);
         UpdateStatsText();
-        finalScore.text = "Score: " + ScoreSystem.Instance._totalScore.ToString();
+        finalScore.text = "Score: " + UIUtils.FormatNumber(ScoreSystem.Instance._totalScore);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0;
@@ -459,23 +459,23 @@ public class MainPlayer : MonoBehaviour, IDamageable
         // Health: Green if full, Red if damaged. Max health: Green if >= baseline 100, Red otherwise.
         string hpColor = health < currentMaxHP ? "#FF5555" : "#55FF55";
         string maxHpColor = currentMaxHP >= 100f ? "#55FF55" : "#FF5555";
-        sb.AppendLine($"- Health: <color={hpColor}>{health:F0}</color> / <color={maxHpColor}>{currentMaxHP:F0}</color>");
+        sb.AppendLine($"- Health: <color={hpColor}>{UIUtils.FormatNumber(health)}</color> / <color={maxHpColor}>{UIUtils.FormatNumber(currentMaxHP)}</color>");
 
         // Speed: Green if >= baseline 6.0, Red otherwise.
         string speedColor = currentSpeed >= 6f ? "#55FF55" : "#FF5555";
-        sb.AppendLine($"- Speed: <color={speedColor}>{currentSpeed:F1}</color>");
+        sb.AppendLine($"- Speed: <color={speedColor}>{UIUtils.FormatNumber(currentSpeed)}</color>");
 
         // Coin multiplier: Green if >= baseline 1.0, Red otherwise.
         string multColor = currentCoinMultiplier >= 1f ? "#55FF55" : "#FF5555";
-        sb.AppendLine($"- Coin Mult: <color={multColor}>{currentCoinMultiplier:F1}x</color>");
+        sb.AppendLine($"- Coin Mult: <color={multColor}>{UIUtils.FormatNumber(currentCoinMultiplier)}x</color>");
 
         // Coins: Green if you have dabloons
         string coinColor = currentCoins > 0 ? "#55FF55" : "#FFFFFF";
-        sb.AppendLine($"- Dabloons: <color={coinColor}>{currentCoins}</color>");
+        sb.AppendLine($"- Dabloons: <color={coinColor}>{UIUtils.FormatNumber(currentCoins)}</color>");
 
         // Luck: Green if >= baseline 1.0, Red otherwise.
         string luckColor = luck >= 1f ? "#55FF55" : "#FF5555";
-        sb.AppendLine($"- Luck: <color={luckColor}>{luck:F2}</color>");
+        sb.AppendLine($"- Luck: <color={luckColor}>{UIUtils.FormatNumber(luck)}</color>");
         sb.AppendLine();
 
         // 2. Rarity Chances
@@ -483,11 +483,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
         float common, uncommon, rare, epic, legendary;
         GetRarityChances(luck, out common, out uncommon, out rare, out epic, out legendary);
 
-        sb.AppendLine($"- <color=#BBBBBB>Common: {common:F1}%</color>");
-        sb.AppendLine($"- <color=#55FF55>Uncommon: {uncommon:F1}%</color>");
-        sb.AppendLine($"- <color=#5555FF>Rare: {rare:F1}%</color>");
-        sb.AppendLine($"- <color=#AA00FF>Epic: {epic:F1}%</color>");
-        sb.AppendLine($"- <color=#FF9900>Legendary: {legendary:F1}%</color>");
+        sb.AppendLine($"- <color=#BBBBBB>Common: {UIUtils.FormatNumber(common)}%</color>");
+        sb.AppendLine($"- <color=#55FF55>Uncommon: {UIUtils.FormatNumber(uncommon)}%</color>");
+        sb.AppendLine($"- <color=#5555FF>Rare: {UIUtils.FormatNumber(rare)}%</color>");
+        sb.AppendLine($"- <color=#AA00FF>Epic: {UIUtils.FormatNumber(epic)}%</color>");
+        sb.AppendLine($"- <color=#FF9900>Legendary: {UIUtils.FormatNumber(legendary)}%</color>");
         sb.AppendLine();
 
         // 3. Weapons
@@ -503,11 +503,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
                 float dmg = weapons[i].GetDamage();
                 string rates = "";
                 float r1 = weapons[i].GetRate1();
-                if (r1 > 0f) rates += $", {weapons[i].GetRate1Name()}: {r1:F2}s";
+                if (r1 > 0f) rates += $", {weapons[i].GetRate1Name()}: {UIUtils.FormatNumber(r1)}s";
                 float r2 = weapons[i].GetRate2();
-                if (r2 > 0f) rates += $", {weapons[i].GetRate2Name()}: {r2:F2}s";
+                if (r2 > 0f) rates += $", {weapons[i].GetRate2Name()}: {UIUtils.FormatNumber(r2)}s";
 
-                sb.AppendLine($"- Slot {i+1}: {wName} (Dmg: <color=#55FF55>{dmg:F1}</color>{rates}){activeText}");
+                sb.AppendLine($"- Slot {i+1}: {wName} (Dmg: <color=#55FF55>{UIUtils.FormatNumber(dmg)}</color>{rates}){activeText}");
             }
         }
         else

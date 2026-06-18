@@ -77,7 +77,7 @@ public class ShopTooltip : MonoBehaviour
         }
         if (costText != null)
         {
-            costText.text = itemData is ModifierItemData ? "FREE" : $"{itemData.cost} Dabloons";
+            costText.text = itemData is ModifierItemData ? "FREE" : $"{UIUtils.FormatNumber(itemData.cost)} Dabloons";
         }
 
         FollowMouse();
@@ -104,18 +104,17 @@ public class ShopTooltip : MonoBehaviour
             {
                 float oldHP = currentMaxHP;
                 float newHP = currentMaxHP - modifier.healthDecrease;
-                sb.AppendLine($"- Max Health: {oldHP} -> <color=#FF5555>{newHP}</color> (-{modifier.healthDecrease})");
+                sb.AppendLine($"- Max Health: {UIUtils.FormatNumber(oldHP)} -> <color=#FF5555>{UIUtils.FormatNumber(newHP)}</color> (-{UIUtils.FormatNumber(modifier.healthDecrease)})");
             }
 
             // Speed
-            if (modifier.speedMultiplier != 1f)
+            if (modifier.speedIncrease != 0f)
             {
                 float oldSpeed = currentSpeed;
-                float newSpeed = currentSpeed * modifier.speedMultiplier;
-                string color = modifier.speedMultiplier > 1f ? "#55FF55" : "#FF5555";
-                string sign = modifier.speedMultiplier > 1f ? "+" : "";
-                float pct = (modifier.speedMultiplier - 1f) * 100f;
-                sb.AppendLine($"- Speed: {oldSpeed:F1} -> <color={color}>{newSpeed:F1}</color> ({sign}{pct:F0}%)");
+                float newSpeed = currentSpeed + modifier.speedIncrease;
+                string color = modifier.speedIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = modifier.speedIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Speed: {UIUtils.FormatNumber(oldSpeed)} -> <color={color}>{UIUtils.FormatNumber(newSpeed)}</color> ({sign}{UIUtils.FormatNumber(modifier.speedIncrease)})");
             }
 
             // Coin Multiplier
@@ -125,7 +124,7 @@ public class ShopTooltip : MonoBehaviour
                 float newMult = currentCoinMultiplier + modifier.coinMultiplierIncrease;
                 string color = modifier.coinMultiplierIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = modifier.coinMultiplierIncrease > 0f ? "+" : "";
-                sb.AppendLine($"- Coin Multiplier: {oldMult:F1}x -> <color={color}>{newMult:F1}x</color> ({sign}{modifier.coinMultiplierIncrease:F1})");
+                sb.AppendLine($"- Coin Multiplier: {UIUtils.FormatNumber(oldMult)}x -> <color={color}>{UIUtils.FormatNumber(newMult)}x</color> ({sign}{UIUtils.FormatNumber(modifier.coinMultiplierIncrease)})");
             }
 
             // Coin Reward
@@ -133,7 +132,7 @@ public class ShopTooltip : MonoBehaviour
             {
                 string color = modifier.coinReward > 0 ? "#55FF55" : "#FF5555";
                 string sign = modifier.coinReward > 0 ? "+" : "";
-                sb.AppendLine($"- Coin Reward: <color={color}>{sign}{modifier.coinReward}</color> Dabloons");
+                sb.AppendLine($"- Coin Reward: <color={color}>{sign}{UIUtils.FormatNumber(modifier.coinReward)}</color> Dabloons");
             }
 
             // Max Enemy Spawns
@@ -147,11 +146,11 @@ public class ShopTooltip : MonoBehaviour
                 {
                     int oldSpawns = sampleSpawner.MaxSpawns;
                     int newSpawns = oldSpawns + modifier.maxEnemyCountIncrease;
-                    sb.AppendLine($"- Max Arena Spawns: {oldSpawns} -> <color={color}>{newSpawns}</color> ({sign}{modifier.maxEnemyCountIncrease})");
+                    sb.AppendLine($"- Max Arena Spawns: {UIUtils.FormatNumber(oldSpawns)} -> <color={color}>{UIUtils.FormatNumber(newSpawns)}</color> ({sign}{UIUtils.FormatNumber(modifier.maxEnemyCountIncrease)})");
                 }
                 else
                 {
-                    sb.AppendLine($"- Max Arena Spawns: <color={color}>{sign}{modifier.maxEnemyCountIncrease}</color> Enemies");
+                    sb.AppendLine($"- Max Arena Spawns: <color={color}>{sign}{UIUtils.FormatNumber(modifier.maxEnemyCountIncrease)}</color> Enemies");
                 }
             }
 
@@ -162,7 +161,7 @@ public class ShopTooltip : MonoBehaviour
                 float newLuck = oldLuck + modifier.luckIncrease;
                 string color = modifier.luckIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = modifier.luckIncrease > 0f ? "+" : "";
-                sb.AppendLine($"- Luck: {oldLuck:F1} -> <color={color}>{newLuck:F1}</color> ({sign}{modifier.luckIncrease:F1})");
+                sb.AppendLine($"- Luck: {UIUtils.FormatNumber(oldLuck)} -> <color={color}>{UIUtils.FormatNumber(newLuck)}</color> ({sign}{UIUtils.FormatNumber(modifier.luckIncrease)})");
             }
         }
         else if (itemData is UpgradeItemData upgrade)
@@ -176,18 +175,17 @@ public class ShopTooltip : MonoBehaviour
                 float newHP = currentMaxHP + upgrade.healthIncrease;
                 string color = upgrade.healthIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = upgrade.healthIncrease > 0f ? "+" : "";
-                sb.AppendLine($"- Max Health: {oldHP} -> <color={color}>{newHP}</color> ({sign}{upgrade.healthIncrease})");
+                sb.AppendLine($"- Max Health: {UIUtils.FormatNumber(oldHP)} -> <color={color}>{UIUtils.FormatNumber(newHP)}</color> ({sign}{UIUtils.FormatNumber(upgrade.healthIncrease)})");
             }
 
             // Speed
-            if (upgrade.speedMultiplier != 1f)
+            if (upgrade.speedIncrease != 0f)
             {
                 float oldSpeed = currentSpeed;
-                float newSpeed = currentSpeed * upgrade.speedMultiplier;
-                string color = upgrade.speedMultiplier > 1f ? "#55FF55" : "#FF5555";
-                string sign = upgrade.speedMultiplier > 1f ? "+" : "";
-                float pct = (upgrade.speedMultiplier - 1f) * 100f;
-                sb.AppendLine($"- Speed: {oldSpeed:F1} -> <color={color}>{newSpeed:F1}</color> ({sign}{pct:F0}%)");
+                float newSpeed = currentSpeed + upgrade.speedIncrease;
+                string color = upgrade.speedIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = upgrade.speedIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Speed: {UIUtils.FormatNumber(oldSpeed)} -> <color={color}>{UIUtils.FormatNumber(newSpeed)}</color> ({sign}{UIUtils.FormatNumber(upgrade.speedIncrease)})");
             }
 
             // Healing
@@ -195,7 +193,7 @@ public class ShopTooltip : MonoBehaviour
             {
                 float oldHP = player != null ? player.CurrentHealth : 100f;
                 float newHP = Mathf.Min(oldHP + upgrade.healAmount, currentMaxHP + upgrade.healthIncrease);
-                sb.AppendLine($"- Healing: {oldHP} -> <color=#55FF55>{newHP}</color> (+{upgrade.healAmount})");
+                sb.AppendLine($"- Healing: {UIUtils.FormatNumber(oldHP)} -> <color=#55FF55>{UIUtils.FormatNumber(newHP)}</color> (+{UIUtils.FormatNumber(upgrade.healAmount)})");
             }
 
             // Luck
@@ -205,7 +203,7 @@ public class ShopTooltip : MonoBehaviour
                 float newLuck = oldLuck + upgrade.luckIncrease;
                 string color = upgrade.luckIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = upgrade.luckIncrease > 0f ? "+" : "";
-                sb.AppendLine($"- Luck: {oldLuck:F1} -> <color={color}>{newLuck:F1}</color> ({sign}{upgrade.luckIncrease:F1})");
+                sb.AppendLine($"- Luck: {UIUtils.FormatNumber(oldLuck)} -> <color={color}>{UIUtils.FormatNumber(newLuck)}</color> ({sign}{UIUtils.FormatNumber(upgrade.luckIncrease)})");
             }
         }
         else if (itemData is WeaponItemData weaponItem && weaponItem.weaponPrefab != null)
@@ -221,21 +219,21 @@ public class ShopTooltip : MonoBehaviour
                 float scaledDamage = baseDamage * mult;
                 if (baseDamage > 0f)
                 {
-                    sb.AppendLine($"- Damage: {baseDamage:F1} -> <color=#55FF55>{scaledDamage:F1}</color>");
+                    sb.AppendLine($"- Damage: {UIUtils.FormatNumber(baseDamage)} -> <color=#55FF55>{UIUtils.FormatNumber(scaledDamage)}</color>");
                 }
 
                 float baseRate1 = baseWeapon.GetRate1();
                 float scaledRate1 = baseRate1 / mult;
                 if (baseRate1 > 0f)
                 {
-                    sb.AppendLine($"- {baseWeapon.GetRate1Name()}: {baseRate1:F2}s -> <color=#55FF55>{scaledRate1:F2}s</color>");
+                    sb.AppendLine($"- {baseWeapon.GetRate1Name()}: {UIUtils.FormatNumber(baseRate1)}s -> <color=#55FF55>{UIUtils.FormatNumber(scaledRate1)}s</color>");
                 }
 
                 float baseRate2 = baseWeapon.GetRate2();
                 float scaledRate2 = baseRate2 / mult;
                 if (baseRate2 > 0f)
                 {
-                    sb.AppendLine($"- {baseWeapon.GetRate2Name()}: {baseRate2:F2}s -> <color=#55FF55>{scaledRate2:F2}s</color>");
+                    sb.AppendLine($"- {baseWeapon.GetRate2Name()}: {UIUtils.FormatNumber(baseRate2)}s -> <color=#55FF55>{UIUtils.FormatNumber(scaledRate2)}s</color>");
                 }
             }
         }

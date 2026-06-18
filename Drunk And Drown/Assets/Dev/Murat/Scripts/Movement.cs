@@ -470,9 +470,9 @@ public class Movement : MonoBehaviour
 
     public float WalkSpeed => walkSpeed;
 
-    public void ModifySpeed(float multiplier)
+    public void ModifySpeed(float amount)
     {
-        walkSpeed *= multiplier;
+        walkSpeed = Mathf.Clamp(walkSpeed + amount, 0f, 25f);
         curSpeed = walkSpeed;
     }
 
