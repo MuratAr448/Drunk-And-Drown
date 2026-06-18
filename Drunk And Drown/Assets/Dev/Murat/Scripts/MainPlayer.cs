@@ -17,7 +17,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public Weapons weapon;
     public static List<Weapons> weapons;
     public bool pause = false;
-    public GameObject pausedScreen;
     public GameObject pauseScreen;
     public bool dead = false;
     private Movement movement;
@@ -227,7 +226,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         pause = !pause;
         if (pause)
         {
-            pausedScreen.SetActive(true);
             pauseScreen.SetActive(true);
             UpdateStatsText();
             movement.canMove = false;
@@ -241,7 +239,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.visible = false;
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
-            pausedScreen.SetActive(false);
             movement.canMove = true;
         }
         TogglePauseVolume(pause);
@@ -377,7 +374,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         movement.canMove = false;
         dead = true;
-        pausedScreen.SetActive(true);
         deathScreen.SetActive(true);
         UpdateStatsText();
         finalScore.text = "Score: " + ScoreSystem.Instance._totalScore.ToString();
