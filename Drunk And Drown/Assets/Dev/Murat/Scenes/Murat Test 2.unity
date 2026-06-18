@@ -1186,14 +1186,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 506889813}
     - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-      propertyPath: weapon
-      value: 
-      objectReference: {fileID: 1909171132}
-    - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-      propertyPath: parrotGun
-      value: 
-      objectReference: {fileID: 2066605506}
-    - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: _pauseVolume
       value: 
       objectReference: {fileID: 313953546}
@@ -2471,17 +2463,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
---- !u!114 &1909171132 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4305969480439176211, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-  m_PrefabInstance: {fileID: 1107773668}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c09d6bf33071814bbdc37530b946554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
 --- !u!1001 &1959987030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2577,17 +2558,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &2066605506 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1128969903789966629, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-  m_PrefabInstance: {fileID: 1107773668}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed995f5cdb1555044a19134405cdd699, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParrotGun
 --- !u!1 &2082489011
 GameObject:
   m_ObjectHideFlags: 0
