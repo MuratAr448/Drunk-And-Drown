@@ -2,11 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -16,6 +12,9 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public Weapons weapon;
     public static List<Weapons> weapons;
+    [SerializeField] private ParrotGun parrotGun;
+    private bool isShootingParrotGun = false;
+    private float parrotCooldown;
     public bool pause = false;
     public GameObject pausedScreen;
     public GameObject pauseScreen;
@@ -31,7 +30,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public Action OnHealthChanged { get; set; }
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
-    [SerializeField] private List<GameObject> BottleFaces;
 
     [SerializeField] private Volume _pauseVolume;
 
@@ -131,11 +129,30 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (movement.canMove)
         {
             Shoot();
-            if (AlowedToSwitch())
+            if (parrotCooldown<=2f) parrotCooldown += Time.deltaTime;
+            if (AlowedToSwitch()&&!isShootingParrotGun)
             {
+                if (Input.GetKeyDown(KeyCode.Q)&&parrotCooldown>=2f)
+                {
+                    StartCoroutine(ShootingParrotGun());
+                }
                 SwitchWeapon();
             }
         }
+    }
+    private IEnumerator ShootingParrotGun()
+    {
+        parrotCooldown = 0;
+        isShootingParrotGun = true;
+        weapon.gameObject.SetActive(false);
+        parrotGun.cooldown = parrotGun.shootRate;
+        parrotGun.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        parrotGun.Shoot();
+        yield return new WaitForSeconds(0.2f);
+        isShootingParrotGun = false;
+        weapon.gameObject.SetActive(true);
+        parrotGun.gameObject.SetActive(false);
     }
     private bool AlowedToSwitch()
     {
@@ -143,8 +160,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         {
             switch (gun.Kind)
             {
-                case KindofGun.ParrotGun:
-                    return true;
                 case KindofGun.BunderBuss:
                     return true;
                 case KindofGun.SquidRayGun:
