@@ -340,11 +340,13 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
+        if (dead) return;
+
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
         if (playerHurt != null) playerHurt.PlayOneShot(audioSource);
-        if (health <= 0 && !dead)
+        if (health <= 0)
         {
             Die();
         }
