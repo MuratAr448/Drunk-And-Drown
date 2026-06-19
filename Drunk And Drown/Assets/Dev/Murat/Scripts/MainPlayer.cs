@@ -17,6 +17,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     private float parrotCooldown;
     public bool pause = false;
     public GameObject pauseScreen;
+    public GameObject pauseButtons;
     public bool dead = false;
     private Movement movement;
     public GameObject rayOrigin;
@@ -242,6 +243,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (pause)
         {
             pauseScreen.SetActive(true);
+            pauseButtons.SetActive(true);
             UpdateStatsText();
             movement.canMove = false;
             Cursor.lockState = CursorLockMode.None;
@@ -254,6 +256,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.visible = false;
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
+            pauseButtons.SetActive(false);
             movement.canMove = true;
         }
         TogglePauseVolume(pause);
@@ -391,6 +394,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         movement.canMove = false;
         dead = true;
+        pauseScreen.SetActive(true);
         deathScreen.SetActive(true);
         UpdateStatsText();
         finalScore.text = "Score: " + UIUtils.FormatNumber(ScoreSystem.Instance._totalScore);
@@ -398,7 +402,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         Cursor.visible = true;
         Time.timeScale = 0;
     }
-    
+
     public static void AddWeaponToList(GameObject weapon)
     {
         Weapons Weapons = weapon.GetComponent<Weapons>();
@@ -436,7 +440,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
             }
         }
     }
-
+    public List<Weapons> AddWeaponToSave()
+    {
+        return weapons;
+    }
+    public void AddWeaponFromSave(List<Weapons> weaponsSave)
+    {
+        weapons = weaponsSave;
+    }
 
 
     private void GetRarityChances(float luckVal, out float commonPct, out float uncommonPct, out float rarePct, out float epicPct, out float legendaryPct)
