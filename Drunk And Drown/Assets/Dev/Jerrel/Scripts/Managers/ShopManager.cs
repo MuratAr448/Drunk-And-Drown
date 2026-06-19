@@ -119,8 +119,35 @@ public class ShopManager : MonoBehaviour
             _currentRerollCost = 10;
         }
 
+        // Filter out weapons already owned by the player
+        List<WeaponItemData> filteredWeapons = new List<WeaponItemData>();
+        if (availableWeapons != null)
+        {
+            foreach (var weaponData in availableWeapons)
+            {
+                if (weaponData != null && weaponData.weaponPrefab != null)
+                {
+                    if (!MainPlayer.HasWeapon(weaponData.weaponPrefab))
+                    {
+                        filteredWeapons.Add(weaponData);
+                    }
+                }
+            }
+        }
+
+        // If player owns all weapons, show a "SOLD OUT" slot
+        if (filteredWeapons.Count == 0)
+        {
+            WeaponItemData soldOutItem = ScriptableObject.CreateInstance<WeaponItemData>();
+            soldOutItem.itemName = "SOLD OUT";
+            soldOutItem.cost = 0;
+            soldOutItem.icon = null;
+            soldOutItem.rarity = ItemRarity.Common;
+            filteredWeapons.Add(soldOutItem);
+        }
+
         // Assign items to existing slots in the containers
-        PopulateSlots(weaponsContainer, availableWeapons, 1);
+        PopulateSlots(weaponsContainer, filteredWeapons, 1);
         PopulateSlots(upgradesContainer, availableUpgrades, 2);
         PopulateSlots(modifiersContainer, availableModifiers, 3);
 

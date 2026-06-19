@@ -422,7 +422,23 @@ public class MainPlayer : MonoBehaviour, IDamageable
         }
     }
 
+    public static bool HasWeapon(GameObject weaponPrefab)
+    {
+        if (weapons == null || weaponPrefab == null) return false;
 
+        Weapons prefabComp = weaponPrefab.GetComponent<Weapons>();
+        if (prefabComp == null) return false;
+
+        System.Type targetType = prefabComp.GetType();
+        foreach (var ownedWeapon in weapons)
+        {
+            if (ownedWeapon != null && ownedWeapon.GetType() == targetType)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void GetRarityChances(float luckVal, out float commonPct, out float uncommonPct, out float rarePct, out float epicPct, out float legendaryPct)
     {

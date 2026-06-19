@@ -77,7 +77,14 @@ public class ShopTooltip : MonoBehaviour
         }
         if (costText != null)
         {
-            costText.text = itemData is ModifierItemData ? "FREE" : $"{UIUtils.FormatNumber(itemData.cost)} Dabloons";
+            if (itemData.itemName == "SOLD OUT")
+            {
+                costText.text = "N/A";
+            }
+            else
+            {
+                costText.text = itemData is ModifierItemData ? "FREE" : $"{UIUtils.FormatNumber(itemData.cost)} Dabloons";
+            }
         }
 
         FollowMouse();
@@ -85,6 +92,11 @@ public class ShopTooltip : MonoBehaviour
 
     private string GetStatChangesText(ShopItemData itemData)
     {
+        if (itemData != null && itemData.itemName == "SOLD OUT")
+        {
+            return "You have obtained all available weapons! Set sail with your arsenal!";
+        }
+
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
         MainPlayer player = MainPlayer.Instance;

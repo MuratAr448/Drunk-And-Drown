@@ -7,6 +7,17 @@ public class WeaponItemData : ShopItemData
 
     public override bool TryPurchase(MainPlayer player)
     {
+        if (weaponPrefab == null)
+        {
+            return false;
+        }
+
+        if (MainPlayer.HasWeapon(weaponPrefab))
+        {
+            Debug.LogWarning($"Player already owns weapon: {weaponPrefab.name}");
+            return false;
+        }
+
         if (CoinSystem.Instance.GetCoinAmount() >= cost)
         {
             CoinSystem.Instance.AddCoins(-cost);

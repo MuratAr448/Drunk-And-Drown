@@ -54,8 +54,9 @@ public class PlayerSpawnCutscene : MonoBehaviour
 
     private IEnumerator CutsceneCoroutine()
     {
-        // 1. Disable the player movement script to prevent input/height updates
+        // 1. Disable the player movement script to prevent input/height updates and shoot checks
         movement.enabled = false;
+        movement.canMove = false;
 
         // 2. Set up the dynamic Canvas overlay for the eye blinks
         CreateFadeOverlay();
@@ -100,8 +101,9 @@ public class PlayerSpawnCutscene : MonoBehaviour
             Destroy(fadeCanvasGroup.gameObject);
         }
 
-        // Re-enable player movement
+        // Re-enable player movement and shooting
         movement.enabled = true;
+        movement.canMove = true;
     }
 
     private void CreateFadeOverlay()

@@ -51,7 +51,11 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             Debug.LogWarning("ShopSlot: SetupSlot called but currentItemData is null.");
             return;
         }
-        if (iconImage != null) iconImage.sprite = currentItemData.icon;
+        if (iconImage != null)
+        {
+            iconImage.sprite = currentItemData.icon;
+            iconImage.enabled = currentItemData.icon != null;
+        }
 
         if (backgroundImage == null)
         {
