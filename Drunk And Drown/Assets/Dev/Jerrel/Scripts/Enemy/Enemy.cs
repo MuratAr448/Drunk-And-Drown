@@ -32,6 +32,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected float _attackRange = 2f;
 
     private bool _spawnedByArena = false;
+    private bool _isDead = false;
     public Action OnHealthChanged { get; set; }
 
     public float CurrentHealth => Health;
@@ -106,12 +107,15 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
+        if (_isDead) return;
+
         Health -= damage;
         OnHealthChanged?.Invoke();
         FloatingDamageText.Create(transform.position, damage);
         if (Health <= 0)
         {
             Health = 0;
+            _isDead = true;
             Die();
         }
     }
@@ -124,6 +128,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Die()
     {
+        _isDead = true;
         ComboSystem.Instance.OnEnemyKilled();
         ScoreSystem.Instance.AddScore(_scoreOnDeath, transform.position);
         CoinSystem.Instance.AddCoins(_coinsOnDeath, transform.position);

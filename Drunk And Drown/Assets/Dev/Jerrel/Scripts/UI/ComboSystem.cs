@@ -174,7 +174,7 @@ public class ComboSystem : MonoBehaviour
 
         if (_multiplierText != null)
         {
-            _multiplierText.text = _currentMultiplier.ToString("F1") + "x";
+            _multiplierText.text = UIUtils.FormatNumber(_currentMultiplier) + "x";
             _multiplierText.color = currentColor;
         }
 

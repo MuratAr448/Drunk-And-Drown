@@ -52,7 +52,7 @@ public class FloatingDamageText : MonoBehaviour
         go.transform.position = position + Vector3.up * 1.8f + Random.insideUnitSphere * 0.15f;
 
         TextMeshPro tm = go.AddComponent<TextMeshPro>();
-        tm.text = Mathf.RoundToInt(damageAmount).ToString();
+        tm.text = UIUtils.FormatNumber(damageAmount);
         tm.alignment = TextAlignmentOptions.Center;
         
         // Visual hierarchy based on damage size with high-vibrancy HDR White

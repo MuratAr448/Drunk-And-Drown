@@ -4,7 +4,7 @@ using UnityEngine;
 public class ModifierItemData : ShopItemData
 {
     public float healthDecrease;
-    public float speedMultiplier = 1f;
+    public float speedIncrease;
     public int coinReward;
     public float coinMultiplierIncrease;
     public int maxEnemyCountIncrease;
@@ -19,7 +19,7 @@ public class ModifierItemData : ShopItemData
 
         if (player.TryGetComponent<Movement>(out var movement))
         {
-            movement.ModifySpeed(speedMultiplier);
+            movement.ModifySpeed(speedIncrease);
         }
 
         if (maxEnemyCountIncrease != 0)

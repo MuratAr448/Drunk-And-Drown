@@ -215,11 +215,11 @@ public class ArenaSpawner : MonoBehaviour
                 {
                     if (_arenaTimerText != null)
                     {
-                        _arenaTimerText.text = $"Arena ends in: {Mathf.CeilToInt(maxDuration)}s";
+                        _arenaTimerText.text = $"Arena ends in: {UIUtils.FormatNumber(Mathf.CeilToInt(maxDuration))}s";
                     }
                     if (_enemiesLeftText != null)
                     {
-                        _enemiesLeftText.text = $"Current enemies: {enemyCount}";
+                        _enemiesLeftText.text = $"Current enemies: {UIUtils.FormatNumber(enemyCount)}";
                     }
                 }
                 else
@@ -230,7 +230,7 @@ public class ArenaSpawner : MonoBehaviour
                     }
                     if (_enemiesLeftText != null)
                     {
-                        _enemiesLeftText.text = $"Enemies left: {enemyCount}";
+                        _enemiesLeftText.text = $"Enemies left: {UIUtils.FormatNumber(enemyCount)}";
                     }
                 }
             }
