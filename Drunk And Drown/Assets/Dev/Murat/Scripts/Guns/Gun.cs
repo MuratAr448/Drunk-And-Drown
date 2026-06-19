@@ -2,6 +2,7 @@ using UnityEngine;
 public enum KindofGun
 {
     BunderBuss,
+    ParrotGun,
     SquidRayGun
 }
 public class Gun : Weapons

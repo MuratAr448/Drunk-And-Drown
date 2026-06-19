@@ -84,7 +84,7 @@ public class SquidRayGun : Gun
             // Cooldown 2 is a normal cooldown, so it increases!
             cooldown2 = Mathf.Min(cooldown2 + timePassed, shootRate2);
         }
-        // Deliberately NOT calling base.OnEnable() because it would increase cooldown!
+        // Deliberately NOT calling base.OnEnable() because it would increase cooldown1!
     }
 
     protected override void OnDisable()
@@ -422,7 +422,7 @@ public class SquidRayGun : Gun
 
     private void HandleCooldowns()
     {
-        // cooldown is managed by CoolingDown() uniquely for the primary laser
+        // cooldown1 is managed by CoolingDown() uniquely for the primary laser
         if (shootRate2 >= cooldown2) cooldown2 += Time.deltaTime;
     }
 

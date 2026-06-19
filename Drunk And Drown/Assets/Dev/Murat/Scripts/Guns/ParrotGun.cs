@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ParrotGun : MonoBehaviour
+public class ParrotGun : Gun
 {
     [SerializeField] private GameObject parrotPrefab;
     [SerializeField] private Transform transformPivot;
@@ -9,8 +9,7 @@ public class ParrotGun : MonoBehaviour
     [SerializeField] private float damage = 3f;
     [SerializeField] private float radius = 4f;
     [SerializeField] private float force = 5f;
-    public float cooldown = 1.0f;
-    public float shootRate;
+
     [Header("Sounds")]
     [SerializeField] private AudioEvent shootSound;
     private AudioSource audioSource;
@@ -19,6 +18,13 @@ public class ParrotGun : MonoBehaviour
     private GameObject activeBullet;
     private float ammoLife = 3f;
     private MainPlayer mainPlayer;
+
+    public override float GetDamage() { return damage; }
+    public override void ApplyRarityScaling(float multiplier)
+    {
+        base.ApplyRarityScaling(multiplier);
+        damage *= multiplier;
+    }
 
     void Awake()
     {
@@ -38,14 +44,16 @@ public class ParrotGun : MonoBehaviour
         {
             mainPlayer = player.GetComponent<MainPlayer>();
         }
+        Kind = KindofGun.ParrotGun;
     }
 
-    public void Shoot()
+    public override void Shoot()
     {
+        base.Shoot();
 
-        if (shootRate <= cooldown && activeBullet != null)
+        if (shootRate1 <= cooldown1 && activeBullet != null)
         {
-            cooldown = 0f;
+            cooldown1 = 0f;
 
             if (shootSound != null && audioSource != null)
             {
@@ -92,14 +100,27 @@ public class ParrotGun : MonoBehaviour
         }
     }
 
+    public override void Secondary()
+    {
+        base.Secondary();
+        if (shootRate2 <= cooldown2 && activeBullet != null)
+        {
+            cooldown2 = 0f;
+        }
+    }
+
     void Update()
     {
-        if (shootRate >= cooldown)
+        if (shootRate1 >= cooldown1)
         {
-            cooldown += Time.deltaTime;
+            cooldown1 += Time.deltaTime;
+        }
+        if (shootRate2 >= cooldown2)
+        {
+            cooldown2 += Time.deltaTime;
         }
 
-        if (activeBullet == null && shootRate <= cooldown + Time.deltaTime * 3f)
+        if (activeBullet == null && shootRate1 <= cooldown1 + Time.deltaTime * 3f)
         {
             activeBullet = Instantiate(parrotPrefab, transformPivot);
 
