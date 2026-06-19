@@ -92,6 +92,17 @@ public class Movement : MonoBehaviour
         lookAction = playerMap.FindAction("Look");
         jumpAction = playerMap.FindAction("Jump");
         crouchAction = playerMap.FindAction("Crouch");
+
+        rb = GetComponent<Rigidbody>();
+        capsuleCollider = GetComponent<CapsuleCollider>();
+        playerEffects = GetComponent<PlayerEffects>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (rb != null)
+        {
+            rb.freezeRotation = true;
+            rb.useGravity = true;
+        }
     }
 
     void OnEnable()
@@ -115,14 +126,6 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
-        playerEffects = GetComponent<PlayerEffects>();
-        audioSource = GetComponent<AudioSource>();
-
-        rb.freezeRotation = true;
-        rb.useGravity = true;
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -465,6 +468,7 @@ public class Movement : MonoBehaviour
 
     public float GetVelocity()
     {
+        if (rb == null) return 0f;
         return rb.linearVelocity.magnitude;
     }
 
@@ -478,6 +482,9 @@ public class Movement : MonoBehaviour
 
     public void ApplyKnockback(Vector3 forceDirection)
     {
-        rb.AddForce(forceDirection, ForceMode.Impulse);
+        if (rb != null)
+        {
+            rb.AddForce(forceDirection, ForceMode.Impulse);
+        }
     }
 }
