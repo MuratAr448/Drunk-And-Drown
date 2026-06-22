@@ -981,6 +981,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 564773392}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &673708865 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8473164575961824679, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
+  m_PrefabInstance: {fileID: 1871264951081128456}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c09d6bf33071814bbdc37530b946554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
 --- !u!1001 &849678437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2448,79 +2459,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1554872822}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1556731124
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6614462186560163869}
-    m_Modifications:
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-      propertyPath: m_Name
-      value: SeaHorse SMG
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
---- !u!4 &1556731125 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3930533446237602315, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-  m_PrefabInstance: {fileID: 1556731124}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1556731126 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9159534999628439557, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
-  m_PrefabInstance: {fileID: 1556731124}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c09d6bf33071814bbdc37530b946554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
 --- !u!1 &1606753838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3134,6 +3072,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1883042115612946143, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2881578890661618023, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: _arenaCardRect
       value: 
@@ -3193,6 +3135,18 @@ PrefabInstance:
     - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_Name
       value: ArenaSpawner (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639527265003568477, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173169802555326542, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3730,6 +3684,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1883042115612946143, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2550057009113221926, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.67
@@ -3802,9 +3760,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArenaSpawner
       objectReference: {fileID: 0}
+    - target: {fileID: 4624172556450684828, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5639527265003568477, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8147857663648144671, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.7900001
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173169802555326542, guid: 23286e52f19d6db469171c885f8949bb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3870,7 +3840,7 @@ PrefabInstance:
     - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: weapon
       value: 
-      objectReference: {fileID: 1556731126}
+      objectReference: {fileID: 673708865}
     - target: {fileID: 7068656509366083197, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       propertyPath: parrotGun
       value: 
@@ -3958,9 +3928,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 6614462186804515169, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 1556731125}
     - targetCorrespondingSourceObject: {fileID: 4866249598123404078, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
       insertIndex: 1
       addedObject: {fileID: 1353458266}
@@ -4403,11 +4370,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!4 &6614462186560163869 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6614462186804515169, guid: 3608c222de76b9d488c826222616d1c2, type: 3}
-  m_PrefabInstance: {fileID: 1871264951081128456}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6902078675903335652 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6902078675677924760, guid: 3608c222de76b9d488c826222616d1c2, type: 3}

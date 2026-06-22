@@ -6,7 +6,7 @@ public class RayDamage : MonoBehaviour
     public float Iframe = 0;
     public void RayIframe()
     {
-        Iframe = 0.3f;
+        Iframe = 0.2f;
     }
     private void Update()
     {

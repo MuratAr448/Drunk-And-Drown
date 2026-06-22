@@ -7,6 +7,8 @@ public class SquidRayGun : Gun
     [Header("Squid Ray Settings")]
     [SerializeField] private float Basedamage = 1;
     [SerializeField] private float size = 0.01f;
+    public float squidOverheatProcent;
+    private bool squidOverheated;
     private MainPlayer playerSquid;
     [SerializeField] private GameObject inkPrefab;
     private GameObject inkRay;
@@ -100,29 +102,38 @@ public class SquidRayGun : Gun
     public override void Shoot()
     {
         // Primary attack logic
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0)&& !squidOverheated)
         {
             cooldown1 += Time.deltaTime*2;
+            squidOverheatProcent += Time.deltaTime;
+        }
+        if (squidOverheatProcent > 7.5f)
+        {
+            squidOverheated = true;
         }
     }
 
     private void CoolingDown()
     {
-        if(!Input.GetKey(KeyCode.Mouse0))
+        if(!Input.GetKey(KeyCode.Mouse0)|| squidOverheated)
         {
             cooldown1 -= Time.deltaTime;
             ableToHit = false;
 
-            // Instantly destroy inkRay when we stop firing
-            if (inkRay != null)
-            {
-                Destroy(inkRay);
-                inkRay = null;
-            }
-
             if (cooldown1 < 0f)
             {
                 cooldown1 = 0;
+                if (inkRay != null)
+                {
+                    Destroy(inkRay);
+                    inkRay = null;
+                }
+            }
+            squidOverheatProcent -= Time.deltaTime*1.5f;
+            if (squidOverheatProcent < 0f)
+            {
+                squidOverheatProcent = 0;
+                squidOverheated=false;
             }
         }
         else
@@ -137,8 +148,7 @@ public class SquidRayGun : Gun
                 cooldown1 = shootRate1;
             }
         }
-        
-        size = cooldown1 * 0.5f;
+        size = cooldown1 / shootRate1;
         RaycastHit hit;
         GameObject Origin = playerSquid.rayOrigin;
         

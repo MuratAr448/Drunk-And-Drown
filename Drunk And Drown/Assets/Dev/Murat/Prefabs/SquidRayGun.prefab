@@ -45,13 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7460141ab90664047ab654722eb31024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SquidRayGun
-  Kind: 2
+  Kind: 1
   cooldown1: 0
   cooldown2: 2
   shootRate1: 2
   shootRate2: 2
   Basedamage: 1
   size: 0.1
+  squidOverheatProcent: 0
   inkPrefab: {fileID: 2574407420245812532, guid: 9b159f0c34cba744ba1fadb78bfefd67, type: 3}
   layerMask:
     serializedVersion: 2

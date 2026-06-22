@@ -19,6 +19,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [SerializeField] private ParrotGun parrotGun;
     private bool isShootingParrotGun = false;
     private float parrotCooldown;
+    private float squidOverheat;
     public bool pause = false;
     public GameObject pauseScreen;
     public GameObject pauseButtons;
@@ -135,6 +136,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         {
             Shoot();
             if (parrotCooldown <= 2f) parrotCooldown += Time.deltaTime;
+            if (squidOverheat > 0) squidOverheat -= Time.deltaTime;
             if (AlowedToSwitch() && !isShootingParrotGun)
             {
                 if (Input.GetKeyDown(KeyCode.Q) && parrotCooldown >= 2f)
@@ -171,6 +173,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
                     SquidRayGun squidGun = gun.GetComponent<SquidRayGun>();
                     if (squidGun != null)
                     {
+                        squidOverheat = squidGun.squidOverheatProcent;
                         if (squidGun.enemy == null)
                         {
                             return true;
@@ -237,6 +240,10 @@ public class MainPlayer : MonoBehaviour, IDamageable
             if (weaponUI != null)
             {
                 weaponUI.SwitchWeaponUI(weaponCurrentSwitch);
+            }
+            if (weapon.TryGetComponent(out SquidRayGun gun))
+            {
+                gun.squidOverheatProcent = squidOverheat;
             }
         }
        
