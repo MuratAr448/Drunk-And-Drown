@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ParrotGun : Gun
+public class ParrotGun : MonoBehaviour
 {
     [SerializeField] private GameObject parrotPrefab;
     [SerializeField] private Transform transformPivot;
@@ -18,13 +18,8 @@ public class ParrotGun : Gun
     private GameObject activeBullet;
     private float ammoLife = 3f;
     private MainPlayer mainPlayer;
-
-    public override float GetDamage() { return damage; }
-    public override void ApplyRarityScaling(float multiplier)
-    {
-        base.ApplyRarityScaling(multiplier);
-        damage *= multiplier;
-    }
+    public float cooldown = 1.0f;
+    public float shootRate;
 
     void Awake()
     {
@@ -44,16 +39,14 @@ public class ParrotGun : Gun
         {
             mainPlayer = player.GetComponent<MainPlayer>();
         }
-        Kind = KindofGun.ParrotGun;
     }
 
-    public override void Shoot()
+    public void Shoot()
     {
-        base.Shoot();
 
-        if (shootRate1 <= cooldown1 && activeBullet != null)
+        if (shootRate <= cooldown && activeBullet != null)
         {
-            cooldown1 = 0f;
+            cooldown = 0f;
 
             if (shootSound != null && audioSource != null)
             {
@@ -100,27 +93,14 @@ public class ParrotGun : Gun
         }
     }
 
-    public override void Secondary()
-    {
-        base.Secondary();
-        if (shootRate2 <= cooldown2 && activeBullet != null)
-        {
-            cooldown2 = 0f;
-        }
-    }
-
     void Update()
     {
-        if (shootRate1 >= cooldown1)
+        if (shootRate >= cooldown)
         {
-            cooldown1 += Time.deltaTime;
-        }
-        if (shootRate2 >= cooldown2)
-        {
-            cooldown2 += Time.deltaTime;
+            cooldown += Time.deltaTime;
         }
 
-        if (activeBullet == null && shootRate1 <= cooldown1 + Time.deltaTime * 3f)
+        if (activeBullet == null && shootRate <= cooldown + Time.deltaTime * 3f)
         {
             activeBullet = Instantiate(parrotPrefab, transformPivot);
 

@@ -16,8 +16,12 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public Weapons weapon;
     public static List<Weapons> weapons;
+    [SerializeField] private ParrotGun parrotGun;
+    private bool isShootingParrotGun = false;
+    private float parrotCooldown;
     public bool pause = false;
     public GameObject pauseScreen;
+    public GameObject pauseButtons;
     public bool dead = false;
     private Movement movement;
     public GameObject rayOrigin;
@@ -130,11 +134,30 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (movement.canMove)
         {
             Shoot();
-            if (AlowedToSwitch())
+            if (parrotCooldown <= 2f) parrotCooldown += Time.deltaTime;
+            if (AlowedToSwitch() && !isShootingParrotGun)
             {
+                if (Input.GetKeyDown(KeyCode.Q) && parrotCooldown >= 2f)
+                {
+                    StartCoroutine(ShootingParrotGun());
+                }
                 SwitchWeapon();
             }
         }
+    }
+    private IEnumerator ShootingParrotGun()
+    {
+        parrotCooldown = 0;
+        isShootingParrotGun = true;
+        weapon.gameObject.SetActive(false);
+        parrotGun.cooldown = parrotGun.shootRate;
+        parrotGun.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        parrotGun.Shoot();
+        yield return new WaitForSeconds(0.2f);
+        isShootingParrotGun = false;
+        weapon.gameObject.SetActive(true);
+        parrotGun.gameObject.SetActive(false);
     }
     private bool AlowedToSwitch()
     {
@@ -142,8 +165,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
         {
             switch (gun.Kind)
             {
-                case KindofGun.ParrotGun:
-                    return true;
                 case KindofGun.BunderBuss:
                     return true;
                 case KindofGun.SquidRayGun:
@@ -227,6 +248,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (pause)
         {
             pauseScreen.SetActive(true);
+            pauseButtons.SetActive(true);
             UpdateStatsText();
             movement.canMove = false;
             Cursor.lockState = CursorLockMode.None;
@@ -239,6 +261,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
             Cursor.visible = false;
             Time.timeScale = 1;
             pauseScreen.SetActive(false);
+            pauseButtons.SetActive(false);
             movement.canMove = true;
         }
         TogglePauseVolume(pause);
@@ -376,6 +399,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         movement.canMove = false;
         dead = true;
+        pauseScreen.SetActive(true);
         deathScreen.SetActive(true);
         UpdateStatsText();
         finalScore.text = "Score: " + UIUtils.FormatNumber(ScoreSystem.Instance._totalScore);
