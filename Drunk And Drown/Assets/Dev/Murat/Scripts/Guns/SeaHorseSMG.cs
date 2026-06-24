@@ -90,6 +90,11 @@ public class SeaHorseSMG : Gun
                 rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             }
             cooldown2 = 0f;
+
+            if (player != null)
+            {
+                player.TriggerCameraShake(0.15f, 0.08f);
+            }
         }
     }
     private void Update()

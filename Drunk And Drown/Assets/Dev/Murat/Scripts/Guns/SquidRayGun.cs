@@ -136,6 +136,11 @@ public class SquidRayGun : Gun
             {
                 cooldown1 = shootRate1;
             }
+
+            if (playerSquid != null)
+            {
+                playerSquid.TriggerCameraShake(0.05f, 0.02f);
+            }
         }
         
         size = cooldown1 * 0.5f;
@@ -491,6 +496,11 @@ public class SquidRayGun : Gun
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+        }
+
+        if (playerSquid != null)
+        {
+            playerSquid.TriggerCameraShake(0.15f, 0.08f);
         }
 
         if (playerRb != null)

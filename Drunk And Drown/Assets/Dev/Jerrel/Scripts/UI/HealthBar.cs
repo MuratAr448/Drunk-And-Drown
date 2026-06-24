@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Image healthBarModifier;
-    [SerializeField] private float lerpSpeed = 5f;
+    [SerializeField] private float lerpSpeed = 15f;
     
     private IDamageable damageableTarget;
     private float targetFillAmount = 1f;
