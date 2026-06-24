@@ -899,6 +899,30 @@ PrefabInstance:
       propertyPath: globalVolume
       value: 
       objectReference: {fileID: 506889813}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: duration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: standingCurve.m_Curve.Array.data[1].time
+      value: 0.4426819
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: standingCurve.m_Curve.Array.data[1].value
+      value: 0.536285
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: standingCurve.m_Curve.Array.data[1].inSlope
+      value: -1.4553862
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: standingCurve.m_Curve.Array.data[1].outSlope
+      value: -1.4553862
+      objectReference: {fileID: 0}
+    - target: {fileID: 6756621771013878772, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: standingCurve.m_Curve.Array.data[1].outWeight
+      value: 0.21931426
+      objectReference: {fileID: 0}
     - target: {fileID: 7068656509366083197, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: hitmarker
       value: 

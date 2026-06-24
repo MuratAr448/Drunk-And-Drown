@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ShopTooltip : MonoBehaviour
 {
@@ -265,8 +266,8 @@ public class ShopTooltip : MonoBehaviour
     {
         if (rectTransform == null || canvas == null) return;
 
-        // Force canvas layout to update immediately to get accurate rect dimensions for the new text
-        Canvas.ForceUpdateCanvases();
+        // Force canvas layout to rebuild immediately to get accurate rect dimensions for dynamic content
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
 
         RectTransform parentRect = rectTransform.parent as RectTransform;
         if (parentRect == null) parentRect = canvas.transform as RectTransform;
@@ -281,13 +282,36 @@ public class ShopTooltip : MonoBehaviour
             out Vector2 localMousePos
         );
 
-        // Position with offset
-        Vector2 targetPos = localMousePos + offset;
-
         // Bounding box dimensions of the tooltip
         float w = rectTransform.rect.width;
         float h = rectTransform.rect.height;
         Vector2 pivot = rectTransform.pivot;
+
+        // Decide horizontal positioning based on screen space availability
+        float targetX;
+        // Check if tooltip fits to the right of the cursor
+        if (localMousePos.x + offset.x + (1f - pivot.x) * w <= parentRect.rect.xMax)
+        {
+            targetX = localMousePos.x + offset.x;
+        }
+        else
+        {
+            // Position to the left of the cursor
+            targetX = localMousePos.x - offset.x - (1f - pivot.x) * w;
+        }
+
+        // Decide vertical positioning based on screen space availability
+        float targetY;
+        // Check if tooltip fits above the cursor
+        if (localMousePos.y + offset.y + (1f - pivot.y) * h <= parentRect.rect.yMax)
+        {
+            targetY = localMousePos.y + offset.y;
+        }
+        else
+        {
+            // Position below the cursor
+            targetY = localMousePos.y - offset.y - (1f - pivot.y) * h;
+        }
 
         // Clamp target position so the tooltip bounds stay inside parentRect bounds
         float minX = parentRect.rect.xMin + pivot.x * w;
@@ -295,9 +319,9 @@ public class ShopTooltip : MonoBehaviour
         float minY = parentRect.rect.yMin + pivot.y * h;
         float maxY = parentRect.rect.yMax - (1f - pivot.y) * h;
 
-        targetPos.x = Mathf.Clamp(targetPos.x, minX, maxX);
-        targetPos.y = Mathf.Clamp(targetPos.y, minY, maxY);
+        targetX = Mathf.Clamp(targetX, minX, maxX);
+        targetY = Mathf.Clamp(targetY, minY, maxY);
 
-        rectTransform.anchoredPosition = targetPos;
+        rectTransform.anchoredPosition = new Vector2(targetX, targetY);
     }
 }
