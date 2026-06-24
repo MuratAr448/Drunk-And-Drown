@@ -15,6 +15,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public static MainPlayer Instance { get; private set; }
 
     public Weapons weapon;
+    public Weapons startingWeapon;
     public static List<Weapons> weapons;
     [SerializeField] private ParrotGun parrotGun;
     private bool isShootingParrotGun = false;
@@ -69,6 +70,11 @@ public class MainPlayer : MonoBehaviour, IDamageable
         Instance = this;
         weapons = new List<Weapons>();
         weaponCurrentSwitch = 0;
+        if (weapon == null && startingWeapon != null)
+        {
+            weapon = startingWeapon;
+        }
+
         if (weapon != null)
         {
             weapons.Add(weapon);
@@ -149,18 +155,19 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         parrotCooldown = 0;
         isShootingParrotGun = true;
-        weapon.gameObject.SetActive(false);
+        if (weapon != null) weapon.gameObject.SetActive(false);
         parrotGun.cooldown = parrotGun.shootRate;
         parrotGun.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         parrotGun.Shoot();
         yield return new WaitForSeconds(0.2f);
         isShootingParrotGun = false;
-        weapon.gameObject.SetActive(true);
+        if (weapon != null) weapon.gameObject.SetActive(true);
         parrotGun.gameObject.SetActive(false);
     }
     private bool AlowedToSwitch()
     {
+        if (weapon == null) return true;
         if (weapon.TryGetComponent(out Gun gun))
         {
             switch (gun.Kind)
