@@ -60,10 +60,19 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [Header("Sounds")]
     private AudioSource audioSource;
     [SerializeField] private AudioEvent playerHurt;
+    [SerializeField] private AudioEvent hitmarker;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlayHitmarker()
+    {
+        if (hitmarker != null && audioSource != null)
+        {
+            hitmarker.PlayOneShot(audioSource);
+        }
     }
     void Start()
     {

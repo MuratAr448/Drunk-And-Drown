@@ -112,6 +112,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         Health -= damage;
         OnHealthChanged?.Invoke();
         FloatingDamageText.Create(transform.position, damage);
+
+        if (MainPlayer.Instance != null)
+        {
+            MainPlayer.Instance.PlayHitmarker();
+        }
         if (Health <= 0)
         {
             Health = 0;
