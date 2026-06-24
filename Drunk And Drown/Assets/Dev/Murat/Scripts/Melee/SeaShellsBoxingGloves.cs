@@ -30,6 +30,11 @@ public class SeaShellsBoxingGloves : Melee
         {
             NormalAttack();
             cooldown1 = 0f;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.Play(audioSource);
+            }
         }
 
     }
@@ -41,6 +46,11 @@ public class SeaShellsBoxingGloves : Melee
             cooldown2 = 0f;
             StartCoroutine(Lunge());
             Lunging = true;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.Play(audioSource);
+            }
         }
     }
     private void NormalAttack()

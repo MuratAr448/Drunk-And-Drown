@@ -55,6 +55,11 @@ public class SeaHorseSMG : Gun
             bullet.transform.forward = fireDirection;
             rb.AddForce(fireDirection * 100 * bulletSpeed);
             cooldown1 = 0f;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.PlayOneShot(audioSource);
+            }
         }
     }
     public override void Secondary()
@@ -90,6 +95,11 @@ public class SeaHorseSMG : Gun
                 rb.AddForce(bullet.transform.forward * 100 * bulletSpeed);
             }
             cooldown2 = 0f;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.PlayOneShot(audioSource);
+            }
 
             if (player != null)
             {

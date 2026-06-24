@@ -130,6 +130,10 @@ public class SquidRayGun : Gun
             if (inkRay == null)
             {
                 inkRay = Instantiate(inkPrefab, gameObject.transform);
+                if (shootSound != null && audioSource != null)
+                {
+                    shootSound.Play(audioSource);
+                }
             }
             ableToHit = true;
             if (cooldown1>= shootRate1)
