@@ -66,6 +66,11 @@ public class ShopManager : MonoBehaviour
         if (_shopUI != null && _shopUI.activeSelf)
         {
             UpdateRerollUI();
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RerollShop();
+            }
         }
     }
 
@@ -119,7 +124,7 @@ public class ShopManager : MonoBehaviour
             _currentRerollCost = 10;
         }
 
-        // Filter out weapons already owned by the player
+        // Allow all weapons to appear (even if already owned) so they can be replaced
         List<WeaponItemData> filteredWeapons = new List<WeaponItemData>();
         if (availableWeapons != null)
         {
@@ -127,10 +132,7 @@ public class ShopManager : MonoBehaviour
             {
                 if (weaponData != null && weaponData.weaponPrefab != null)
                 {
-                    if (!MainPlayer.HasWeapon(weaponData.weaponPrefab))
-                    {
-                        filteredWeapons.Add(weaponData);
-                    }
+                    filteredWeapons.Add(weaponData);
                 }
             }
         }

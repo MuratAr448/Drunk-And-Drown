@@ -53,10 +53,18 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         if (player != null) _playerTransform = player.transform;
     }
 
+    public static float GlobalHealthMultiplier = 1.0f;
+
     private void Start()
     {
         _spawnPoint = transform.position;
         _currentState = EnemyState.Patrol;
+
+        if (GlobalHealthMultiplier != 1.0f)
+        {
+            MaxHealth *= GlobalHealthMultiplier;
+            Health *= GlobalHealthMultiplier;
+        }
     }
 
     private void Update()
@@ -108,6 +116,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         if (_isDead) return;
+
+        if (MainPlayer.Instance != null)
+        {
+            damage *= MainPlayer.Instance.DamageMultiplier;
+        }
 
         Health -= damage;
         OnHealthChanged?.Invoke();

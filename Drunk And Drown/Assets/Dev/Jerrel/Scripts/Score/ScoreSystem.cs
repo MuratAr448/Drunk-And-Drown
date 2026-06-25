@@ -7,6 +7,18 @@ public class ScoreSystem : MonoBehaviour
 
     public int _totalScore = 0;
     [SerializeField] private TextMeshProUGUI _scoreTextLabel;
+    [SerializeField] private float _scoreMultiplier = 1.0f;
+
+    public float ScoreMultiplier
+    {
+        get => _scoreMultiplier;
+        set => _scoreMultiplier = value;
+    }
+
+    public void AddScoreMultiplier(float amount)
+    {
+        _scoreMultiplier += amount;
+    }
 
     private Coroutine _bounceRoutine;
 
@@ -19,6 +31,7 @@ public class ScoreSystem : MonoBehaviour
         }
 
         Instance = this;
+        Enemy.GlobalHealthMultiplier = 1.0f;
     }
 
     private void Start()
@@ -28,11 +41,11 @@ public class ScoreSystem : MonoBehaviour
 
     public void AddScore(int baseScoreAmount, Vector3? worldPosition = null)
     {
-        float multiplier = 1f;
+        float multiplier = _scoreMultiplier;
 
         if (ComboSystem.Instance != null)
         {
-            multiplier = ComboSystem.Instance.CurrentMultiplier;
+            multiplier *= ComboSystem.Instance.CurrentMultiplier;
         }
 
         int finalScore = Mathf.RoundToInt(baseScoreAmount * multiplier);

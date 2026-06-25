@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9699e50cad523c419614190e67c79d7, type: 3}
-  m_Name: SeahorseSMG
+  m_Name: ParrotGun
   m_EditorClassIdentifier: Assembly-CSharp::WeaponItemData
-  itemName: Seahorse SMG
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemName: Parrot Gun
+  icon: {fileID: 21300000, guid: 9938634f5ad8a554ab25ae483d8a595a, type: 3}
   cost: 50
   rarity: 0
-  weaponPrefab: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+  weaponPrefab: {fileID: 7834371497525022674, guid: bf25d3da3b424034090cd50911fbe83c, type: 3}

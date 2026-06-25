@@ -51,7 +51,7 @@ MonoBehaviour:
   cooldown2: 2
   shootRate1: 2
   shootRate2: 2
-  Basedamage: 1
+  Basedamage: 2
   size: 0.1
   inkPrefab: {fileID: 2574407420245812532, guid: 9b159f0c34cba744ba1fadb78bfefd67, type: 3}
   layerMask:

@@ -107,9 +107,27 @@ public class ComboSystem : MonoBehaviour
         UpdateFading();
     }
 
+    private ShopManager _shopManager;
+
     private void UpdateFading()
     {
         if (_canvasGroup == null) return;
+
+        bool isShopActive = false;
+        if (_shopManager == null)
+        {
+            _shopManager = FindFirstObjectByType<ShopManager>();
+        }
+        if (_shopManager != null)
+        {
+            isShopActive = _shopManager.IsShopActive;
+        }
+
+        if (isShopActive)
+        {
+            _canvasGroup.alpha = 0f;
+            return;
+        }
 
         if (_currentCombo > 0)
         {

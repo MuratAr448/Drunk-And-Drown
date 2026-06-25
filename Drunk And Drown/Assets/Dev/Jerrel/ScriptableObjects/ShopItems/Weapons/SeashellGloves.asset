@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9699e50cad523c419614190e67c79d7, type: 3}
-  m_Name: SeahorseSMG
+  m_Name: SeashellGloves
   m_EditorClassIdentifier: Assembly-CSharp::WeaponItemData
-  itemName: Seahorse SMG
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  itemName: Seashell Boxing Gloves
+  icon: {fileID: 21300000, guid: cb2c240da6454e144a395f20f58c52d8, type: 3}
   cost: 50
   rarity: 0
-  weaponPrefab: {fileID: 4295394962130022052, guid: a84bb679b412c04449a15e77ef0a7116, type: 3}
+  weaponPrefab: {fileID: 3068785820432802159, guid: e0f96488435de3647a4dc816d032918e, type: 3}

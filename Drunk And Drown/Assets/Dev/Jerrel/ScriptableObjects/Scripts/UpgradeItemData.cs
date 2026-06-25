@@ -7,6 +7,7 @@ public class UpgradeItemData : ShopItemData
     public float speedIncrease;
     public float healAmount;
     public float luckIncrease;
+    public float damageMultiplierIncrease;
 
     public override bool TryPurchase(MainPlayer player)
     {
@@ -26,6 +27,7 @@ public class UpgradeItemData : ShopItemData
             }
 
             player.Luck += luckIncrease;
+            player.DamageMultiplier += damageMultiplierIncrease * 1.5f;
             return true;
         }
         return false;

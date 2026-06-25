@@ -107,6 +107,9 @@ public class ShopTooltip : MonoBehaviour
         float currentMaxHP = player != null ? player.BaseHealth : 100f;
         float currentSpeed = movement != null ? movement.WalkSpeed : 6f;
         float currentCoinMultiplier = coinSystem != null ? coinSystem.CoinMultiplier : 1f;
+        float currentScoreMultiplier = ScoreSystem.Instance != null ? ScoreSystem.Instance.ScoreMultiplier : 1f;
+        float currentEnemyHealthMultiplier = Enemy.GlobalHealthMultiplier;
+        float currentDamageMultiplier = player != null ? player.DamageMultiplier : 1f;
 
         if (itemData is ModifierItemData modifier)
         {
@@ -138,6 +141,26 @@ public class ShopTooltip : MonoBehaviour
                 string color = modifier.coinMultiplierIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = modifier.coinMultiplierIncrease > 0f ? "+" : "";
                 sb.AppendLine($"- Coin Multiplier: {UIUtils.FormatNumber(oldMult)}x -> <color={color}>{UIUtils.FormatNumber(newMult)}x</color> ({sign}{UIUtils.FormatNumber(modifier.coinMultiplierIncrease)})");
+            }
+
+            // Score Multiplier
+            if (modifier.scoreMultiplierIncrease != 0f)
+            {
+                float oldMult = currentScoreMultiplier;
+                float newMult = currentScoreMultiplier + modifier.scoreMultiplierIncrease;
+                string color = modifier.scoreMultiplierIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = modifier.scoreMultiplierIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Score Multiplier: {UIUtils.FormatNumber(oldMult)}x -> <color={color}>{UIUtils.FormatNumber(newMult)}x</color> ({sign}{UIUtils.FormatNumber(modifier.scoreMultiplierIncrease)})");
+            }
+
+            // Enemy Health Multiplier
+            if (modifier.enemyHealthMultiplierIncrease != 0f)
+            {
+                float oldMult = currentEnemyHealthMultiplier;
+                float newMult = currentEnemyHealthMultiplier + modifier.enemyHealthMultiplierIncrease;
+                string color = modifier.enemyHealthMultiplierIncrease > 0f ? "#FF5555" : "#55FF55";
+                string sign = modifier.enemyHealthMultiplierIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Enemy Health: {UIUtils.FormatNumber(oldMult)}x -> <color={color}>{UIUtils.FormatNumber(newMult)}x</color> ({sign}{UIUtils.FormatNumber(modifier.enemyHealthMultiplierIncrease)})");
             }
 
             // Coin Reward
@@ -217,6 +240,16 @@ public class ShopTooltip : MonoBehaviour
                 string color = upgrade.luckIncrease > 0f ? "#55FF55" : "#FF5555";
                 string sign = upgrade.luckIncrease > 0f ? "+" : "";
                 sb.AppendLine($"- Luck: {UIUtils.FormatNumber(oldLuck)} -> <color={color}>{UIUtils.FormatNumber(newLuck)}</color> ({sign}{UIUtils.FormatNumber(upgrade.luckIncrease)})");
+            }
+
+            // Damage Multiplier
+            if (upgrade.damageMultiplierIncrease != 0f)
+            {
+                float oldDmg = currentDamageMultiplier;
+                float newDmg = currentDamageMultiplier + upgrade.damageMultiplierIncrease * 1.5f;
+                string color = upgrade.damageMultiplierIncrease > 0f ? "#55FF55" : "#FF5555";
+                string sign = upgrade.damageMultiplierIncrease > 0f ? "+" : "";
+                sb.AppendLine($"- Damage Multiplier: {UIUtils.FormatNumber(oldDmg)}x -> <color={color}>{UIUtils.FormatNumber(newDmg)}x</color> ({sign}{UIUtils.FormatNumber(upgrade.damageMultiplierIncrease * 1.5f)})");
             }
         }
         else if (itemData is WeaponItemData weaponItem && weaponItem.weaponPrefab != null)

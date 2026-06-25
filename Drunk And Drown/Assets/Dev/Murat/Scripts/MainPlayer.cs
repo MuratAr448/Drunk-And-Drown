@@ -47,6 +47,14 @@ public class MainPlayer : MonoBehaviour, IDamageable
         set => luck = value;
     }
 
+    [Header("Damage Settings")]
+    [SerializeField] private float damageMultiplier = 1f;
+    public float DamageMultiplier
+    {
+        get => damageMultiplier;
+        set => damageMultiplier = value;
+    }
+
     [Header("Stats Screen Settings")]
     [SerializeField] private TextMeshProUGUI statsText;
 
@@ -358,7 +366,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     private void Shoot()
     {
-        if (weapon == null) return;
+        if (weapon == null || isShootingParrotGun) return;
 
         if (weapon.GetComponent<Gun>() != null)
         {
@@ -456,10 +464,29 @@ public class MainPlayer : MonoBehaviour, IDamageable
             {
                 weapons[i].gameObject.SetActive(false);
             }
+            else
+            {
+                // Deactivate the game object if it was a non-Weapons component in the Hotbar
+                if (HotbarInstance != null && i < HotbarInstance.childCount)
+                {
+                    Transform child = HotbarInstance.GetChild(i);
+                    if (child != null && child.gameObject != weapon)
+                    {
+                        child.gameObject.SetActive(false);
+                    }
+                }
+            }
         }
 
-        // Auto-equip the new weapon
-        weapon.gameObject.SetActive(true);
+        // Auto-equip the new weapon (unless it's the ParrotGun, which is triggered via Q)
+        if (weapon.GetComponent<ParrotGun>() != null)
+        {
+            weapon.gameObject.SetActive(false);
+        }
+        else
+        {
+            weapon.gameObject.SetActive(true);
+        }
 
         if (Instance != null)
         {
@@ -469,6 +496,66 @@ public class MainPlayer : MonoBehaviour, IDamageable
             {
                 Instance.weaponUI.SwitchWeaponUI(Instance.weaponCurrentSwitch);
             }
+
+            if (weapon.TryGetComponent<ParrotGun>(out var newParrot))
+            {
+                Instance.parrotGun = newParrot;
+            }
+        }
+    }
+
+    public static void ReplaceWeapon(int index, GameObject newWeaponGo)
+    {
+        if (weapons == null || index < 0 || index >= weapons.Count) return;
+
+        Weapons newWeaponComp = newWeaponGo.GetComponent<Weapons>();
+        GameObject oldWeaponGo = weapons[index] != null ? weapons[index].gameObject : null;
+
+        if (oldWeaponGo == null && HotbarInstance != null)
+        {
+            string cleanName = newWeaponGo.name.Replace("(Clone)", "").Trim();
+            foreach (Transform child in HotbarInstance)
+            {
+                if (child.name.Replace("(Clone)", "").Trim() == cleanName)
+                {
+                    oldWeaponGo = child.gameObject;
+                    break;
+                }
+            }
+        }
+
+        weapons[index] = newWeaponComp;
+
+        if (HotbarInstance != null)
+        {
+            newWeaponGo.transform.SetParent(HotbarInstance, false);
+        }
+
+        if (Instance != null && Instance.weaponCurrentSwitch == index)
+        {
+            if (newWeaponGo.GetComponent<ParrotGun>() != null)
+            {
+                newWeaponGo.SetActive(false);
+            }
+            else
+            {
+                newWeaponGo.SetActive(true);
+            }
+            Instance.weapon = newWeaponComp;
+
+            if (newWeaponGo.TryGetComponent<ParrotGun>(out var newParrot))
+            {
+                Instance.parrotGun = newParrot;
+            }
+        }
+        else
+        {
+            newWeaponGo.SetActive(false);
+        }
+
+        if (oldWeaponGo != null)
+        {
+            Destroy(oldWeaponGo);
         }
     }
 
