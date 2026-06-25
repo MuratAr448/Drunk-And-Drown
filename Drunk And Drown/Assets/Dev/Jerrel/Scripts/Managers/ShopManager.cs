@@ -76,14 +76,17 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateRerollUI()
     {
+        bool canAfford = CoinSystem.Instance != null && CoinSystem.Instance.GetCoinAmount() >= _currentRerollCost;
+
         if (_rerollText != null)
         {
-            _rerollText.text = $"Reroll ({UIUtils.FormatNumber(_currentRerollCost)} Coins)";
+            string costColor = canAfford ? "#55FF55" : "#FF5555";
+            string textColor = canAfford ? "#FFFFFF" : "#888888";
+            _rerollText.text = $"<color={textColor}>Reroll (<color={costColor}>{UIUtils.FormatNumber(_currentRerollCost)} Coins</color>)</color>";
         }
         
         if (_rerollButton != null)
         {
-            bool canAfford = CoinSystem.Instance != null && CoinSystem.Instance.GetCoinAmount() >= _currentRerollCost;
             _rerollButton.interactable = canAfford;
         }
     }
