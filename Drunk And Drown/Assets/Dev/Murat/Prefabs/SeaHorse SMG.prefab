@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c09d6bf33071814bbdc37530b946554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlunderBuss
+  shootSound: {fileID: 11400000, guid: d9e3298b1c32bd344a489b15535f3220, type: 2}
   Kind: 0
   cooldown1: 0.1
   cooldown2: 3
@@ -111,7 +112,7 @@ MonoBehaviour:
   shootRate2: 3
   bullets: {fileID: 5337098593394553989, guid: dbf5a52685ce9334585fc09ad92dc049, type: 3}
   transvormPivit: {fileID: 8068826352823569636}
-  bulletSpeed: 30
+  bulletSpeed: 60
   bulletAmount: 18
   damage: 3
   spread: 10

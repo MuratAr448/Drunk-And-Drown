@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Potion
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeItemData
   itemName: Potion
-  icon: {fileID: 21300000, guid: 69aa625a5fb137643b4066a8c75e32f5, type: 3}
+  icon: {fileID: 21300000, guid: e0e2bacd2ec44eb4f87f48e46020b5c9, type: 3}
   cost: 15
-  description: Heals you for 25 HP.
+  rarity: 0
   healthIncrease: 0
-  speedMultiplier: 1
+  speedIncrease: 0
   healAmount: 25
+  luckIncrease: 0

@@ -62,6 +62,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private float cameraCrouchHeight = 0.2f;
     [SerializeField] private float cameraLerpSpeed = 10f;
     private float targetCameraY;
+    private float currentCameraHeight = 0.8f;
 
     private float curSpeed;
     private float rotationX = 0;
@@ -131,6 +132,7 @@ public class Movement : MonoBehaviour
 
         curSpeed = walkSpeed;
         targetCameraY = cameraStandHeight;
+        currentCameraHeight = cameraStandHeight;
     }
 
     void Update()
@@ -200,9 +202,8 @@ public class Movement : MonoBehaviour
 
     private void HandleCameraHeight()
     {
-        Vector3 localPos = playerCamera.transform.localPosition;
-        localPos.y = Mathf.Lerp(localPos.y, targetCameraY, Time.deltaTime * cameraLerpSpeed);
-        playerCamera.transform.localPosition = localPos;
+        currentCameraHeight = Mathf.Lerp(currentCameraHeight, targetCameraY, Time.deltaTime * cameraLerpSpeed);
+        playerCamera.transform.localPosition = new Vector3(0, currentCameraHeight, 0);
     }
 
     private void HandleMovementState()

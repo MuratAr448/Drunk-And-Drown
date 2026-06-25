@@ -134,6 +134,7 @@ MonoBehaviour:
   _scoreOnDeath: 10
   _coinsOnDeath: 5
   _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
+  hitmarker: {fileID: 11400000, guid: 1707b12c5e51a194b95cef9d28378fba, type: 2}
   _currentState: 1
   _patrolRange: 10
   _moveSpeed: 3

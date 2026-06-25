@@ -15,6 +15,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public static MainPlayer Instance { get; private set; }
 
     public Weapons weapon;
+    public Weapons startingWeapon;
     public static List<Weapons> weapons;
     [SerializeField] private ParrotGun parrotGun;
     private bool isShootingParrotGun = false;
@@ -60,16 +61,38 @@ public class MainPlayer : MonoBehaviour, IDamageable
     [Header("Sounds")]
     private AudioSource audioSource;
     [SerializeField] private AudioEvent playerHurt;
+    [SerializeField] private AudioEvent hitmarker;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+    }
+
+    public void PlayHitmarker()
+    {
+        if (hitmarker != null && audioSource != null)
+        {
+            hitmarker.PlayOneShot(audioSource);
+        }
+    }
+
+    public void TriggerCameraShake(float duration, float magnitude)
+    {
+        if (hitEffect != null)
+        {
+            hitEffect.ShakeCamera(duration, magnitude);
+        }
     }
     void Start()
     {
         Instance = this;
         weapons = new List<Weapons>();
         weaponCurrentSwitch = 0;
+        if (weapon == null && startingWeapon != null)
+        {
+            weapon = startingWeapon;
+        }
+
         if (weapon != null)
         {
             weapons.Add(weapon);
@@ -151,18 +174,20 @@ public class MainPlayer : MonoBehaviour, IDamageable
     {
         parrotCooldown = 0;
         isShootingParrotGun = true;
-        weapon.gameObject.SetActive(false);
+        if (weapon != null) weapon.gameObject.SetActive(false);
         parrotGun.cooldown = parrotGun.shootRate;
         parrotGun.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         parrotGun.Shoot();
+        if (hitEffect != null) hitEffect.ShakeCamera(0.2f, 0.15f);
         yield return new WaitForSeconds(0.2f);
         isShootingParrotGun = false;
-        weapon.gameObject.SetActive(true);
+        if (weapon != null) weapon.gameObject.SetActive(true);
         parrotGun.gameObject.SetActive(false);
     }
     private bool AlowedToSwitch()
     {
+        if (weapon == null) return true;
         if (weapon.TryGetComponent(out Gun gun))
         {
             switch (gun.Kind)
@@ -375,6 +400,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
+        if (hitEffect != null) hitEffect.ShakeCamera(0.2f, 0.15f);
         if (playerHurt != null) playerHurt.PlayOneShot(audioSource);
         if (health <= 0)
         {

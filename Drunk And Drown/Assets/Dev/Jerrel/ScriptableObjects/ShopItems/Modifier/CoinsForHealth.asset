@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: CoinsForHealth
   m_EditorClassIdentifier: Assembly-CSharp::ModifierItemData
   itemName: Coins for Health
-  icon: {fileID: 21300000, guid: 69aa625a5fb137643b4066a8c75e32f5, type: 3}
+  icon: {fileID: 21300000, guid: 10355e11fcfdcb849bb996658ae5c2ee, type: 3}
   cost: 10
-  description: Increases your coin multiplier by 0.5 but decreases your max health
-    by 10.
   rarity: 0
   healthDecrease: 10
-  speedMultiplier: 1
+  speedIncrease: 0
   coinReward: 0
   coinMultiplierIncrease: 0.5
   maxEnemyCountIncrease: 0

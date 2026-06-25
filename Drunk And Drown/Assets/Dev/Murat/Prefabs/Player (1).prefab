@@ -4849,7 +4849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
   healthBarModifier: {fileID: 2220212756077381092}
-  lerpSpeed: 5
+  lerpSpeed: 15
 --- !u!1 &7374278538019710753
 GameObject:
   m_ObjectHideFlags: 0

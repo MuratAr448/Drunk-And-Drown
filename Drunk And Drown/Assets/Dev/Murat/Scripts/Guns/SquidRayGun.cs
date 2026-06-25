@@ -141,11 +141,20 @@ public class SquidRayGun : Gun
             if (inkRay == null)
             {
                 inkRay = Instantiate(inkPrefab, gameObject.transform);
+                if (shootSound != null && audioSource != null)
+                {
+                    shootSound.Play(audioSource);
+                }
             }
             ableToHit = true;
             if (cooldown1>= shootRate1)
             {
                 cooldown1 = shootRate1;
+            }
+
+            if (playerSquid != null)
+            {
+                playerSquid.TriggerCameraShake(0.05f, 0.02f);
             }
         }
         size = cooldown1 / shootRate1;
@@ -501,6 +510,11 @@ public class SquidRayGun : Gun
         if (enemy != null)
         {
             enemy.TakeDamage(damage);
+        }
+
+        if (playerSquid != null)
+        {
+            playerSquid.TriggerCameraShake(0.15f, 0.08f);
         }
 
         if (playerRb != null)

@@ -18,6 +18,14 @@ public class Bullet : MonoBehaviour
     public float force = 1;
     private List<IDamageable> damagedObjects = new List<IDamageable>();
 
+    private Vector3 previousPosition;
+    private bool hasCollided = false;
+
+    private void Start()
+    {
+        previousPosition = transform.position;
+    }
+
     public void Lanched()
     {
         StartCoroutine(LimitTime());
@@ -27,13 +35,50 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(timeTillDeath);
         Destroy(gameObject);
     }
+
+    private void FixedUpdate()
+    {
+        if (hasCollided) return;
+
+        Vector3 currentPos = transform.position;
+        Vector3 displacement = currentPos - previousPosition;
+        float distance = displacement.magnitude;
+
+        if (distance > 0.001f)
+        {
+            Vector3 direction = displacement.normalized;
+            int mask = ~0;
+            RaycastHit hit;
+            if (Physics.Raycast(previousPosition, direction, out hit, distance, mask, QueryTriggerInteraction.Ignore))
+            {
+                if (!hit.collider.CompareTag("Player") && !hit.collider.isTrigger)
+                {
+                    transform.position = hit.point;
+                    HandleCollision(hit.collider);
+                    return;
+                }
+            }
+        }
+        previousPosition = currentPos;
+    }
+
     public void OnTriggerEnter(Collider other)
     {
+        if (hasCollided) return;
+
         // Ignore trigger colliders (like spawn zones, checkpoints, collectables, etc.)
         if (other.isTrigger) return;
 
         // Don't hit the player who shot the bullet (optional check)
         if (other.CompareTag("Player")) return;
+
+        HandleCollision(other);
+    }
+
+    private void HandleCollision(Collider other)
+    {
+        if (hasCollided) return;
+        hasCollided = true;
 
         switch (type)
         {

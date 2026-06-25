@@ -47,6 +47,11 @@ public class MorningStar : Melee
             cooldown1 = 0f;
             StartCoroutine(NormalAttack());
             Expand();
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.Play(audioSource);
+            }
         }
     }
     public override void SecondDairy()
@@ -57,6 +62,11 @@ public class MorningStar : Melee
             Expand();
             StartCoroutine(PowerSlam());
             cooldown2 = 0f;
+
+            if (shootSound != null && audioSource != null)
+            {
+                shootSound.Play(audioSource);
+            }
         }
     }
     private IEnumerator NormalAttack()
