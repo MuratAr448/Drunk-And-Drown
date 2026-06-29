@@ -32,11 +32,6 @@ public class SeaHorseSMG : Gun
         base.Shoot();
         if (shootRate1 <= cooldown1 && Input.GetKey(KeyCode.Mouse0))
         {
-            if (shootParticles != null)
-            {
-                shootParticles.Play();
-            }
-
             GameObject bullet = Instantiate(bullets, transvormPivit.transform.position, transvormPivit.transform.rotation);
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             Bullet amunition = bullet.GetComponent<Bullet>();

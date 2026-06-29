@@ -36,8 +36,6 @@ public class MainPlayer : MonoBehaviour, IDamageable
     public Action OnHealthChanged { get; set; }
     public float CurrentHealth => health;
     public float BaseHealth => maxHealth;
-    [SerializeField] private List<GameObject> BottleFaces;
-
     [SerializeField] private Volume _pauseVolume;
 
     [Header("Luck Settings")]
@@ -284,27 +282,30 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public void Pause()
     {
-        pause = !pause;
-        if (pause)
+        if (!dead)
         {
-            pauseScreen.SetActive(true);
-            pauseButtons.SetActive(true);
-            UpdateStatsText();
-            movement.canMove = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Time.timeScale = 0;
+            pause = !pause;
+            if (pause)
+            {
+                pauseScreen.SetActive(true);
+                pauseButtons.SetActive(true);
+                UpdateStatsText();
+                movement.canMove = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1;
+                pauseScreen.SetActive(false);
+                pauseButtons.SetActive(false);
+                movement.canMove = true;
+            }
+            TogglePauseVolume(pause);
         }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            Time.timeScale = 1;
-            pauseScreen.SetActive(false);
-            pauseButtons.SetActive(false);
-            movement.canMove = true;
-        }
-        TogglePauseVolume(pause);
     }
 
     private void TogglePauseVolume(bool active)
@@ -408,12 +409,13 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
-        if (hitEffect != null) hitEffect.ShakeCamera(0.2f, 0.15f);
         if (playerHurt != null) playerHurt.PlayOneShot(audioSource);
         if (health <= 0)
         {
             Die();
+            return;
         }
+        if (hitEffect != null) hitEffect.ShakeCamera(0.2f, 0.15f);
     }
 
 

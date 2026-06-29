@@ -10,6 +10,9 @@ EditorBuildSettings:
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/MainGame.unity
+    guid: 41361a3ad5252d745b7126c720b402e9
+  - enabled: 0
+    path: Assets/Scenes/MainGamePrevios.unity
     guid: 44469604f2a17aa48a9c4803a02b0f1a
   - enabled: 0
     path: Assets/Dev/Murat/Scenes/StartScreen.unity
