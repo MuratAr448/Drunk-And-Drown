@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935c883fbcb6aab458c231e5c89b2467, type: 3}
+  m_Name: EnemyHealth_Score
+  m_EditorClassIdentifier: Assembly-CSharp::ModifierItemData
+  itemName: High Risk, High Reward
+  icon: {fileID: 21300000, guid: 419be751777d474468301661edb8da71, type: 3}
+  cost: 50
+  rarity: 0
+  healthDecrease: 0
+  speedIncrease: 0
+  coinReward: 0
+  coinMultiplierIncrease: 0
+  maxEnemyCountIncrease: 0
+  luckIncrease: 0
+  enemyHealthMultiplierIncrease: 0.25
+  scoreMultiplierIncrease: 0.1

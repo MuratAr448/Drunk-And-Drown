@@ -11,6 +11,7 @@ public class SeaHorseSMG : Gun
     [SerializeField] private int bulletAmount = 18;
     [SerializeField] private float damage = 3;
     [SerializeField] private float spread = 10f; 
+    [SerializeField] private ParticleSystem shootParticles;
     private float ammoLife = 1f;
     private MainPlayer player;
 
@@ -31,6 +32,11 @@ public class SeaHorseSMG : Gun
         base.Shoot();
         if (shootRate1 <= cooldown1 && Input.GetKey(KeyCode.Mouse0))
         {
+            if (shootParticles != null)
+            {
+                shootParticles.Play();
+            }
+
             GameObject bullet = Instantiate(bullets, transvormPivit.transform.position, transvormPivit.transform.rotation);
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
             Bullet amunition = bullet.GetComponent<Bullet>();
@@ -67,6 +73,11 @@ public class SeaHorseSMG : Gun
         base.Secondary();
         if (shootRate2 <= cooldown2 && Input.GetKeyDown(KeyCode.Mouse1))
         {
+            if (shootParticles != null)
+            {
+                shootParticles.Play();
+            }
+
             GameObject Origin = player.rayOrigin;
             Vector3 targetPoint;
             int mask = ~(1 << player.gameObject.layer);
@@ -116,6 +127,14 @@ public class SeaHorseSMG : Gun
         if (shootRate2 >= cooldown2)
         {
             cooldown2 += Time.deltaTime;
+        }
+
+        if (shootParticles != null && shootParticles.isPlaying)
+        {
+            if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))
+            {
+                shootParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            }
         }
     }
 }

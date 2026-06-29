@@ -66,19 +66,27 @@ public class ShopManager : MonoBehaviour
         if (_shopUI != null && _shopUI.activeSelf)
         {
             UpdateRerollUI();
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RerollShop();
+            }
         }
     }
 
     private void UpdateRerollUI()
     {
+        bool canAfford = CoinSystem.Instance != null && CoinSystem.Instance.GetCoinAmount() >= _currentRerollCost;
+
         if (_rerollText != null)
         {
-            _rerollText.text = $"Reroll ({UIUtils.FormatNumber(_currentRerollCost)} Coins)";
+            string costColor = canAfford ? "#55FF55" : "#FF5555";
+            string textColor = canAfford ? "#FFFFFF" : "#888888";
+            _rerollText.text = $"<color={textColor}>Reroll (<color={costColor}>{UIUtils.FormatNumber(_currentRerollCost)} Coins</color>)</color>";
         }
         
         if (_rerollButton != null)
         {
-            bool canAfford = CoinSystem.Instance != null && CoinSystem.Instance.GetCoinAmount() >= _currentRerollCost;
             _rerollButton.interactable = canAfford;
         }
     }
@@ -119,7 +127,7 @@ public class ShopManager : MonoBehaviour
             _currentRerollCost = 10;
         }
 
-        // Filter out weapons already owned by the player
+        // Allow all weapons to appear (even if already owned) so they can be replaced
         List<WeaponItemData> filteredWeapons = new List<WeaponItemData>();
         if (availableWeapons != null)
         {
@@ -127,10 +135,7 @@ public class ShopManager : MonoBehaviour
             {
                 if (weaponData != null && weaponData.weaponPrefab != null)
                 {
-                    if (!MainPlayer.HasWeapon(weaponData.weaponPrefab))
-                    {
-                        filteredWeapons.Add(weaponData);
-                    }
+                    filteredWeapons.Add(weaponData);
                 }
             }
         }
