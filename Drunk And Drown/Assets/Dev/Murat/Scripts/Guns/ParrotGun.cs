@@ -20,7 +20,7 @@ public class ParrotGun : MonoBehaviour
     private MainPlayer mainPlayer;
     public float cooldown = 1.0f;
     public float shootRate;
-
+    [SerializeField] protected Animation _currentAnimation;
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -43,9 +43,9 @@ public class ParrotGun : MonoBehaviour
 
     public void Shoot()
     {
-
         if (shootRate <= cooldown && activeBullet != null)
         {
+            _currentAnimation.Play();
             cooldown = 0f;
 
             if (shootSound != null && audioSource != null)

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2136052578680976051}
   - component: {fileID: 6893833051630208084}
   - component: {fileID: 8761436604938811746}
+  - component: {fileID: -2821285511616534918}
   m_Layer: 7
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -134,7 +135,6 @@ MonoBehaviour:
   _scoreOnDeath: 10
   _coinsOnDeath: 5
   _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
-  hitmarker: {fileID: 11400000, guid: 1707b12c5e51a194b95cef9d28378fba, type: 2}
   _currentState: 1
   _patrolRange: 10
   _moveSpeed: 3
@@ -177,6 +177,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!111 &-2821285511616534918
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7173005847610792062}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1001 &3441609911071608203
 PrefabInstance:
   m_ObjectHideFlags: 0

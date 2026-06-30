@@ -590,6 +590,10 @@ PrefabInstance:
       propertyPath: shootRate
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4300778693635376712, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: _currentAnimation
+      value: 
+      objectReference: {fileID: 1160080780}
     - target: {fileID: 4366227585577971529, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -101.5
@@ -858,6 +862,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8203533195210142017, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8555118801301459080, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_Type
       value: 0
@@ -991,7 +999,8 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5182630294803578108, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8803636293221621530, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
@@ -3509,6 +3518,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b1a7be7eddfa2d42b3d60a92d4d3278, type: 3}
+--- !u!111 &1160080780 stripped
+Animation:
+  m_CorrespondingSourceObject: {fileID: 7738884419177070207, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+  m_PrefabInstance: {fileID: 848331132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1172230936 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6178686919318248232, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}

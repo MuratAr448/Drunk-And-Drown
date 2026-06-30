@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,6 +47,8 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     private float _idleTimer;
     private float _currentIdleDuration;
     protected Transform _playerTransform;
+    [SerializeField] protected Animation _currentAnimation;
+    [SerializeField] protected List<AnimationClip> _currentAnimationClip;
 
     protected virtual void Awake()
     {
@@ -74,15 +78,19 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         switch (_currentState)
         {
             case EnemyState.Idle:
+                Animation(1);
                 Idle();
                 break;
             case EnemyState.Patrol:
+                Animation(4);
                 Patrol();
                 break;
             case EnemyState.Chase:
+                Animation(3);
                 Chase();
                 break;
             case EnemyState.Attack:
+                Animation(0);
                 AttackState();
                 break;
             case EnemyState.Stunned:
@@ -90,7 +98,13 @@ public abstract class Enemy : MonoBehaviour, IDamageable
                 break;
         }
     }
-
+    private void Animation(int index)
+    {
+        if (_currentAnimation!=null)
+        {
+            _currentAnimation.Play(_currentAnimationClip[index].name);
+        }
+    }
     private void CheckForPlayer()
     {
         if (_playerTransform == null) return;
@@ -170,7 +184,6 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     {
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         _idleTimer += Time.deltaTime;
-
         if (_idleTimer >= _currentIdleDuration)
         {
             _idleTimer = 0f;

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3347269844130479809}
   - component: {fileID: 6705801971980447089}
   - component: {fileID: 7737483661048159230}
+  - component: {fileID: -2808123356431429602}
   m_Layer: 7
   m_Name: RangedEnemy
   m_TagString: Untagged
@@ -162,7 +163,6 @@ MonoBehaviour:
   _scoreOnDeath: 20
   _coinsOnDeath: 10
   _deathParticlePrefab: {fileID: 4946686944613251688, guid: 53dc1f613ad1aef438c8581c22455934, type: 3}
-  hitmarker: {fileID: 11400000, guid: 1707b12c5e51a194b95cef9d28378fba, type: 2}
   _currentState: 1
   _patrolRange: 10
   _moveSpeed: 3
@@ -176,6 +176,22 @@ MonoBehaviour:
   _bulletLifetime: 3
   _bulletSpeed: 20
   _attackSpeed: 1
+--- !u!111 &-2808123356431429602
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653010563350576321}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &3668603379336378140
 GameObject:
   m_ObjectHideFlags: 0
