@@ -282,7 +282,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     public void Pause()
     {
-        if (!dead)
+        if (!dead&&!FindFirstObjectByType<ShopManager>().IsShopActive)
         {
             pause = !pause;
             if (pause)
