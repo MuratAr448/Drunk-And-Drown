@@ -23,4 +23,4 @@ MonoBehaviour:
   maxEnemyCountIncrease: 0
   luckIncrease: 0
   enemyHealthMultiplierIncrease: 0.25
-  scoreMultiplierIncrease: 0.1
+  scoreMultiplierIncrease: 0.25
