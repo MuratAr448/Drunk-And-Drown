@@ -19,5 +19,5 @@ MonoBehaviour:
   healthIncrease: 0
   speedIncrease: 0
   healAmount: 0
-  luckIncrease: 1
+  luckIncrease: 0.5
   damageMultiplierIncrease: 0
