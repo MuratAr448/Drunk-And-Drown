@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 459153668262147879}
   - component: {fileID: 4052030344288580571}
   m_Layer: 7
-  m_Name: Crab
+  m_Name: Crab Elite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8207764221041409423}
@@ -99,7 +99,7 @@ MonoBehaviour:
   - {fileID: -4274770991410265338, guid: 52b8d343ba41e024f9dfbaf1c289ddff, type: 3}
   - {fileID: -3670619616237832305, guid: 52b8d343ba41e024f9dfbaf1c289ddff, type: 3}
   _firepoint: {fileID: 234138192116349585}
-  _bullet: {fileID: 1470368020963277498, guid: 49bc15745c3623d408ed1ef9292d93e1, type: 3}
+  _bullet: {fileID: 1470368020963277498, guid: 23d84ee31504f694da4400e304189409, type: 3}
   _bulletLifetime: 3
   _bulletSpeed: 20
   _attackSpeed: 1
