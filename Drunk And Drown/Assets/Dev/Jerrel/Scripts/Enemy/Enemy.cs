@@ -82,11 +82,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
                 Idle();
                 break;
             case EnemyState.Patrol:
-                Animation(4);
+                Animation(3);
                 Patrol();
                 break;
             case EnemyState.Chase:
-                Animation(3);
+                Animation(2);
                 Chase();
                 break;
             case EnemyState.Attack:

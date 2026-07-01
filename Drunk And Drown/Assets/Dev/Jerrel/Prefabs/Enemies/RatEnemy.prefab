@@ -115,9 +115,9 @@ MonoBehaviour:
   _currentAnimationClip:
   - {fileID: -4405619503343681686, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
   - {fileID: 4699274299699868179, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
-  - {fileID: -1856729307679302991, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
   - {fileID: 2832999895165199862, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
   - {fileID: -6991723973015678290, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
+  - {fileID: -1856729307679302991, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
   _attackSpeed: 0.5
   _attackRadius: 1.5
   _attackDamage: 10

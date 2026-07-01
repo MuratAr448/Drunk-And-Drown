@@ -6,7 +6,7 @@ public class KillPlayerObject : MonoBehaviour
     {
         if(other.TryGetComponent(out IDamageable Damaged))
         {
-            Damaged.TakeDamage(15000);
+            Damaged.TakeDamage(Damaged.CurrentHealth);
         }
     }
 }
