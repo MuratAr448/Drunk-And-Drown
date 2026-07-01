@@ -129,9 +129,9 @@ Material:
     - _WorkflowMode: 1
     - _XRMotionVectorsPass: 1
     - _ZWrite: 1
-    - _frequency: 3.36
+    - _frequency: 1.29
     - _specular_thickness: 3.53
-    - _specularsize: 80.64
+    - _specularsize: 83.49
     - _specularspeed: 1.17
     - _speed: 2.7
     - _wave_amplitude: 0.025
