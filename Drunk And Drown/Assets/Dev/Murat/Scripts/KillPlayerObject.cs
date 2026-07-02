@@ -42,10 +42,8 @@ public class KillPlayerObject : MonoBehaviour
 
         foreach (Collider col in Colliders)
         {
-            Debug.Log("col here");
             if (col.TryGetComponent(out IDamageable Damaged))
             {
-                Debug.Log("is here");
                 Damaged.TakeDamage(5);
             }
         }
