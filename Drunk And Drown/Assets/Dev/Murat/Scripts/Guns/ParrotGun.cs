@@ -21,7 +21,7 @@ public class ParrotGun : MonoBehaviour
     private MainPlayer mainPlayer;
     public float cooldown = 1.0f;
     public float shootRate;
-    [SerializeField] protected Animation _currentAnimation;
+    [SerializeField] private Animation _currentAnimation;
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();

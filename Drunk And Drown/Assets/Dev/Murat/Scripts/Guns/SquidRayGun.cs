@@ -55,6 +55,8 @@ public class SquidRayGun : Gun
     protected bool isGrappling = false;
     protected bool isInputBlocked = false;
     protected KeyCode grappleKey = KeyCode.Mouse1;
+    [SerializeField] private Animation _currentAnimation;
+    [SerializeField] private List<AnimationClip> _currentAnimationClip;
 
     public override float GetDamage() { return Basedamage; }
     public override void ApplyRarityScaling(float multiplier)
@@ -104,9 +106,18 @@ public class SquidRayGun : Gun
         // Primary attack logic
         if (Input.GetKey(KeyCode.Mouse0)&& !squidOverheated)
         {
+            if (size>0.9f)
+            {
+                _currentAnimation.Play(_currentAnimationClip[4].name);
+            }
+            else
+            {
+                _currentAnimation.Play(_currentAnimationClip[3].name);
+            }
             cooldown1 += Time.deltaTime*2;
             squidOverheatProcent += Time.deltaTime;
         }
+
         if (squidOverheatProcent > 7.5f)
         {
             squidOverheated = true;
@@ -117,6 +128,7 @@ public class SquidRayGun : Gun
     {
         if(!Input.GetKey(KeyCode.Mouse0)|| squidOverheated)
         {
+            _currentAnimation.Play(_currentAnimationClip[2].name);
             cooldown1 -= Time.deltaTime;
             ableToHit = false;
 
@@ -231,6 +243,7 @@ public class SquidRayGun : Gun
         if (isGrappling)
         {
             HandleActiveGrapple();
+            _currentAnimation.Play(_currentAnimationClip[1].name);
         }
         else
         {
