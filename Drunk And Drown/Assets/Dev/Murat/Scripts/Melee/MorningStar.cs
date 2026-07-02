@@ -10,15 +10,13 @@ public class MorningStar : Melee
 {
     [SerializeField] private float damage = 10;
     [SerializeField] private SphereCollider colliderTrig;
-    [SerializeField] private GameObject pufferFish, rope;
-    private Vector3 puffSize,ropeSize;
-    private Vector3 puffPos,ropePos;
     [SerializeField] private GameObject smokePref;
-    private List<Enemy> hitEnemys = new List<Enemy>();
+    private List<IDamageable> hitEnemys = new List<IDamageable>();
     [SerializeField] private ExplosiveHammer explosive;
     public bool Attacking = false;
     private Movement player;
-
+    [SerializeField] private Animation _currentAnimation;
+    [SerializeField] private List<AnimationClip> _currentAnimationClip;
     public override float GetDamage() { return damage; }
     public override void ApplyRarityScaling(float multiplier)
     {
@@ -32,11 +30,8 @@ public class MorningStar : Melee
 
     void Start()
     {
+        explosive.damage = damage*0.5f;
         player = FindFirstObjectByType<Movement>();
-        puffSize = pufferFish.transform.localScale;
-        puffPos = pufferFish.transform.localPosition;
-        ropeSize = rope.transform.localScale;
-        ropePos = rope.transform.localPosition;
         Kind = KindofMelee.MorningStar;
     }
     public override void Swing()
@@ -72,6 +67,7 @@ public class MorningStar : Melee
     private IEnumerator NormalAttack()
     {
         //movement
+        _currentAnimation.Play(_currentAnimationClip[0].name);
         yield return new WaitForSeconds(1f);
         Deflate();
     }
@@ -84,12 +80,14 @@ public class MorningStar : Melee
             cooldown2 = 0f;
             //falling
         }
+        _currentAnimation.Play(_currentAnimationClip[2].name);
+        yield return new WaitForSeconds(0.5f);
         explosive.damagedObjects.Clear();
         explosive.Explode();
-        GameObject smoke = Instantiate(smokePref,pufferFish.transform.position, pufferFish.transform.rotation,null);
+        GameObject smoke = Instantiate(smokePref,colliderTrig.transform.position, colliderTrig.transform.rotation,null);
         Destroy(smoke,3f);
         StartCoroutine(Smoke(smoke, explosive.radius));
-        yield return new WaitForSeconds (1f);
+        yield return new WaitForSeconds (0.5f);
         Deflate();
         //return
     }
@@ -121,36 +119,25 @@ public class MorningStar : Melee
     private void Expand()
     {
         colliderTrig.enabled = true;
-        colliderTrig.radius = 0.3f;
-        pufferFish.transform.localScale = puffSize * 2f;
-        pufferFish.transform.localPosition = puffPos + Vector3.down*0.15f;
-        rope.transform.localScale = ropeSize * 2;
-        rope.transform.localPosition = ropePos + Vector3.up*.15f;
         Attacking = true;
     }
     private void Deflate()
     {
+        _currentAnimation.Play(_currentAnimationClip[1].name);
         colliderTrig.enabled = false;
-        colliderTrig.radius = 0.15f;
-        pufferFish.transform.localScale = puffSize;
-        pufferFish.transform.localPosition = puffPos;
-        rope.transform.localScale = ropeSize;
-        rope.transform.localPosition = ropePos;
         hitEnemys.Clear();
         Attacking = false;
     }
-    private void OnTriggerEnter(Collider other)
+    public void HitEnemy(Collider other)
     {
-        if (other.GetComponent<Enemy>())
+        if (other.TryGetComponent(out IDamageable Damageable))
         {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
-            if (!hitEnemys.Contains(enemy)&& Attacking)
+
+            if (!hitEnemys.Contains(Damageable) && Attacking)
             {
-                enemy.TakeDamage(damage);
-                hitEnemys.Add(enemy);
+                Damageable.TakeDamage(damage);
+                hitEnemys.Add(Damageable);
             }
         }
     }
-
-    
 }
