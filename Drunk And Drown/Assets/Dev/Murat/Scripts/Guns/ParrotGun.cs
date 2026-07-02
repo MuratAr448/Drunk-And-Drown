@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,56 +42,77 @@ public class ParrotGun : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    public void Shooting()
     {
-        if (shootRate <= cooldown && activeBullet != null)
+        if (shootRate <= cooldown)
         {
-            _currentAnimation.Play();
-            cooldown = 0f;
-
-            if (shootSound != null && audioSource != null)
-            {
-                shootSound.Play(audioSource);
-            }
-
-            Rigidbody bulletRb = activeBullet.GetComponent<Rigidbody>();
-            Bullet ammunition = activeBullet.GetComponent<Bullet>();
-            SphereCollider bulletCollider = activeBullet.GetComponent<SphereCollider>();
-
-            activeBullet.transform.parent = null;
-            bulletRb.isKinematic = false;
-            if (bulletCollider != null) bulletCollider.enabled = true;
-
-            ammunition.damage = damage;
-            ammunition.timeTillDeath = ammoLife;
-            ammunition.type = BulletType.Explosive;
-            ammunition.radius = radius;
-            ammunition.force = force;
-            ammunition.Lanched();
-
-            GameObject origin = mainPlayer.rayOrigin;
-            Vector3 targetPoint;
-            int mask = ~(1 << mainPlayer.gameObject.layer);
-
-            if (Physics.Raycast(origin.transform.position, origin.transform.forward, out RaycastHit hit, 1000f, mask, QueryTriggerInteraction.Ignore))
-            {
-                targetPoint = hit.point;
-            }
-            else
-            {
-                targetPoint = origin.transform.position + origin.transform.forward * 100f;
-            }
-
-            Vector3 fireDirection = (targetPoint - activeBullet.transform.position).normalized;
-            bulletRb.transform.LookAt(targetPoint);
-
-            bulletRb.AddForce(fireDirection * 100f * bulletSpeed, ForceMode.Force);
-
-            Vector3 knockbackDirection = -fireDirection;
-            player.ApplyKnockback(knockbackDirection * force * 2.5f);
-
-            activeBullet = null;
+            StartCoroutine(Shoot());
         }
+    }
+    private IEnumerator Shoot()
+    {
+
+        _currentAnimation.Play();
+        yield return new WaitForSeconds(2f);
+        if (activeBullet == null)
+        {
+            activeBullet = Instantiate(parrotPrefab, transformPivot);
+            
+            if (activeBullet.TryGetComponent<Rigidbody>(out Rigidbody rb))
+            {
+                rb.isKinematic = true;
+            }
+            if (activeBullet.TryGetComponent<SphereCollider>(out SphereCollider sc))
+            {
+                sc.enabled = false;
+            }
+            
+        }
+        yield return new WaitForSeconds(Time.deltaTime);
+        cooldown = 0f;
+
+        if (shootSound != null && audioSource != null)
+        {
+            shootSound.Play(audioSource);
+        }
+
+        Rigidbody bulletRb = activeBullet.GetComponent<Rigidbody>();
+        Bullet ammunition = activeBullet.GetComponent<Bullet>();
+        SphereCollider bulletCollider = activeBullet.GetComponent<SphereCollider>();
+
+        activeBullet.transform.parent = null;
+        bulletRb.isKinematic = false;
+        if (bulletCollider != null) bulletCollider.enabled = true;
+
+        ammunition.damage = damage;
+        ammunition.timeTillDeath = ammoLife;
+        ammunition.type = BulletType.Explosive;
+        ammunition.radius = radius;
+        ammunition.force = force;
+        ammunition.Lanched();
+
+        GameObject origin = mainPlayer.rayOrigin;
+        Vector3 targetPoint;
+        int mask = ~(1 << mainPlayer.gameObject.layer);
+
+        if (Physics.Raycast(origin.transform.position, origin.transform.forward, out RaycastHit hit, 1000f, mask, QueryTriggerInteraction.Ignore))
+        {
+            targetPoint = hit.point;
+        }
+        else
+        {
+            targetPoint = origin.transform.position + origin.transform.forward * 100f;
+        }
+
+        Vector3 fireDirection = (targetPoint - activeBullet.transform.position).normalized;
+        bulletRb.transform.LookAt(targetPoint);
+
+        bulletRb.AddForce(fireDirection * 500f * bulletSpeed, ForceMode.Force);
+
+        Vector3 knockbackDirection = -fireDirection;
+        player.ApplyKnockback(knockbackDirection * force * 2.5f);
+
+        activeBullet = null;
     }
 
     void Update()
@@ -100,18 +122,6 @@ public class ParrotGun : MonoBehaviour
             cooldown += Time.deltaTime;
         }
 
-        if (activeBullet == null && shootRate <= cooldown + Time.deltaTime * 3f)
-        {
-            activeBullet = Instantiate(parrotPrefab, transformPivot);
 
-            if (activeBullet.TryGetComponent<Rigidbody>(out Rigidbody rb))
-            {
-                rb.isKinematic = true;
-            }
-            if (activeBullet.TryGetComponent<SphereCollider>(out SphereCollider sc))
-            {
-                sc.enabled = false;
-            }
-        }
     }
 }

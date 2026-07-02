@@ -102,7 +102,7 @@ MonoBehaviour:
   _bullet: {fileID: 1470368020963277498, guid: 23d84ee31504f694da4400e304189409, type: 3}
   _bulletLifetime: 3
   _bulletSpeed: 20
-  _attackSpeed: 1
+  _attackSpeed: 0.75
 --- !u!54 &459153668262147879
 Rigidbody:
   m_ObjectHideFlags: 0
