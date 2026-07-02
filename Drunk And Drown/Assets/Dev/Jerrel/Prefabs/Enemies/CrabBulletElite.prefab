@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1417475637264514466}
   - component: {fileID: 5144965576321796707}
   m_Layer: 3
-  m_Name: CrabBullet
+  m_Name: CrabBulletElite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.56, y: 12.3, z: 48.06}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1193962320316725619}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 375cd3005c087ff4493c4ae6584a2dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  _damage: 10
+  _damage: 15
 --- !u!135 &3306445402193552676
 SphereCollider:
   m_ObjectHideFlags: 0
