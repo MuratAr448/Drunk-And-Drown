@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class KillPlayerObject : MonoBehaviour
@@ -8,18 +12,40 @@ public class KillPlayerObject : MonoBehaviour
         timeForDamage += Time.deltaTime;
         if (timeForDamage > 1)
         {
-            lava();
+            float radius = transform.localScale.x;
+            if (radius < transform.localScale.z)
+            {
+                radius = transform.localScale.z;
+            }
+            lava(transform.position-Vector3.up* transform.lossyScale.y, transform.position + Vector3.up * transform.lossyScale.y, radius, transform.localScale.x, transform.localScale.z);
             timeForDamage = 0;
         }
     }
-    public void lava()
+    public void lava(Vector3 aStart, Vector3 aEnd, float Radius,float ScaleX, float ScaleZ)
     {
-        Collider[] colliders = Physics.OverlapBox(transform.position,new Vector3(transform.localScale.x*0.5f, transform.localScale.y, transform.localScale.z * 0.5f));
-
-        foreach (Collider col in colliders)
+        Collider[] CapsuleCollider = Physics.OverlapCapsule(aStart, aEnd, Radius*0.5f);
+        Vector3 dir = aEnd - aStart;
+        Collider[] BoxCollider = Physics.OverlapBox(aStart + dir * 0.5f, new Vector3(ScaleX, dir.magnitude * 0.5f, ScaleZ));
+        List<Collider> CapColliders = new List<Collider>();
+        List<Collider> Colliders = new List<Collider>();
+        for (int i =0;i<CapsuleCollider.Length ;i++ )
         {
+            CapColliders.Add(CapsuleCollider[i]);
+        }
+        for (int i = 0; i < BoxCollider.Length; i++)
+        {
+            if (CapColliders.Contains(BoxCollider[i]))
+            {
+                Colliders.Add(BoxCollider[i]);
+            }  
+        }
+
+        foreach (Collider col in Colliders)
+        {
+            Debug.Log("col here");
             if (col.TryGetComponent(out IDamageable Damaged))
             {
+                Debug.Log("is here");
                 Damaged.TakeDamage(5);
             }
         }
