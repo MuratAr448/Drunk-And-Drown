@@ -1416,6 +1416,10 @@ PrefabInstance:
       propertyPath: globalVolume
       value: 
       objectReference: {fileID: 506889813}
+    - target: {fileID: 2123061398402564323, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2739755233746014546, guid: c439e81c8de14e74cb3a17e87450016d, type: 3}
       propertyPath: m_fontAsset
       value: 
@@ -6657,7 +6661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3286641749884938989, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3340443258460163021, guid: 860d7f9a3477c154bbc1b06a07e47a6b, type: 3}
       propertyPath: m_AnchoredPosition.y
