@@ -130,7 +130,7 @@ public class SeaHorseSMG : Gun
         {
             cooldown2 += Time.deltaTime;
         }
-        if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1))
+        if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1)&&!_currentAnimation.IsPlaying(_currentAnimationClip[1].name))
         {
             _currentAnimation.Play(_currentAnimationClip[2].name);
         }

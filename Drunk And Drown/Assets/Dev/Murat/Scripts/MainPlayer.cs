@@ -164,7 +164,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         if (movement.canMove)
         {
             Shoot();
-            if (parrotCooldown <= 2f) parrotCooldown += Time.deltaTime;
+            if (parrotCooldown <= 2f && !isShootingParrotGun) parrotCooldown += Time.deltaTime;
             if (squidOverheat > 0) squidOverheat -= Time.deltaTime;
             if (AlowedToSwitch() && !isShootingParrotGun)
             {

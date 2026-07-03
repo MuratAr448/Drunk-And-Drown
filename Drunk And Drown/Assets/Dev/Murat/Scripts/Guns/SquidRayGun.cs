@@ -136,12 +136,14 @@ public class SquidRayGun : Gun
             if (inkRay != null)
             {
                 inkRay.GetComponentInChildren<ParticleSystem>().enableEmission = false;
-
-                if (cooldown1 < 0f)
+            }
+            if (cooldown1 < 0f)
+            {
+                cooldown1 = 0;
+                if (inkRay != null)
                 {
                     Destroy(inkRay);
                     inkRay = null;
-                    cooldown1 = 0;
                 }
 
             }
