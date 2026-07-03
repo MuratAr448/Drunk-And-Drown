@@ -21,7 +21,7 @@ public class Gun : Weapons
 
     public override float GetRate1() { return shootRate1; }
     public override float GetRate2() { return shootRate2; }
-    public override string GetRate1Name() { return "Shoot Delay"; }
+    public override string GetRate1Name() { return "Shooting Delay"; }
     public override string GetRate2Name() { return "Secondary Delay"; }
 
     public virtual void Shoot()
