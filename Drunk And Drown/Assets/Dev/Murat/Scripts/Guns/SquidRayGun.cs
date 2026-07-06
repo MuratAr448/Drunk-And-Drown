@@ -135,17 +135,17 @@ public class SquidRayGun : Gun
             _currentAnimation.Play(_currentAnimationClip[2].name);
             if (inkRay != null)
             {
-                inkRay.GetComponentInChildren<ParticleSystem>().enableEmission = false;
+                ParticleSystem particle = inkRay.GetComponentInChildren<ParticleSystem>();
+                particle.enableEmission = false;
+                Destroy(particle,1);
+                particle.transform.parent = null;
+                Destroy(inkRay);
+                inkRay = null;
+
             }
             if (cooldown1 < 0f)
             {
                 cooldown1 = 0;
-                if (inkRay != null)
-                {
-                    Destroy(inkRay);
-                    inkRay = null;
-                }
-
             }
             cooldown1 -= Time.deltaTime;
             ableToHit = false;
