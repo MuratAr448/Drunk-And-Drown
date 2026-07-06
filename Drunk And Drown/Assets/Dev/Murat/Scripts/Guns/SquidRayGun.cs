@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class SquidRayGun : Gun
 {
     [Header("Squid Ray Settings")]
     [SerializeField] private float Basedamage = 1;
-    [SerializeField] private float size = 0.01f;
+    [SerializeField] private float ShootTiming = 0.01f;
     public float squidOverheatProcent;
     private bool squidOverheated;
     private MainPlayer playerSquid;
@@ -106,8 +109,9 @@ public class SquidRayGun : Gun
         // Primary attack logic
         if (Input.GetKey(KeyCode.Mouse0)&& !squidOverheated)
         {
-            if (size>0.9f)
+            if (ShootTiming>0.9f)
             {
+                inkRay.GetComponentInChildren<ParticleSystem>().enableEmission = true;
                 _currentAnimation.Play(_currentAnimationClip[4].name);
             }
             else
@@ -129,18 +133,24 @@ public class SquidRayGun : Gun
         if(!Input.GetKey(KeyCode.Mouse0)|| squidOverheated)
         {
             _currentAnimation.Play(_currentAnimationClip[2].name);
-            cooldown1 -= Time.deltaTime;
-            ableToHit = false;
+            if (inkRay != null)
+            {
+                ParticleSystem particle = inkRay.GetComponentInChildren<ParticleSystem>();
+                particle.enableEmission = false;
+                Destroy(particle,1);
+                particle.transform.parent = null;
+                Destroy(inkRay);
+                inkRay = null;
 
+            }
             if (cooldown1 < 0f)
             {
                 cooldown1 = 0;
-                if (inkRay != null)
-                {
-                    Destroy(inkRay);
-                    inkRay = null;
-                }
             }
+            cooldown1 -= Time.deltaTime;
+            ableToHit = false;
+
+
             squidOverheatProcent -= Time.deltaTime*1.5f;
             if (squidOverheatProcent < 0f)
             {
@@ -152,7 +162,7 @@ public class SquidRayGun : Gun
         {
             if (inkRay == null)
             {
-                inkRay = Instantiate(inkPrefab, gameObject.transform);
+                inkRay = Instantiate(inkPrefab, gameObject.transform.position+ gameObject.transform.forward*0.5f, gameObject.transform.rotation, gameObject.transform);
                 if (shootSound != null && audioSource != null)
                 {
                     shootSound.Play(audioSource);
@@ -169,7 +179,7 @@ public class SquidRayGun : Gun
                 playerSquid.TriggerCameraShake(0.05f, 0.02f);
             }
         }
-        size = cooldown1 / shootRate1;
+        ShootTiming = cooldown1 / shootRate1* 0.5F;
         RaycastHit hit;
         GameObject Origin = playerSquid.rayOrigin;
         
@@ -177,11 +187,9 @@ public class SquidRayGun : Gun
         {
             if (hit.collider != inkRay.GetComponent<Collider>())
             {
-                float distance = Vector3.Distance(transform.position, hit.point);
                 transform.LookAt(hit.point);
                 inkRay.transform.rotation = transform.rotation;
-                inkRay.transform.localScale = new Vector3(size, size, distance);
-                inkRay.transform.localPosition = Vector3.forward * (distance * 0.3f);
+                inkRay.transform.localScale = new Vector3(ShootTiming, ShootTiming, inkRay.transform.localScale.z);
                 IDamageable damageable = hit.collider.GetComponentInParent<IDamageable>();
                 if (damageable != null && ableToHit)
                 {
@@ -211,10 +219,7 @@ public class SquidRayGun : Gun
         else if(inkRay != null)
         {
             transform.LookAt(player.transform.position + Origin.transform.forward* 20);
-            inkRay.transform.localPosition = Vector3.forward * (20 * 0.3f);
             inkRay.transform.rotation = transform.rotation;
-            inkRay.transform.localScale = new Vector3(size, size, 20);
-            inkRay.transform.localPosition = Vector3.forward * (20f * 0.3f);
         }
     }
 
