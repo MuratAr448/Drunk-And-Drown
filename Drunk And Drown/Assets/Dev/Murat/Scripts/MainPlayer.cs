@@ -621,20 +621,20 @@ public class MainPlayer : MonoBehaviour, IDamageable
         int currentCoins = CoinSystem.Instance != null ? CoinSystem.Instance.GetCoinAmount() : 0;
 
         // Health: Green if full, Red if damaged. Max health: Green if >= baseline 100, Red otherwise.
-        string hpColor = health < currentMaxHP ? "#FF5555" : "#55FF55";
+        string hpColor = health < currentMaxHP ? "#679a2f" : "#55FF55";
         string maxHpColor = currentMaxHP >= 100f ? "#55FF55" : "#FF5555";
         sb.AppendLine($"- Health: <color={hpColor}>{UIUtils.FormatNumber(health)}</color> / <color={maxHpColor}>{UIUtils.FormatNumber(currentMaxHP)}</color>");
 
         // Speed: Green if >= baseline 6.0, Red otherwise.
-        string speedColor = currentSpeed >= 6f ? "#55FF55" : "#FF5555";
+        string speedColor = currentSpeed >= 6f ? "##679a2f" : "##679a2f";
         sb.AppendLine($"- Speed: <color={speedColor}>{UIUtils.FormatNumber(currentSpeed)}</color>");
 
         // Coin multiplier: Green if >= baseline 1.0, Red otherwise.
-        string multColor = currentCoinMultiplier >= 1f ? "#55FF55" : "#FF5555";
+        string multColor = currentCoinMultiplier >= 1f ? "##679a2f" : "##679a2f";
         sb.AppendLine($"- Coin Mult: <color={multColor}>{UIUtils.FormatNumber(currentCoinMultiplier)}x</color>");
 
         // Coins: Green if you have dabloons
-        string coinColor = currentCoins > 0 ? "#55FF55" : "#FFFFFF";
+        string coinColor = currentCoins > 0 ? "#faae0e" : "#faae0e";
         sb.AppendLine($"- Dabloons: <color={coinColor}>{UIUtils.FormatNumber(currentCoins)}</color>");
 
         // Luck: Green if >= baseline 1.0, Red otherwise.
@@ -647,15 +647,15 @@ public class MainPlayer : MonoBehaviour, IDamageable
         float common, uncommon, rare, epic, legendary;
         GetRarityChances(luck, out common, out uncommon, out rare, out epic, out legendary);
 
-        sb.AppendLine($"- <color=#BBBBBB>Common: {UIUtils.FormatNumber(common)}%</color>");
-        sb.AppendLine($"- <color=#55FF55>Uncommon: {UIUtils.FormatNumber(uncommon)}%</color>");
-        sb.AppendLine($"- <color=#5555FF>Rare: {UIUtils.FormatNumber(rare)}%</color>");
-        sb.AppendLine($"- <color=#AA00FF>Epic: {UIUtils.FormatNumber(epic)}%</color>");
-        sb.AppendLine($"- <color=#FF9900>Legendary: {UIUtils.FormatNumber(legendary)}%</color>");
+        sb.AppendLine($"- <color=#f9e791>Common: {UIUtils.FormatNumber(common)}%</color>");
+        sb.AppendLine($"- <color=#88C5B8>Uncommon: {UIUtils.FormatNumber(uncommon)}%</color>");
+        sb.AppendLine($"- <color=#db729e>Rare: {UIUtils.FormatNumber(rare)}%</color>");
+        sb.AppendLine($"- <color=#af60a8>Epic: {UIUtils.FormatNumber(epic)}%</color>");
+        sb.AppendLine($"- <color=#faae0e>Legendary: {UIUtils.FormatNumber(legendary)}%</color>");
         sb.AppendLine();
 
         // 3. Weapons
-        sb.AppendLine("<color=#FFFFFF><b>Equipped Weapons:</b></color>");
+        sb.AppendLine("<color=#FFF1C2><b>Equipped Weapons:</b></color>");
         if (weapons != null && weapons.Count > 0)
         {
             for (int i = 0; i < weapons.Count; i++)
