@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class ComboSystem : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _multiplierText;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioEvent _comboSound;
+    [SerializeField] private List<AudioEvent> _comboSound;
 
     [Header("Fade Settings")]
     [SerializeField] private CanvasGroup _canvasGroup;
@@ -167,7 +168,7 @@ public class ComboSystem : MonoBehaviour
         if (_comboSound != null && _audioSource != null && _currentCombo > 0)
         {
             float pitchMultiplier = Mathf.Pow(1.059463f, _currentCombo - 1);
-            _comboSound.Play(_audioSource, pitchMultiplier);
+            _comboSound[(int)_currentMultiplier-1].Play(_audioSource, pitchMultiplier);
         }
     }
 

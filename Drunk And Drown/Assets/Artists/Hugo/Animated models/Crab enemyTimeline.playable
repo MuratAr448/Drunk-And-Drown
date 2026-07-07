@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030f85c3f73729f4f976f66ffb23b875, type: 3}
   m_Name: AnimationPlayableAsset
   m_EditorClassIdentifier: Unity.Timeline::UnityEngine.Timeline.AnimationPlayableAsset
-  m_Clip: {fileID: -8945691123924629249, guid: 52b8d343ba41e024f9dfbaf1c289ddff, type: 3}
+  m_Clip: {fileID: -8945691123924629249, guid: 5779f7ac2b0e1f14fa5ba4b85d41ac17, type: 3}
   m_Position: {x: 0, y: 0, z: 0}
   m_EulerAngles: {x: 0, y: 0, z: 0}
   m_UseTrackMatchFields: 1
@@ -151,5 +151,5 @@ MonoBehaviour:
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
-  m_DurationMode: 1
+  m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
