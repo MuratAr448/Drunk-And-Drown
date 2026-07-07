@@ -67,6 +67,10 @@ public class SquidRayGun : Gun
         base.ApplyRarityScaling(multiplier);
         Basedamage *= multiplier;
         speedDamageMultiplier *= multiplier;
+        for (int i = 0; i < _currentAnimationClip.Count; i++)
+        {
+            _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
+        }
     }
 
     protected virtual void Start()

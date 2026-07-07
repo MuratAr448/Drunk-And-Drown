@@ -53,7 +53,8 @@ public class ParrotGun : MonoBehaviour
     {
 
         _currentAnimation.Play();
-        yield return new WaitForSeconds(2f);
+        _currentAnimation[_currentAnimation.clip.name].speed = 4f;
+        yield return new WaitForSeconds(0.5f);
         if (activeBullet == null)
         {
             activeBullet = Instantiate(parrotPrefab, transformPivot);

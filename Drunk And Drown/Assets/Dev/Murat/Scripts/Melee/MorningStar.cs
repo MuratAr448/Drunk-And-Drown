@@ -26,6 +26,10 @@ public class MorningStar : Melee
         {
             explosive.damage *= multiplier;
         }
+        for (int i = 0; i < _currentAnimationClip.Count; i++)
+        {
+            _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
+        }
     }
 
     void Start()

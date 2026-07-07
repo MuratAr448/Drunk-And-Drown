@@ -22,6 +22,10 @@ public class SeaHorseSMG : Gun
     {
         base.ApplyRarityScaling(multiplier);
         damage *= multiplier;
+        for (int i = 0; i < _currentAnimationClip.Count; i++)
+        {
+            _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
+        }
     }
 
     private void Start()

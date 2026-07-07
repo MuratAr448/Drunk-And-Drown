@@ -184,9 +184,9 @@ public class MainPlayer : MonoBehaviour, IDamageable
         parrotGun.cooldown = parrotGun.shootRate;
         parrotGun.gameObject.SetActive(true);
         parrotGun.Shooting();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         if (hitEffect != null) hitEffect.ShakeCamera(0.2f, 0.15f);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
         isShootingParrotGun = false;
         if (weapon != null) weapon.gameObject.SetActive(true);
         parrotGun.gameObject.SetActive(false);
