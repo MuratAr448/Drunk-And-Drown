@@ -27,11 +27,11 @@ public static class RaritySystem
     {
         switch (rarity)
         {
-            case ItemRarity.Uncommon: return "#55FF55";   // Green
-            case ItemRarity.Rare: return "#5555FF";       // Blue
-            case ItemRarity.Epic: return "#AA00FF";       // Purple
-            case ItemRarity.Legendary: return "#FF9900";  // Orange
-            default: return "#BBBBBB";                    // Grey (Common)
+            case ItemRarity.Uncommon: return "#BFC45C";   // Green
+            case ItemRarity.Rare: return "#7BBFC6";       // Blue
+            case ItemRarity.Epic: return "#AF60A8";       // Purple
+            case ItemRarity.Legendary: return "#FAAE0E";  // Orange
+            default: return "#E4DBB9";                    // Grey (Common)
         }
     }
 
