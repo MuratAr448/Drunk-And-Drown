@@ -4,7 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class KillPlayerObject : MonoBehaviour
+public class Lava : MonoBehaviour
 {
     private float timeForDamage = 0;
     private void Update()
@@ -17,11 +17,11 @@ public class KillPlayerObject : MonoBehaviour
             {
                 radius = transform.localScale.z;
             }
-            lava(transform.position-Vector3.up* transform.lossyScale.y, transform.position + Vector3.up * transform.lossyScale.y, radius, transform.localScale.x, transform.localScale.z);
+            LavaCylinder(transform.position-Vector3.up* transform.lossyScale.y, transform.position + Vector3.up * transform.lossyScale.y, radius, transform.localScale.x, transform.localScale.z);
             timeForDamage = 0;
         }
     }
-    public void lava(Vector3 aStart, Vector3 aEnd, float Radius,float ScaleX, float ScaleZ)
+    public void LavaCylinder(Vector3 aStart, Vector3 aEnd, float Radius,float ScaleX, float ScaleZ)
     {
         Collider[] CapsuleCollider = Physics.OverlapCapsule(aStart, aEnd, Radius*0.5f);
         Vector3 dir = aEnd - aStart;
