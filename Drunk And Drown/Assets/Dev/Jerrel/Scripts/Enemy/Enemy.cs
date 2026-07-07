@@ -47,6 +47,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     private float _idleTimer;
     private float _currentIdleDuration;
     protected Transform _playerTransform;
+    protected float _stunnedTimer;
     [SerializeField] protected Animation _currentAnimation;
     [SerializeField] protected List<AnimationClip> _currentAnimationClip;
 
@@ -94,6 +95,11 @@ public abstract class Enemy : MonoBehaviour, IDamageable
                 AttackState();
                 break;
             case EnemyState.Stunned:
+                if (_stunnedTimer <= 0)
+                {
+                    _currentState = EnemyState.Idle;
+                }
+                _stunnedTimer -= Time.deltaTime;
                 rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
                 break;
         }
@@ -271,16 +277,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         _spawnedByArena = true;
     }
 
-    public void SetStunned(bool isStunned)
+    public void SetStunned()
     {
-        if (isStunned)
-        {
-            _currentState = EnemyState.Stunned;
-            rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
-        }
-        else if (_currentState == EnemyState.Stunned)
-        {
-            _currentState = EnemyState.Idle;
-        }
+        _currentState = EnemyState.Stunned;
+        _stunnedTimer = 2f;
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 }

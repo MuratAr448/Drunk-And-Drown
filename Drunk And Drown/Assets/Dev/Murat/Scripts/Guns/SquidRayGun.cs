@@ -136,7 +136,11 @@ public class SquidRayGun : Gun
     {
         if(!Input.GetKey(KeyCode.Mouse0)|| squidOverheated)
         {
-            _currentAnimation.Play(_currentAnimationClip[2].name);
+            if (!_currentAnimation.IsPlaying(_currentAnimationClip[1].name))
+            {
+                _currentAnimation.Play(_currentAnimationClip[2].name);
+            }
+            
             if (inkRay != null)
             {
                 ParticleSystem particle = inkRay.GetComponentInChildren<ParticleSystem>();
@@ -235,6 +239,7 @@ public class SquidRayGun : Gun
         {
             if (StartGrapple())
             {
+                _currentAnimation.Play(_currentAnimationClip[1].name);
                 cooldown2 = 0f;
             }
         }
@@ -252,7 +257,6 @@ public class SquidRayGun : Gun
         if (isGrappling)
         {
             HandleActiveGrapple();
-            _currentAnimation.Play(_currentAnimationClip[1].name);
         }
         else
         {
@@ -402,13 +406,12 @@ public class SquidRayGun : Gun
             isStaticGrapple = false;
             isGrappling = true;
             this.enemy = hitEnemy;
-            this.enemy.SetStunned(true);
+            this.enemy.SetStunned();
 
             if (lineRenderer != null)
             {
                 lineRenderer.enabled = true;
             }
-
             // Snappy redirection on frame 1
             if (playerRb != null && player != null)
             {
@@ -427,10 +430,6 @@ public class SquidRayGun : Gun
 
     protected void StopGrapple()
     {
-        if (this.enemy != null)
-        {
-            this.enemy.SetStunned(false);
-        }
         isGrappling = false;
         activeGrapplePoint = null;
         activeEnemyCollider = null;
@@ -478,7 +477,7 @@ public class SquidRayGun : Gun
             StopGrapple();
             return;
         }
-
+        _currentAnimation[_currentAnimationClip[1].name].speed = (maxGrappleDistance - currentDistance)*0.04f;
         UpdateLineRenderer(targetPos);
 
         if (!isStaticGrapple && activeGrapplePoint != null)

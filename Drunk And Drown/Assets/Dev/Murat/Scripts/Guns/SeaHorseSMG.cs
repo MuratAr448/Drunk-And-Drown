@@ -40,7 +40,7 @@ public class SeaHorseSMG : Gun
         {
             if (!_currentAnimation.IsPlaying(_currentAnimationClip[1].name))
             {
-                _currentAnimation.Play(_currentAnimationClip[0].name);
+                _currentAnimation.Play(_currentAnimationClip[2].name);
             }
 
             GameObject bullet = Instantiate(bullets, transvormPivit.transform.position, transvormPivit.transform.rotation);
@@ -136,7 +136,7 @@ public class SeaHorseSMG : Gun
         }
         if (!Input.GetKey(KeyCode.Mouse0) && !Input.GetKey(KeyCode.Mouse1)&&!_currentAnimation.IsPlaying(_currentAnimationClip[1].name))
         {
-            _currentAnimation.Play(_currentAnimationClip[2].name);
+            _currentAnimation.Play(_currentAnimationClip[0].name);
         }
         if (shootParticles != null && shootParticles.isPlaying)
         {
