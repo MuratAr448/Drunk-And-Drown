@@ -33,7 +33,7 @@ public class SeaShellsBoxingGloves : Melee
 
             if (shootSound != null && audioSource != null)
             {
-                shootSound.Play(audioSource);
+                shootSound[0].Play(audioSource);
             }
         }
 
@@ -49,7 +49,7 @@ public class SeaShellsBoxingGloves : Melee
 
             if (shootSound != null && audioSource != null)
             {
-                shootSound.Play(audioSource);
+                shootSound[0].Play(audioSource);
             }
         }
     }

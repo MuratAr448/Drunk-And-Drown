@@ -30,7 +30,7 @@ public class RangedEnemy : Enemy
         {
             rb.linearVelocity = direction * _bulletSpeed;
         }
-
+        Sounds(1);
         Destroy(firedBullet, _bulletLifetime);
         StartCoroutine(ShootCooldown());
     }

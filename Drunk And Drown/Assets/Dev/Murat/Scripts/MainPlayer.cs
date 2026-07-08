@@ -66,22 +66,25 @@ public class MainPlayer : MonoBehaviour, IDamageable
 
     [Header("Sounds")]
     private AudioSource audioSource;
-    [SerializeField] private AudioEvent playerHurt;
-    [SerializeField] private AudioEvent hitmarker;
+    [SerializeField] private List<AudioEvent> _playerSounds;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        if(audioSource == null )
+        {
+            audioSource= gameObject.AddComponent<AudioSource>();
+        }
     }
 
     public void PlayHitmarker()
     {
-        if (hitmarker != null && audioSource != null)
-        {
-            hitmarker.PlayOneShot(audioSource);
-        }
+        Sounds(1);
     }
-
+    private void Sounds(int index)
+    {
+        _playerSounds[index].PlayOneShot(audioSource);
+    }
     public void TriggerCameraShake(float duration, float magnitude)
     {
         if (hitEffect != null)
@@ -409,7 +412,7 @@ public class MainPlayer : MonoBehaviour, IDamageable
         health -= damage;
         OnHealthChanged?.Invoke();
         hitEffect.TakeDamageFlash(hitColor);
-        if (playerHurt != null) playerHurt.PlayOneShot(audioSource);
+        if (_playerSounds[0] != null) Sounds(0);
         if (health <= 0)
         {
             Die();

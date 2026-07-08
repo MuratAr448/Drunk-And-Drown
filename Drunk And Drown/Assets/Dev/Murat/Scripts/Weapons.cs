@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapons : MonoBehaviour
 {
     [Header("Weapon Sounds")]
-    [SerializeField] protected AudioEvent shootSound;
+    [SerializeField] protected List<AudioEvent> shootSound;
     protected AudioSource audioSource;
 
     protected virtual void Awake()

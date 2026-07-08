@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7460141ab90664047ab654722eb31024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SquidRayGun
-  shootSound: {fileID: 0}
+  shootSound:
+  - {fileID: 11400000, guid: 169cdce431774d742ae232f03adedc08, type: 2}
+  - {fileID: 11400000, guid: 0f03e98d004acd64892bb555b3a2d5ec, type: 2}
   Kind: 1
   cooldown1: 0
   cooldown2: 2

@@ -248,6 +248,7 @@ MonoBehaviour:
   iconImage: {fileID: 3369573400930137578}
   backgroundImage: {fileID: 7042119325475882977}
   currentItemData: {fileID: 0}
+  purchasedSound: {fileID: 11400000, guid: 50009fa4d65640c4ea0f2740916c6c45, type: 2}
 --- !u!114 &7725480464205036270
 MonoBehaviour:
   m_ObjectHideFlags: 0

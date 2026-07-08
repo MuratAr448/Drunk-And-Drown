@@ -26,6 +26,7 @@ public class SeaHorseSMG : Gun
         {
             _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
         }
+        audioSource.pitch *= multiplier;
     }
 
     private void Start()
@@ -70,7 +71,7 @@ public class SeaHorseSMG : Gun
 
             if (shootSound != null && audioSource != null)
             {
-                shootSound.PlayOneShot(audioSource);
+                shootSound[0].PlayOneShot(audioSource);
             }
         }
     }
@@ -115,7 +116,7 @@ public class SeaHorseSMG : Gun
 
             if (shootSound != null && audioSource != null)
             {
-                shootSound.PlayOneShot(audioSource);
+                shootSound[1].PlayOneShot(audioSource);
             }
 
             if (player != null)

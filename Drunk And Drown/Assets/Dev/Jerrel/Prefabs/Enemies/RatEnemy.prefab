@@ -111,6 +111,11 @@ MonoBehaviour:
   _maxIdleTime: 2
   _detectionRange: 15
   _attackRange: 1.5
+  enemySounds:
+  - {fileID: 11400000, guid: 6a1bbe11a05a7df44837733af8cb8178, type: 2}
+  - {fileID: 11400000, guid: ea7dab0bf0118e0419cbc83d432bf745, type: 2}
+  - {fileID: 11400000, guid: fd26cc9cc4b4a1247b633f5e0a534b17, type: 2}
+  - {fileID: 11400000, guid: d906f7277f57b4149bf38717cbb1a7f2, type: 2}
   _currentAnimation: {fileID: 8794758914813935385}
   _currentAnimationClip:
   - {fileID: -4405619503343681686, guid: e227e8c6a6342f24e8abd59ed11d0efb, type: 3}
@@ -122,8 +127,6 @@ MonoBehaviour:
   _attackRadius: 1.5
   _attackDamage: 10
   _attackOffset: {x: 0, y: 1, z: 1}
-  _attackSound: {fileID: 11400000, guid: ea7dab0bf0118e0419cbc83d432bf745, type: 2}
-  _deathSound: {fileID: 11400000, guid: d906f7277f57b4149bf38717cbb1a7f2, type: 2}
   _attackSoundChance: 0.5
 --- !u!1001 &2891818911159672280
 PrefabInstance:

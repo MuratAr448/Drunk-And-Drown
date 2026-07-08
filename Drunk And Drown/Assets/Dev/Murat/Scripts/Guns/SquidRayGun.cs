@@ -71,6 +71,7 @@ public class SquidRayGun : Gun
         {
             _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
         }
+        audioSource.pitch *= multiplier;
     }
 
     protected virtual void Start()
@@ -117,6 +118,10 @@ public class SquidRayGun : Gun
             {
                 inkRay.GetComponentInChildren<ParticleSystem>().enableEmission = true;
                 _currentAnimation.Play(_currentAnimationClip[4].name);
+                if (shootSound != null && audioSource != null)
+                {
+                    shootSound[0].Play(audioSource);
+                }
             }
             else
             {
@@ -171,10 +176,6 @@ public class SquidRayGun : Gun
             if (inkRay == null)
             {
                 inkRay = Instantiate(inkPrefab, gameObject.transform.position+ gameObject.transform.forward*0.5f, gameObject.transform.rotation, gameObject.transform);
-                if (shootSound != null && audioSource != null)
-                {
-                    shootSound.Play(audioSource);
-                }
             }
             ableToHit = true;
             if (cooldown1>= shootRate1)
@@ -240,6 +241,10 @@ public class SquidRayGun : Gun
             if (StartGrapple())
             {
                 _currentAnimation.Play(_currentAnimationClip[1].name);
+                if (shootSound != null && audioSource != null)
+                {
+                    shootSound[1].PlayOneShot(audioSource);
+                }
                 cooldown2 = 0f;
             }
         }

@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c09d6bf33071814bbdc37530b946554, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SeaHorseSMG
-  shootSound: {fileID: 11400000, guid: d9e3298b1c32bd344a489b15535f3220, type: 2}
+  shootSound:
+  - {fileID: 11400000, guid: d9e3298b1c32bd344a489b15535f3220, type: 2}
+  - {fileID: 11400000, guid: 37b9e0a4df5276e41895144e097ef560, type: 2}
   Kind: 0
   cooldown1: 1
   cooldown2: 1

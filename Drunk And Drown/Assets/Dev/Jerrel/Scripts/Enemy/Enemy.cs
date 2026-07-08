@@ -1,7 +1,9 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 public enum EnemyState { Idle, Patrol, Chase, Attack, Stunned }
@@ -33,6 +35,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected float _detectionRange = 8f;
     [SerializeField] protected float _attackRange = 2f;
 
+    [Header("Enemy Sounds")]
+    [SerializeField] protected List<AudioEvent> enemySounds;
+    protected AudioSource audioSource;
+
     private bool _spawnedByArena = false;
     private bool _isDead = false;
     public Action OnHealthChanged { get; set; }
@@ -53,6 +59,14 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.spatialBlend = 1.0f;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 20f;
         rb = GetComponent<Rigidbody>();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) _playerTransform = player.transform;
@@ -74,6 +88,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        if (_currentState != EnemyState.Idle)
+        {
+            Sounds(0);
+        }
         CheckForPlayer();
 
         switch (_currentState)
@@ -111,6 +129,10 @@ public abstract class Enemy : MonoBehaviour, IDamageable
             _currentAnimation.Play(_currentAnimationClip[index].name);
         }
     }
+    public virtual void Sounds(int index)
+    {
+        enemySounds[index].PlayOneShot(audioSource);
+    }
     private void CheckForPlayer()
     {
         if (_playerTransform == null) return;
@@ -143,6 +165,7 @@ public abstract class Enemy : MonoBehaviour, IDamageable
         }
 
         Health -= damage;
+        Sounds(2);
         OnHealthChanged?.Invoke();
         FloatingDamageText.Create(transform.position, damage);
 

@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba6c562867398940a1335b82d4e4c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MorningStar
-  shootSound: {fileID: 11400000, guid: fea5083e1f57c5a4ab5a7a57884f1bac, type: 2}
+  shootSound:
+  - {fileID: 11400000, guid: 736b706a592be4e4ea1c095c33cb2007, type: 2}
+  - {fileID: 11400000, guid: 77752474a0a98044a9997e1bb053f337, type: 2}
   Kind: 0
   cooldown1: 0
   cooldown2: 0

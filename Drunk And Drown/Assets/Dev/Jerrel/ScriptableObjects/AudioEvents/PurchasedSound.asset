@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 070285d8584b0564086ba8ecea2fe29b, type: 3}
-  m_Name: Player_Hurt
+  m_Name: PurchasedSound
   m_EditorClassIdentifier: Assembly-CSharp::AudioEvent
   clips:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: ba59243d6d0750f4fb27b8911ee3f31a, type: 3}
   volume: 1
-  volumeRandomRange: 0
+  volumeRandomRange: 0.05
   pitch: 1
   pitchRandomRange: 0.1

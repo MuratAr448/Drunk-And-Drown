@@ -92,6 +92,16 @@ MonoBehaviour:
   _maxIdleTime: 2
   _detectionRange: 40
   _attackRange: 15
+  enemySounds:
+  - {fileID: 11400000, guid: 8085631e6718e1a4e8471ac4838cc34d, type: 2}
+  - {fileID: 11400000, guid: 5c5e967991cda1249ab45dfbd7ff8eed, type: 2}
+  - {fileID: 11400000, guid: fd26cc9cc4b4a1247b633f5e0a534b17, type: 2}
+  - {fileID: 11400000, guid: d906f7277f57b4149bf38717cbb1a7f2, type: 2}
+  audioSource:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _currentAnimation: {fileID: 3266353260368644115}
   _currentAnimationClip:
   - {fileID: -7453387558714718212, guid: 52b8d343ba41e024f9dfbaf1c289ddff, type: 3}

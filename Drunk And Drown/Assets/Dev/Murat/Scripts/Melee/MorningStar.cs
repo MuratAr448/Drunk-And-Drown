@@ -30,8 +30,8 @@ public class MorningStar : Melee
         {
             _currentAnimation[_currentAnimationClip[i].name].speed *= multiplier;
         }
+        audioSource.pitch *= multiplier;
     }
-
     void Start()
     {
         explosive.damage = damage*0.5f;
@@ -49,7 +49,7 @@ public class MorningStar : Melee
 
             if (shootSound != null && audioSource != null)
             {
-                shootSound.Play(audioSource);
+                shootSound[0].PlayOneShot(audioSource);
             }
         }
     }
@@ -62,10 +62,6 @@ public class MorningStar : Melee
             StartCoroutine(PowerSlam());
             cooldown2 = 0f;
 
-            if (shootSound != null && audioSource != null)
-            {
-                shootSound.Play(audioSource);
-            }
         }
     }
     private IEnumerator NormalAttack()
@@ -85,7 +81,15 @@ public class MorningStar : Melee
             //falling
         }
         _currentAnimation.Play(_currentAnimationClip[2].name);
+        if (shootSound != null && audioSource != null)
+        {
+            shootSound[0].Play(audioSource);
+        }
         yield return new WaitForSeconds(0.5f);
+        if (shootSound != null && audioSource != null)
+        {
+            shootSound[1].PlayOneShot(audioSource);
+        }
         explosive.damagedObjects.Clear();
         explosive.Explode();
         GameObject smoke = Instantiate(smokePref,colliderTrig.transform.position, colliderTrig.transform.rotation,null);

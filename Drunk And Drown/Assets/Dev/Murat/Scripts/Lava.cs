@@ -6,7 +6,22 @@ using UnityEngine;
 
 public class Lava : MonoBehaviour
 {
+    private AudioSource audioSource;
+    [SerializeField] private AudioEvent lavaSounds;
     private float timeForDamage = 0;
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.spatialBlend = 1.0f;
+        audioSource.minDistance = 1f;
+        audioSource.maxDistance = 20f;
+        audioSource.loop = true;
+        lavaSounds.Play(audioSource);
+    }
     private void Update()
     {
         timeForDamage += Time.deltaTime;
@@ -20,6 +35,7 @@ public class Lava : MonoBehaviour
             LavaCylinder(transform.position-Vector3.up* transform.lossyScale.y, transform.position + Vector3.up * transform.lossyScale.y, radius, transform.localScale.x, transform.localScale.z);
             timeForDamage = 0;
         }
+        
     }
     public void LavaCylinder(Vector3 aStart, Vector3 aEnd, float Radius,float ScaleX, float ScaleZ)
     {

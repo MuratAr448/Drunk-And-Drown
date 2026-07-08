@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -17,6 +18,9 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private bool isPurchased = false;
     private bool isShaking = false;
 
+    private AudioSource audioSource;
+    [SerializeField] private AudioEvent purchasedSound;
+
     private void Start()
     {
         if (localTooltip == null)
@@ -30,6 +34,11 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         if (currentItemData != null)
         {
             SetupSlot();
+        }
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -153,7 +162,7 @@ public class ShopSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     private IEnumerator PurchaseSuccessAnimation()
     {
         isPurchased = true;
-
+        purchasedSound.Play(audioSource);
         Vector3 originalScale = transform.localScale;
         float duration = 0.3f;
         float elapsed = 0f;
